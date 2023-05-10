@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "whatnow"
-include ':app'
+include(":app")
