@@ -1,18 +1,20 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.secrets.gradle.plugin)
+    kotlin("android")
+    kotlin("kapt")
 }
 
 android {
     namespace = "com.depromeet.whatnow"
-    compileSdk  = 33
+    compileSdk  = Versions.COMPILE_SDK
 
     defaultConfig {
         applicationId = "com.depromeet.whatnow"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = Versions.MIN_SDK
+        versionCode = Versions.VERSION_CODE
+        versionName = Versions.VERSION_NAME
 
         vectorDrawables {
             useSupportLibrary = true
@@ -35,28 +37,20 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
-    }
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/INDEX.LIST"
         }
     }
 }
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.activity:activity-compose:1.3.1")
-    implementation("androidx.compose.ui:ui:1.2.1")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.2.1")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha11")
+    implementation(project(Modules.DOMAIN))
+    implementation(project(Modules.PRESENTATION))
+    implementation(project(Modules.DATA))
 
-    debugImplementation("androidx.compose.ui:ui-tooling:1.2.1")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.2.1")
+    implementation(libs.google.hilt.android)
+    kapt(libs.google.hilt.compiler)
 }

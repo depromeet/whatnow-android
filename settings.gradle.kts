@@ -14,3 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "whatnow"
 include(":app")
+include(":presentation")
+include(":domain")
+include(":data")
