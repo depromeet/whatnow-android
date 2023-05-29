@@ -26,6 +26,7 @@ desugar = "1.2.2"
 junit = "4.13.2"
 
 naver = "3.15.0"
+naver-compose = "1.2.3"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin" }
@@ -60,7 +61,9 @@ javax-inject = "javax.inject:javax.inject:1"
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
+# naver map
 naver-map = { module = "com.naver.maps:map-sdk", version.ref = "naver" }
+naver-map-compose = { module = "io.github.fornewid:naver-map-compose", version.ref = "naver-compose" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
