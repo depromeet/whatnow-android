@@ -50,7 +50,7 @@ dependencies {
     implementation(project(Modules.DOMAIN))
     implementation(project(Modules.PRESENTATION))
     implementation(project(Modules.DATA))
-
+    implementation(libs.naver.map)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
 }
