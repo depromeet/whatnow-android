@@ -25,6 +25,8 @@ coil = "2.2.2"
 desugar = "1.2.2"
 junit = "4.13.2"
 
+naver = "3.15.0"
+
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin" }
 android-tools-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
@@ -57,6 +59,8 @@ google-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref
 javax-inject = "javax.inject:javax.inject:1"
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+
+naver-map = { module = "com.naver.maps:map-sdk", version.ref = "naver" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
