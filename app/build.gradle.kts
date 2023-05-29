@@ -51,6 +51,7 @@ dependencies {
     implementation(project(Modules.PRESENTATION))
     implementation(project(Modules.DATA))
     implementation(libs.naver.map)
+    implementation(libs.naver.map.compose)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
 }
