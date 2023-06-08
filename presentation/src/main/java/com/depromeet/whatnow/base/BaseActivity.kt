@@ -2,10 +2,9 @@ package com.depromeet.whatnow.base
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import com.depromeet.whatnow.ui.R
+import androidx.activity.ComponentActivity
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : ComponentActivity() {
 
     protected inline val TAG get() = this::class.java.simpleName
     protected open val activityTransition = ActivityTransition.Push
