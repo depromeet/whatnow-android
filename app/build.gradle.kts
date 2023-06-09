@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("com.google.dagger.hilt.android")
+    @Suppress("DSL_SCOPE_VIOLATION")
     alias(libs.plugins.secrets.gradle.plugin)
     kotlin("android")
     kotlin("kapt")
