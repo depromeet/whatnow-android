@@ -38,6 +38,10 @@ dependencies {
     implementation(project(Modules.DOMAIN))
 
     implementation(libs.androidx.activity.compose)
+    implementation(libs.activity.compose)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.lifecycle.viewmodel.compose)
+
     implementation(libs.androidx.viewmodel.ktx)
     implementation(libs.androidx.viewmodel.compose)
     implementation(libs.androidx.splashscreen)
