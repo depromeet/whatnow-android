@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("com.google.dagger.hilt.android")
     kotlin("android")
     kotlin("kapt")
@@ -56,4 +56,12 @@ dependencies {
     kapt(libs.google.hilt.compiler)
 
     debugImplementation(libs.compose.ui.tooling)
+
+    implementation(libs.google.accompanist.systemuicontroller)
+    implementation(libs.google.accompanist.navigation.animation)
+    implementation(libs.google.accompanist.webview)
+    implementation(libs.google.accompanist.pager)
+    implementation(libs.google.accompanist.pager.indicators)
+
+    coreLibraryDesugaring(libs.android.tools.desugar)
 }
