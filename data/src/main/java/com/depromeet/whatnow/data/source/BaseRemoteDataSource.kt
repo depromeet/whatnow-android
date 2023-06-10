@@ -1,4 +1,4 @@
-package com.depromeet.whatnow.data.repo
+package com.depromeet.whatnow.data.source
 
 import android.util.Log
 import com.depromeet.whatnow.domain.utils.ApiResult
