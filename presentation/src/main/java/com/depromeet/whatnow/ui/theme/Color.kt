@@ -9,13 +9,10 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.graphics.Color
 
-val PrimaryBlack = Color(0xFF1F2128)
-val PrimaryYellow = Color(0xFFFFF6A1)
-val SecondaryYellow = Color(0xFFFFF06B)
-val SecondaryPurple = Color(0xFF6568EB)
-
-val Description = Color(0xFF0065FF)
-val Error = Color(0xFFFF4747)
+val WhatNowBlack = Color(0xFF1F2128)
+val WhatNowPurple = Color(0xFF6568EB)
+val WhatNowYellow = Color(0xFFFFF06B)
+val WhatNowError = Color(0xFFFF4747)
 
 val Gray900 = Color(0xFF1C1C1C)
 val Gray800 = Color(0xFF3C3C3C)
@@ -32,11 +29,13 @@ val Black = Color(0xFF000000)
 val White = Color(0xFFFFFFFF)
 
 val MaterialColors = lightColorScheme(
-    primary = PrimaryBlack,
+    primary = WhatNowBlack,
     onPrimary = White,
-    secondary = PrimaryYellow,
+    secondary = WhatNowPurple,
     onSecondary = Gray900,
-    error = Error,
+    tertiary = WhatNowYellow,
+    onTertiary = Black,
+    error = WhatNowError,
     onError = White,
     background = White,
     surface = White
@@ -44,12 +43,10 @@ val MaterialColors = lightColorScheme(
 
 @Stable
 class WhatNowColors(
-    primaryBlack: Color,
-    primaryYellow: Color,
-    secondaryYellow: Color,
-    secondaryPurple: Color,
-    description: Color,
-    error: Color,
+    whatNowBlack: Color,
+    whatNowPurple: Color,
+    whatNowYellow: Color,
+    whatNowError: Color,
     gray900: Color,
     gray800: Color,
     gray700: Color,
@@ -61,17 +58,13 @@ class WhatNowColors(
     gray100: Color,
     gray50: Color
 ) {
-    var primaryBlack: Color by mutableStateOf(primaryBlack, structuralEqualityPolicy())
+    var whatNowBlack: Color by mutableStateOf(whatNowBlack, structuralEqualityPolicy())
         private set
-    var primaryYellow: Color by mutableStateOf(primaryYellow, structuralEqualityPolicy())
+    var whatNowPurple: Color by mutableStateOf(whatNowPurple, structuralEqualityPolicy())
         private set
-    var secondaryYellow: Color by mutableStateOf(secondaryYellow, structuralEqualityPolicy())
+    var whatNowYellow: Color by mutableStateOf(whatNowYellow, structuralEqualityPolicy())
         private set
-    var secondaryPurple: Color by mutableStateOf(secondaryPurple, structuralEqualityPolicy())
-        private set
-    var description: Color by mutableStateOf(description, structuralEqualityPolicy())
-        private set
-    var error: Color by mutableStateOf(error, structuralEqualityPolicy())
+    var whatNowError: Color by mutableStateOf(whatNowError, structuralEqualityPolicy())
         private set
     var gray900: Color by mutableStateOf(gray900, structuralEqualityPolicy())
         private set
@@ -95,12 +88,10 @@ class WhatNowColors(
         private set
 
     fun copy(
-        primaryBlack: Color = this.primaryBlack,
-        primaryYellow: Color = this.primaryYellow,
-        secondaryYellow: Color = this.secondaryYellow,
-        secondaryPurple: Color = this.secondaryPurple,
-        description: Color = this.description,
-        error: Color = this.error,
+        whatNowBlack: Color = this.whatNowBlack,
+        whatNowPurple: Color = this.whatNowPurple,
+        whatNowYellow: Color = this.whatNowYellow,
+        whatNowError: Color = this.whatNowError,
         gray900: Color = this.gray900,
         gray800: Color = this.gray800,
         gray700: Color = this.gray700,
@@ -112,12 +103,10 @@ class WhatNowColors(
         gray100: Color = this.gray100,
         gray50: Color = this.gray50
     ) = WhatNowColors(
-        primaryBlack = primaryBlack,
-        primaryYellow = primaryYellow,
-        secondaryYellow = secondaryYellow,
-        secondaryPurple = secondaryPurple,
-        description = description,
-        error = error,
+        whatNowBlack = whatNowBlack,
+        whatNowPurple = whatNowPurple,
+        whatNowYellow = whatNowYellow,
+        whatNowError = whatNowError,
         gray900 = gray900,
         gray800 = gray800,
         gray700 = gray700,
@@ -132,12 +121,10 @@ class WhatNowColors(
 }
 
 fun lightColors(
-    primaryBlack: Color = PrimaryBlack,
-    primaryYellow: Color = PrimaryYellow,
-    secondaryYellow: Color = SecondaryYellow,
-    secondaryPurple: Color = SecondaryPurple,
-    description: Color = Description,
-    error: Color = Error,
+    whatNowBlack: Color = WhatNowBlack,
+    whatNowPurple: Color = WhatNowPurple,
+    whatNowYellow: Color = WhatNowYellow,
+    whatNowError: Color = WhatNowError,
     gray900: Color = Gray900,
     gray800: Color = Gray800,
     gray700: Color = Gray700,
@@ -149,12 +136,10 @@ fun lightColors(
     gray100: Color = Gray100,
     gray50: Color = Gray50
 ) = WhatNowColors(
-    primaryBlack = primaryBlack,
-    primaryYellow = primaryYellow,
-    secondaryYellow = secondaryYellow,
-    secondaryPurple = secondaryPurple,
-    description = description,
-    error = error,
+    whatNowBlack = whatNowBlack,
+    whatNowPurple = whatNowPurple,
+    whatNowYellow = whatNowYellow,
+    whatNowError = whatNowError,
     gray900 = gray900,
     gray800 = gray800,
     gray700 = gray700,
