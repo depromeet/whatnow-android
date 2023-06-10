@@ -15,6 +15,12 @@ private val NotoSansKR = FontFamily(
     Font(R.font.noto_sans_kr_regular, FontWeight.Normal)
 )
 
+val Roboto = FontFamily(
+    Font(R.font.roboto_bold, FontWeight.Bold),
+    Font(R.font.roboto_medium, FontWeight.Medium),
+    Font(R.font.roboto_regular, FontWeight.Normal)
+)
+
 private val Typography = WhatNowTypography(
     headline1 = TextStyle(
         fontFamily = NotoSansKR,
