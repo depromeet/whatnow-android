@@ -77,6 +77,7 @@ fun MainScreen(
             modifier = Modifier.padding(bottom = bottomPanelHeight)
         ) {
             composable(Destination.Home.route) {
+                HomeScreen()
             }
             composable(Destination.History.route) {
                 startHistoryActivity()
