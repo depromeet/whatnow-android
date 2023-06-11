@@ -6,9 +6,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.depromeet.whatnow.ui.alarm.AlarmActivity
+import com.depromeet.whatnow.ui.history.HistoryActivity
+import com.depromeet.whatnow.ui.setting.SettingActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,10 +23,29 @@ class MainActivity : ComponentActivity() {
             WhatNowTheme {
                 MainScreen(
                     viewModel = viewModel,
+                    startHistoryActivity = ::startHistoryActivity,
+                    startAlarmActivity = ::startAlarmActivity,
+                    startSettingActivity = ::startSettingActivity,
                 )
             }
         }
     }
+
+    private fun startHistoryActivity() {
+        val intent = Intent(this, HistoryActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startAlarmActivity() {
+        val intent = Intent(this, AlarmActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startSettingActivity() {
+        val intent = Intent(this, SettingActivity::class.java)
+        startActivity(intent)
+    }
+
 
     companion object {
 
@@ -34,15 +53,5 @@ class MainActivity : ComponentActivity() {
             val intent = Intent(context, MainActivity::class.java)
             context.startActivity(intent)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    WhatNowTheme {
-        MainScreen(
-            viewModel = MainViewModel(),
-        )
     }
 }
