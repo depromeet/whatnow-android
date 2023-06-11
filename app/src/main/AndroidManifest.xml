@@ -23,6 +23,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.history.HistoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.alarm.AlarmActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
