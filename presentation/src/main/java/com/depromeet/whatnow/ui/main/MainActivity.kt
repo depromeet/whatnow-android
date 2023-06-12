@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.depromeet.whatnow.ui.alarm.AlarmActivity
 import com.depromeet.whatnow.ui.history.HistoryActivity
+import com.depromeet.whatnow.ui.promiseAdd.PromiseAddActivity
 import com.depromeet.whatnow.ui.setting.SettingActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +27,7 @@ class MainActivity : ComponentActivity() {
                     startHistoryActivity = ::startHistoryActivity,
                     startAlarmActivity = ::startAlarmActivity,
                     startSettingActivity = ::startSettingActivity,
+                    startPromiseAddActivity = ::startPromiseAddActivity
                 )
             }
         }
@@ -46,6 +48,10 @@ class MainActivity : ComponentActivity() {
         startActivity(intent)
     }
 
+    private fun startPromiseAddActivity() {
+        val intent = Intent(this, PromiseAddActivity::class.java)
+        startActivity(intent)
+    }
 
     companion object {
 
