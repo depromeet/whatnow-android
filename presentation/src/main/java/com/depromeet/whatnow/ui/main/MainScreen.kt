@@ -34,6 +34,7 @@ import com.depromeet.whatnow.component.bottomPanelHeight
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.history.HistoryScreen
 import com.depromeet.whatnow.ui.home.HomeScreen
+import com.depromeet.whatnow.ui.promiseAdd.PromiseAddActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import kotlinx.coroutines.launch
 
@@ -48,6 +49,7 @@ fun MainScreen(
     startHistoryActivity: () -> Unit,
     startAlarmActivity: () -> Unit,
     startSettingActivity: () -> Unit,
+    startPromiseAddActivity: () -> Unit
 ) {
 
     val navController = rememberNavController()
@@ -89,6 +91,7 @@ fun MainScreen(
                 startSettingActivity()
             }
             composable(Destination.PromiseAdd.route) {
+                startPromiseAddActivity()
             }
         }
     }
