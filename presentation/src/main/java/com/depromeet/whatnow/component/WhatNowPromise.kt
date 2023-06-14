@@ -114,6 +114,7 @@ fun WhatNowPromise(modifier: Modifier) {
                                     modifier = Modifier.size(16.dp)
                                 )
                                 Text(
+                                    modifier = Modifier.padding(start= 4.dp),
                                     text = "서울시 종로구",
                                     color = Color.Black,
                                     fontSize = 12.sp
