@@ -1,0 +1,9 @@
+<resources>
+    <string name="promise_archive">약속 모음집</string>
+    <string name="future_promise">예정된 약속</string>
+    <string name="past_promise">지난 약속</string>
+
+    <string name="future_promise_empty_title">예정된 약속이 없어요</string>
+    <string name="future_promise_empty_subtitle">잡힌 약속이 아직 없네요.\n새로운 약속을 만들어 보세요!</string>
+    <string name="go_to_make_promise">약속 만들러 가기</string>
+</resources>
