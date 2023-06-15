@@ -1,12 +1,4 @@
 <resources>
     <string name="app_name">whatnow</string>
 
-    // Promise
-    <string name="promise_time">시간</string>
-    <string name="promise_calendar">날짜</string>
-    <string name="promise_place">장소</string>
-
-    <string name="promise_time_msg">몇시에 만날까요?</string>
-    <string name="promise_place_msg">어디에서 만날까요?</string>
-
 </resources>
