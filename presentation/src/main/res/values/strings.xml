@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     // Promise
+    <string name="promise_title">약속 만들기</string>
+
     <string name="promise_time">시간</string>
     <string name="promise_calendar">날짜</string>
     <string name="promise_place">장소</string>
 
     <string name="promise_time_msg">몇시에 만날까요?</string>
     <string name="promise_place_msg">어디에서 만날까요?</string>
+
+    <string name="promise_bottom_reset">재설정</string>
+    <string name="promise_bottom_button_next">다음</string>
+    <string name="promise_bottom_button_make">만들기</string>
+
 </resources>
