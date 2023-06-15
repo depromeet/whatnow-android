@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 val WhatNowBlack = Color(0xFF1F2128)
 val WhatNowPurple = Color(0xFF6568EB)
 val WhatNowYellow = Color(0xFFFFF06B)
+val WhatNowWhite = Color(0xFFF9F9F9)
 val WhatNowError = Color(0xFFFF4747)
 
 val Gray900 = Color(0xFF1C1C1C)
@@ -37,8 +38,8 @@ val MaterialColors = lightColorScheme(
     onTertiary = Black,
     error = WhatNowError,
     onError = White,
-    background = White,
-    surface = White
+    background = WhatNowWhite,
+    surface = WhatNowWhite
 )
 
 @Stable
