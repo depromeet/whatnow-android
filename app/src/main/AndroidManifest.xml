@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Whatnow"
         tools:targetApi="31">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Whatnow">
@@ -27,6 +27,18 @@
                 android:name="com.naver.maps.map.CLIENT_ID"
                 android:value="YOUR_CLIENT_ID_HERE" />
         </activity>
+
+        <activity
+            android:name=".ui.history.HistoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.alarm.AlarmActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
