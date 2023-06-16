@@ -40,10 +40,17 @@
             android:name=".ui.promiseactivate.PromiseActivateActivity"
             android:screenOrientation="portrait" />
 
-
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="zt8zh0x8pp" />
+
+        <activity
+            android:name=".ui.archive.ArchiveActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.archive.ArchiveActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
