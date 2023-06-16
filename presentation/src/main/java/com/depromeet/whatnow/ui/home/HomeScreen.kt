@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.depromeet.whatnow.component.WhatNowHomeAppBar
 import com.depromeet.whatnow.component.WhatNowInactivityMap
 import com.depromeet.whatnow.component.WhatNowPromiseList
+import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.promiseactivate.PromiseActivateActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
@@ -57,7 +59,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             }
             Text(
                 modifier = Modifier.padding(top = 41.dp, bottom = 17.dp),
-                text = "예정된 약속",
+                text = stringResource(R.string.upcoming_promise),
                 color = Color.Black,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold

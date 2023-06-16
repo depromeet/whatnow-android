@@ -3,6 +3,7 @@ package com.depromeet.whatnow.component
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
@@ -58,8 +60,8 @@ fun WhatNowBottomBar(
                     color = WhatNowTheme.colors.gray100,
                     modifier = Modifier.size(bottomBarItemIconSize)
                 ) {}
-                AsyncImage(
-                    model = R.drawable.history,
+                Image(
+                    painter = painterResource(id = R.drawable.history),
                     contentDescription = null,
                     modifier = Modifier
                         .size(bottomBarItemIconSize)
@@ -82,8 +84,8 @@ fun WhatNowBottomBar(
                     color = WhatNowTheme.colors.gray100,
                     modifier = Modifier.size(bottomBarItemIconSize)
                 ) {}
-                AsyncImage(
-                    model = R.drawable.alarm,
+                Image(
+                    painter = painterResource(id = R.drawable.alarm),
                     contentDescription = null,
                     modifier = Modifier
                         .size(bottomBarItemIconSize)
@@ -104,8 +106,8 @@ fun WhatNowBottomBar(
                     color = WhatNowTheme.colors.gray100,
                     modifier = Modifier.size(bottomBarItemIconSize)
                 ) {}
-                AsyncImage(
-                    model = R.drawable.setting,
+                Image(
+                    painter = painterResource(id = R.drawable.setting),
                     contentDescription = null,
                     modifier = Modifier
                         .size(bottomBarItemIconSize)
@@ -182,7 +184,7 @@ fun WhatNowBottomBar(
                                         .padding(end = 9.dp)
                                 )
                                 Text(
-                                    text = "약속 추가",
+                                    text = stringResource(R.string.promise_create),
                                     textAlign = TextAlign.Center,
                                     color = Color(0xFFFFFFFF)
                                 )

@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -81,7 +82,7 @@ fun WhatNowInactivityMap(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "활성된 약속이 없어",
+                        text = stringResource(R.string.inactivity_map_title),
                         fontSize = 18.sp,
                         color = WhatNowTheme.colors.whatNowBlack,
                         fontWeight = FontWeight.Bold,
@@ -96,7 +97,7 @@ fun WhatNowInactivityMap(
 
                     Surface(
                         modifier = Modifier
-                            .width(84.dp)
+                            .width(100.dp)
                             .height(40.dp),
                         shape = RoundedCornerShape(16.dp),
                         border = BorderStroke(
@@ -109,7 +110,7 @@ fun WhatNowInactivityMap(
                             modifier = Modifier.background(WhatNowTheme.colors.gray500)
                         ) {
                             Text(
-                                text = "약속잡기",
+                                text = stringResource(R.string.promise_create),
                                 fontSize = 14.sp,
                                 color = Color.White,
 //                                    style = WhatNowTheme.typography.regular.copy(
