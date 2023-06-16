@@ -39,7 +39,7 @@ fun WhatNowSimpleTopBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 20.dp, horizontal = 16.dp),
+                .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             WhatNowIconButton(
@@ -51,7 +51,8 @@ fun WhatNowSimpleTopBar(
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = stringResource(id = titleRes),
-                style = WhatNowTheme.typography.headline1
+                style = WhatNowTheme.typography.headline2,
+                color = WhatNowTheme.colors.whatNowBlack
             )
             Spacer(modifier = Modifier.weight(1f))
             actionIconRes?.let {
