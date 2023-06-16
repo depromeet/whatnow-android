@@ -20,7 +20,8 @@ class ArchiveActivity : ComponentActivity() {
         setContent {
             WhatNowTheme {
                 ArchiveScreen(
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    onBack = ::finish
                 )
             }
         }
