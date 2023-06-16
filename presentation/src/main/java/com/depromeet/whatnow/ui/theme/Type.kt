@@ -26,37 +26,61 @@ private val Typography = WhatNowTypography(
         fontFamily = NotoSansKR,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
-        lineHeight = 32.sp
+        lineHeight = 36.sp
     ),
     headline2 = TextStyle(
         fontFamily = NotoSansKR,
         fontWeight = FontWeight.Medium,
-        fontSize = 20.sp,
-        lineHeight = 28.sp
+        fontSize = 22.sp,
+        lineHeight = 33.sp
     ),
     headline3 = TextStyle(
         fontFamily = NotoSansKR,
         fontWeight = FontWeight.Medium,
-        fontSize = 26.sp,
-        lineHeight = 24.sp
+        fontSize = 20.sp,
+        lineHeight = 30.sp
     ),
     body1 = TextStyle(
+        fontFamily = NotoSansKR,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp,
+        lineHeight = 27.sp
+    ),
+    body2 = TextStyle(
         fontFamily = NotoSansKR,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp
     ),
-    body2 = TextStyle(
+    body3 = TextStyle(
         fontFamily = NotoSansKR,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = 22.sp
+        lineHeight = 21.sp
     ),
-    caption = TextStyle(
+    body4 = TextStyle(
         fontFamily = NotoSansKR,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        lineHeight = 20.sp
+        lineHeight = 18.sp
+    ),
+    caption1 = TextStyle(
+        fontFamily = NotoSansKR,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    ),
+    caption2 = TextStyle(
+        fontFamily = NotoSansKR,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 21.sp
+    ),
+    caption3 = TextStyle(
+        fontFamily = NotoSansKR,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 18.sp
     ),
 )
 
@@ -67,7 +91,11 @@ data class WhatNowTypography(
     val headline3: TextStyle,
     val body1: TextStyle,
     val body2: TextStyle,
-    val caption: TextStyle
+    val body3: TextStyle,
+    val body4: TextStyle,
+    val caption1: TextStyle,
+    val caption2: TextStyle,
+    val caption3: TextStyle,
 )
 
 internal val LocalTypography = staticCompositionLocalOf { Typography }
