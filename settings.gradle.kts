@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://naver.jfrog.io/artifactory/maven/") }
     }
 }
 rootProject.name = "whatnow"

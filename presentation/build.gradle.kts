@@ -53,6 +53,11 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.google.hilt.android)
+
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation(libs.naver.map)
+    implementation(libs.naver.map.compose)
+
     kapt(libs.google.hilt.compiler)
 
     debugImplementation(libs.compose.ui.tooling)
