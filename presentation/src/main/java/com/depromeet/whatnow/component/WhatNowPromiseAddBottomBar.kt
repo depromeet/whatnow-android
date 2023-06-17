@@ -1,20 +1,10 @@
 package com.depromeet.whatnow.component
 
-import android.util.Log
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -27,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
@@ -37,12 +26,13 @@ import com.depromeet.whatnow.ui.main.Destination
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
-fun WhatNowBottomBar(
+fun WhatNowPromiseAddBottomBar(
     modifier: Modifier = Modifier,
-    currentDestination: NavDestination?,
-    onNavigate: (Destination) -> Unit,
-    @DrawableRes actionIconRes: Int = R.drawable.alarm,
 ) {
+    val bottomPanelHeight = 80.dp
+    val bottomActionButtonSize = 72.dp
+    val bottomBarItemIconSize = 20.dp
+
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val itemsHorizontalPadding =
@@ -58,17 +48,17 @@ fun WhatNowBottomBar(
                 Surface(
                     shape = CircleShape,
                     color = WhatNowTheme.colors.gray100,
-                    modifier = Modifier.size(bottomBarItemIconSize)
+                    modifier = androidx.compose.ui.Modifier.size(bottomBarItemIconSize)
                 ) {}
-                Image(
-                    painter = painterResource(id = R.drawable.history),
+                AsyncImage(
+                    model = R.drawable.history,
                     contentDescription = null,
-                    modifier = Modifier
+                    modifier = androidx.compose.ui.Modifier
                         .size(bottomBarItemIconSize)
                 )
             }
         },
-        onClick = { onNavigate(Destination.History) }
+        onClick = {  }
     )
 
     @Composable
@@ -82,39 +72,17 @@ fun WhatNowBottomBar(
                 Surface(
                     shape = CircleShape,
                     color = WhatNowTheme.colors.gray100,
-                    modifier = Modifier.size(bottomBarItemIconSize)
+                    modifier = androidx.compose.ui.Modifier.size(bottomBarItemIconSize)
                 ) {}
-                Image(
-                    painter = painterResource(id = R.drawable.alarm),
+                AsyncImage(
+                    model = R.drawable.alarm,
                     contentDescription = null,
-                    modifier = Modifier
+                    modifier = androidx.compose.ui.Modifier
                         .size(bottomBarItemIconSize)
                 )
             }
         },
-        onClick = { onNavigate(Destination.Alarm) }
-    )
-
-    @Composable
-    fun Setting() = WhatNowBottomBarItem(
-        onSelected = {
-            Box(
-                contentAlignment = Alignment.Center
-            ) {
-                Surface(
-                    shape = CircleShape,
-                    color = WhatNowTheme.colors.gray100,
-                    modifier = Modifier.size(bottomBarItemIconSize)
-                ) {}
-                Image(
-                    painter = painterResource(id = R.drawable.setting),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(bottomBarItemIconSize)
-                )
-            }
-        },
-        onClick = { onNavigate(Destination.Setting) }
+        onClick = {  }
     )
 
     Box(
@@ -141,7 +109,6 @@ fun WhatNowBottomBar(
                 ) {
                     History()
                     Alarm()
-                    Setting()
                 }
 
                 // 약속 추가 버튼
@@ -160,7 +127,7 @@ fun WhatNowBottomBar(
                                 interactionSource = MutableInteractionSource(),
                                 indication = null,
                                 onClick = {
-                                    onNavigate(Destination.PromiseAdd)
+
                                 }
                             ),
                         shape = RoundedCornerShape(16.dp),
@@ -184,7 +151,7 @@ fun WhatNowBottomBar(
                                         .padding(end = 9.dp)
                                 )
                                 Text(
-                                    text = stringResource(R.string.promise_create),
+                                    text = "약속 추가",
                                     textAlign = TextAlign.Center,
                                     color = Color(0xFFFFFFFF)
                                 )
@@ -196,18 +163,3 @@ fun WhatNowBottomBar(
         }
     }
 }
-
-@Composable
-fun WhatNowBottomBarItem(
-    onSelected: @Composable () -> Unit,
-    onClick: () -> Unit,
-) {
-    IconButton(onClick = onClick) {
-        Log.d("ttt", "몇번 눌림")
-        onSelected()
-    }
-}
-
-val bottomPanelHeight = 80.dp
-val bottomActionButtonSize = 72.dp
-val bottomBarItemIconSize = 20.dp

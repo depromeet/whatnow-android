@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.depromeet.whatnow"
-    compileSdk  = Versions.COMPILE_SDK
+    compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
         applicationId = "com.depromeet.whatnow"
@@ -25,8 +25,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -50,7 +50,6 @@ dependencies {
     implementation(project(Modules.DOMAIN))
     implementation(project(Modules.PRESENTATION))
     implementation(project(Modules.DATA))
-
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
 }

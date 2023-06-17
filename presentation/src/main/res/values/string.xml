@@ -1,0 +1,16 @@
+<resources>
+    <string name="promise_archive">약속 모음집</string>
+    <string name="future_promise">예정된 약속</string>
+    <string name="past_promise">지난 약속</string>
+
+    <string name="future_promise_empty_title">다가오는 약속이 없다!</string>
+    <string name="future_promise_empty_subtitle">오랜만에 보고싶은 친구들과\n약속을 잡아봐!</string>
+    <string name="past_promise_empty_title">저장된 약속이 없다!</string>
+    <string name="past_promise_empty_subtitle">오랜만에 보고싶은 친구들과\n약속을 잡고 추억을 만들어봐!</string>
+    <string name="go_to_make_promise">약속 만들러 가기</string>
+
+    <string name="month">%d월</string>
+
+    <string name="share_promise">약속 공유</string>
+    <string name="delete_promise">약속 삭제</string>
+</resources>

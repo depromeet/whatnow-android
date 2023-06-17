@@ -28,6 +28,9 @@ coil = "2.2.2"
 desugar = "1.2.2"
 junit = "4.13.2"
 
+naver = "3.15.0"
+naver-compose = "1.2.3"
+
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin" }
 android-tools-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
@@ -66,6 +69,9 @@ javax-inject = "javax.inject:javax.inject:1"
 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
+# naver map
+naver-map = { module = "com.naver.maps:map-sdk", version.ref = "naver" }
+naver-map-compose = { module = "io.github.fornewid:naver-map-compose", version.ref = "naver-compose" }
 # Accompanist
 google-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 google-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
