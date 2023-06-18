@@ -37,7 +37,7 @@ fun WhatNowPromise(modifier: Modifier) {
             bottomStart = 16.dp
         ),
         modifier = Modifier
-            .padding(vertical = 8.dp)
+            .padding(bottom = 8.dp)
 
     ) {
         Column(
