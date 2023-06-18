@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.depromeet.whatnow.component.WhatNowActivityMap
 import com.depromeet.whatnow.component.WhatNowHomeAppBar
+import com.depromeet.whatnow.component.WhatNowInactivityMap
 import com.depromeet.whatnow.component.WhatNowPromiseList
+import com.depromeet.whatnow.component.WhatNowTimeOverMap
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
@@ -42,13 +44,29 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         }
     }
 
+    val isActivate : Boolean = true
+    val isTimeOver: Boolean = false
+    val isLate: Boolean = false
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(WhatNowTheme.colors.gray50)
     ) {
-        Box() {
-            WhatNowActivityMap(modifier = Modifier)
+        Box {
+
+            /**
+             * 홈 활성화와 타임오버에 따라서 맵 변경
+             * */
+            // 홈 비활성화
+//            WhatNowInactivityMap(modifier = Modifier)
+            // 홈 활성화
+//            WhatNowActivityMap(modifier = Modifier)
+            // 홈 활성화 - 타임오버
+            WhatNowTimeOverMap(modifier = Modifier, isLate = isLate)
+
+            // 앱바
             WhatNowHomeAppBar(modifier = Modifier)
         }
         Column(
@@ -67,22 +85,22 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                     )
                 )
 
-                // 활성화된 약속이 있을 경우
-                Image(
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 8.dp, bottom= 24.dp),
-                    painter = painterResource(id = R.drawable.arrow_forward),
-                    contentDescription = null
-                )
-
-                // 활성화된 약속이 없을 경우
-//                Image(
-//                    modifier = Modifier
-//                        .align(Alignment.CenterEnd),
-//                    painter = painterResource(id = R.drawable.whatnow_home_lcon),
-//                    contentDescription = null
-//                )
+                if (isTimeOver) {
+                    Image(
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .padding(end = 8.dp, bottom = 24.dp),
+                        painter = painterResource(id = R.drawable.arrow_forward),
+                        contentDescription = null
+                    )
+                } else {
+                    Image(
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd),
+                        painter = painterResource(id = R.drawable.whatnow_home_lcon),
+                        contentDescription = null
+                    )
+                }
             }
 
             WhatNowPromiseList(
