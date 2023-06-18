@@ -1,7 +1,6 @@
 package com.depromeet.whatnow.component
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -52,8 +51,9 @@ import com.naver.maps.map.overlay.OverlayImage
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
-fun WhatNowActivityMap(
+fun WhatNowTimeOverMap(
     modifier: Modifier = Modifier,
+    isLate: Boolean
 ) {
 
     var mapProperties by remember {
@@ -84,20 +84,13 @@ fun WhatNowActivityMap(
         position = CameraPosition(seoulCamera, 11.0)
     }
 
+    val themeColor =
+        if (isLate) Color(0xFFFF4747) else WhatNowTheme.colors.whatNowPurple
+
     Box() {
-        Image(
-            painter = painterResource(id = R.drawable.whatnow_home_lcon),
-            contentDescription = null,
-            modifier = modifier
-                .padding(end = 23.dp)
-                .align(Alignment.TopEnd)
-        )
         Card(
             shape = RoundedCornerShape(
-                topEnd = 28.dp,
-                topStart = 28.dp,
-                bottomEnd = 28.dp,
-                bottomStart = 28.dp
+                topEnd = 28.dp, topStart = 28.dp, bottomEnd = 28.dp, bottomStart = 28.dp
             ),
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 20.dp
@@ -106,7 +99,7 @@ fun WhatNowActivityMap(
                 .padding(start = 16.dp, end = 16.dp, bottom = 41.dp, top = 64.dp)
                 .background(WhatNowTheme.colors.gray50)
                 .border(
-                    BorderStroke(width = 1.dp, color = WhatNowTheme.colors.whatNowPurple),
+                    BorderStroke(width = 1.dp, color = themeColor),
                     shape = RoundedCornerShape(28.dp)
                 )
 
@@ -126,59 +119,30 @@ fun WhatNowActivityMap(
                         cameraPositionState = cameraPositionState,
                         properties = mapProperties,
                         uiSettings = mapUiSettings,
-
-
-                        ) {
-
-                        Marker(
-                            icon = OverlayImage.fromResource(R.drawable.map_marker),
-                            state = MarkerState(position = seoul),
-                            anchor = Offset(0.5f, 0.5f)
-
-                        )
-
-                        CircleOverlay(
-                            center = seoul,
-                            color = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.2f),
-                            outlineColor = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.2f),
-                            radius = 3000.0
-                        )
-                    }
-
-                    Surface(
-                        modifier = Modifier
-                            .padding(start = 16.dp, top = 16.dp)
-                            .align(Alignment.TopStart)
-                            .width(110.dp)
-                            .height(40.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.1f)
-                        ),
                     ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .background(WhatNowTheme.colors.gray800)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.activated_promise),
-                                style = WhatNowTheme.typography.body3.copy(
-                                    fontSize = 14.sp,
-                                    color = Color.White,
-                                ),
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                    }
 
+                        if (isLate) MarkerAndCircleOverlay(
+                            OverlayImage.fromResource(R.drawable.time_over_late_marker),
+                            seoul,
+                            themeColor
+                        )
+                        else MarkerAndCircleOverlay(
+                            OverlayImage.fromResource(R.drawable.map_marker),
+                            seoul,
+                            themeColor
+                        )
+                    }
                     Box(
                         modifier = modifier
                             .padding(bottom = 80.dp)
                             .align(Alignment.Center)
                     ) {
-                        WhatNowTimeActivityPicker(modifier = modifier)
+                        Text(
+                            text = stringResource(R.string.time_over),
+                            style = WhatNowTheme.typography.headline1.copy(
+                                fontSize = 24.sp, color = themeColor
+                            )
+                        )
                     }
 
                 }
@@ -195,10 +159,8 @@ fun WhatNowActivityMap(
                     ) {
                         Column() {
                             Text(
-                                text = "먹쨩이 되고싶은 모임",
-                                style = WhatNowTheme.typography.body1.copy(
-                                    fontSize = 18.sp,
-                                    color = WhatNowTheme.colors.whatNowBlack
+                                text = "먹쨩이 되고싶은 모임", style = WhatNowTheme.typography.body1.copy(
+                                    fontSize = 18.sp, color = WhatNowTheme.colors.whatNowBlack
                                 )
                             )
                             Row(
@@ -214,17 +176,31 @@ fun WhatNowActivityMap(
                                     text = "서울시 종로구",
                                     modifier = modifier.padding(start = 4.dp),
                                     style = WhatNowTheme.typography.caption2.copy(
-                                        fontSize = 14.sp,
-                                        color = WhatNowTheme.colors.gray700
+                                        fontSize = 14.sp, color = WhatNowTheme.colors.gray700
                                     )
                                 )
                             }
 
                         }
-                        Image(
-                            painter = painterResource(id = R.drawable.arrow_forward),
-                            contentDescription = null
-                        )
+                        Surface(
+                            modifier = Modifier
+                                .padding(start = 16.dp, top = 16.dp)
+                                .width(84.dp)
+                                .height(40.dp),
+                            shape = RoundedCornerShape(16.dp),
+                            border = BorderStroke(
+                                width = 1.dp,
+                                color = themeColor.copy(alpha = 0.1f)
+                            ),
+                        ) {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.background(themeColor)
+                            ) {
+                                if(isLate) InteractionTitle(stringResource(R.string.apologize))
+                                else InteractionTitle(stringResource(R.string.urge))
+                            }
+                        }
                     }
                 }
             }
@@ -233,11 +209,41 @@ fun WhatNowActivityMap(
     }
 }
 
+@Composable
+fun InteractionTitle(title : String) {
+    Text(
+        text = title,
+        style = WhatNowTheme.typography.body3.copy(
+            fontSize = 14.sp,
+            color = Color.White,
+        ),
+        textAlign = TextAlign.Center
+    )
+}
+
+@OptIn(ExperimentalNaverMapApi::class)
+@Composable
+fun MarkerAndCircleOverlay(icon: OverlayImage, position: LatLng, color: Color) {
+    Marker(
+        icon = icon,
+        state = MarkerState(position = position),
+        anchor = Offset(0.5f, 0.5f)
+
+    )
+
+    CircleOverlay(
+        center = position,
+        color = color.copy(alpha = 0.2f),
+        outlineColor = color.copy(alpha = 0.2f),
+        radius = 3000.0
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
-fun WhatNowActivityMapPreview() {
+fun WhatNowTimeOverMapPreview() {
     WhatNowTheme {
-        WhatNowActivityMap(Modifier)
+        WhatNowTimeOverMap(Modifier, true)
     }
 }
 
