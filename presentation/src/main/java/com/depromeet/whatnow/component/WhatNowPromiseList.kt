@@ -16,7 +16,6 @@ fun WhatNowPromiseList(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(vertical = 8.dp)
     ) {
         items(promises.size) {
             Column {
