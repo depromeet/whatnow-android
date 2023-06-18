@@ -53,6 +53,7 @@ import com.naver.maps.map.overlay.OverlayImage
 @Composable
 fun WhatNowTimeOverMap(
     modifier: Modifier = Modifier,
+    isLate: Boolean
 ) {
 
     var mapProperties by remember {
@@ -83,6 +84,9 @@ fun WhatNowTimeOverMap(
         position = CameraPosition(seoulCamera, 11.0)
     }
 
+    val themeColor =
+        if (isLate) Color(0xFFFF4747) else WhatNowTheme.colors.whatNowPurple
+
     Box() {
         Card(
             shape = RoundedCornerShape(
@@ -95,7 +99,7 @@ fun WhatNowTimeOverMap(
                 .padding(start = 16.dp, end = 16.dp, bottom = 41.dp, top = 64.dp)
                 .background(WhatNowTheme.colors.gray50)
                 .border(
-                    BorderStroke(width = 1.dp, color = WhatNowTheme.colors.whatNowPurple),
+                    BorderStroke(width = 1.dp, color = themeColor),
                     shape = RoundedCornerShape(28.dp)
                 )
 
@@ -115,22 +119,17 @@ fun WhatNowTimeOverMap(
                         cameraPositionState = cameraPositionState,
                         properties = mapProperties,
                         uiSettings = mapUiSettings,
+                    ) {
 
-
-                        ) {
-
-                        Marker(
-                            icon = OverlayImage.fromResource(R.drawable.map_marker),
-                            state = MarkerState(position = seoul),
-                            anchor = Offset(0.5f, 0.5f)
-
+                        if (isLate) MarkerAndCircleOverlay(
+                            OverlayImage.fromResource(R.drawable.time_over_late_marker),
+                            seoul,
+                            themeColor
                         )
-
-                        CircleOverlay(
-                            center = seoul,
-                            color = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.2f),
-                            outlineColor = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.2f),
-                            radius = 3000.0
+                        else MarkerAndCircleOverlay(
+                            OverlayImage.fromResource(R.drawable.map_marker),
+                            seoul,
+                            themeColor
                         )
                     }
                     Box(
@@ -141,7 +140,7 @@ fun WhatNowTimeOverMap(
                         Text(
                             text = stringResource(R.string.time_over),
                             style = WhatNowTheme.typography.headline1.copy(
-                                fontSize = 24.sp, color = Color(0xFFFF4747)
+                                fontSize = 24.sp, color = themeColor
                             )
                         )
                     }
@@ -191,21 +190,15 @@ fun WhatNowTimeOverMap(
                             shape = RoundedCornerShape(16.dp),
                             border = BorderStroke(
                                 width = 1.dp,
-                                color = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.1f)
+                                color = themeColor.copy(alpha = 0.1f)
                             ),
                         ) {
                             Box(
                                 contentAlignment = Alignment.Center,
-                                modifier = Modifier.background(WhatNowTheme.colors.gray800)
+                                modifier = Modifier.background(themeColor)
                             ) {
-                                Text(
-                                    text = stringResource(R.string.apologize),
-                                    style = WhatNowTheme.typography.body3.copy(
-                                        fontSize = 14.sp,
-                                        color = Color.White,
-                                    ),
-                                    textAlign = TextAlign.Center
-                                )
+                                if(isLate) InteractionTitle(stringResource(R.string.apologize))
+                                else InteractionTitle(stringResource(R.string.urge))
                             }
                         }
                     }
@@ -216,11 +209,41 @@ fun WhatNowTimeOverMap(
     }
 }
 
+@Composable
+fun InteractionTitle(title : String) {
+    Text(
+        text = title,
+        style = WhatNowTheme.typography.body3.copy(
+            fontSize = 14.sp,
+            color = Color.White,
+        ),
+        textAlign = TextAlign.Center
+    )
+}
+
+@OptIn(ExperimentalNaverMapApi::class)
+@Composable
+fun MarkerAndCircleOverlay(icon: OverlayImage, position: LatLng, color: Color) {
+    Marker(
+        icon = icon,
+        state = MarkerState(position = position),
+        anchor = Offset(0.5f, 0.5f)
+
+    )
+
+    CircleOverlay(
+        center = position,
+        color = color.copy(alpha = 0.2f),
+        outlineColor = color.copy(alpha = 0.2f),
+        radius = 3000.0
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun WhatNowTimeOverMapPreview() {
     WhatNowTheme {
-        WhatNowTimeOverMap(Modifier)
+        WhatNowTimeOverMap(Modifier, true)
     }
 }
 
