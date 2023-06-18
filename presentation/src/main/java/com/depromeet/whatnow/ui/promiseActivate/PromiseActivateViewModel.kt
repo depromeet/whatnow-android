@@ -1,4 +1,4 @@
-package com.depromeet.whatnow.ui.promiseactivate
+package com.depromeet.whatnow.ui.promiseActivate
 
 import com.depromeet.whatnow.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
