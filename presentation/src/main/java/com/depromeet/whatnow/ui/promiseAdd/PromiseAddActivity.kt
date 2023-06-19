@@ -23,7 +23,8 @@ class PromiseAddActivity : BaseActivity() {
         setContent {
             WhatNowTheme {
                 PromiseScreen(
-                    viewModel = viewModel,
+                    onBack = {}
+//                    viewModel = viewModel,
                 )
             }
         }

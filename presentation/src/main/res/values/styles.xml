@@ -2,44 +2,34 @@
 <resources>
     <style name="CustomTimePicker">
         <item name="android:colorControlNormal">@android:color/black</item><!-- divider color -->
-        <item name="android:numbersBackgroundColor">@color/color_gray_200</item>
+        <item name="android:numbersBackgroundColor">@color/color_gray_1300</item>
         <item name="android:numbersTextColor">@android:color/black</item>
         <item name="android:headerBackground">@android:color/black</item>
-        <item name="android:textColorPrimary">@color/color_gray_200</item>
-        <item name="android:amPmTextColor">@color/color_gray_200</item>
+        <item name="android:textColorPrimary">@color/color_gray_1300</item>
+        <item name="android:amPmTextColor">@color/color_gray_1300</item>
         <item name="android:textColor">@color/color_gray_200</item>
-        <item name="android:amPmBackgroundColor">@color/color_gray_200</item>
+        <item name="android:amPmBackgroundColor">@color/color_gray_1300</item>
         <item name="android:numbersSelectorColor">@android:color/black</item>
     </style>
 
     <style name="CreateProfileTheme">
-
         <!-- 상단 Title 배경색 -->
         <item name="android:headerBackground">@color/black</item>
-
         <!-- 선택한 날짜 배경 색 -->
         <item name="android:colorControlActivated">@color/black</item>
-
         <!-- Highlight item color-->
         <item name="android:colorControlHighlight">@color/purple_200</item>
-
         <!--Calender Background color -->
         <item name="android:colorBackground">@color/white</item>
-
         <!-- Week TextColor-->
         <item name="android:textColorSecondary">@color/base_gray_400</item>
-
         <!-- Calender Number color arrow color (< >) -->
         <item name="android:textColorPrimary">@color/black</item>
-
         <!--day , month TextColor-->
         <item name="android:textColorPrimaryInverse">@color/white</item>
-
         <!-- year-->
         <item name="android:textColorSecondaryInverse">@color/white</item>
-
         <item name="android:textSize">20sp</item>
-
         <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
 
