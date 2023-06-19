@@ -71,24 +71,23 @@ fun WhatNowBottomSheetScaffold(
 
                 WhatNowTab(
                     selected = uiState.selectedTab,
-                    onTotalClicked = { viewModel.selectTab(PromiseActivateTab.Total) },
-                    onMeClicked = { viewModel.selectTab(PromiseActivateTab.Me) },
-                    onFriendClicked = { viewModel.selectTab(PromiseActivateTab.Friend) },
+                    onTotalClicked = { viewModel.selectTab(PromiseActivateTab.All) },
+                    onMeClicked = { viewModel.selectTab(PromiseActivateTab.My) },
+                    onFriendClicked = { viewModel.selectTab(PromiseActivateTab.Other) },
 
                     )
-                Log.d("ttt", uiState.selectedTab.toString())
 
                 when (uiState.selectedTab) {
-                    PromiseActivateTab.Total -> {
-                        FuturePromiseContent(promises = uiState.totalProfile, onCreate = {})
+                    PromiseActivateTab.All -> {
+                        FuturePromiseContent(promises = uiState.allProfile, onCreate = {})
                     }
 
-                    PromiseActivateTab.Me -> {
+                    PromiseActivateTab.My -> {
                         PastPromiseContent(promises = uiState.myProfile, onCreate = {})
                     }
 
-                    PromiseActivateTab.Friend -> {
-                        PastPromiseContent(promises = uiState.friendProfile, onCreate = {})
+                    PromiseActivateTab.Other -> {
+                        PastPromiseContent(promises = uiState.otherProfile, onCreate = {})
                     }
                 }
             }

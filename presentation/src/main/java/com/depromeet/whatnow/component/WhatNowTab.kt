@@ -34,20 +34,20 @@ fun WhatNowTab(
     Row() {
         WhatNowTabItem(
             modifier = modifier,
-            enabled = selected == PromiseActivateTab.Total,
-            textRes = R.string.total_title,
+            enabled = selected == PromiseActivateTab.All,
+            textRes = R.string.all_title,
             onClick = onTotalClicked
         )
         WhatNowTabItem(
             modifier = modifier,
-            enabled = selected == PromiseActivateTab.Me,
-            textRes = R.string.me_title,
+            enabled = selected == PromiseActivateTab.My,
+            textRes = R.string.my_title,
             onClick = onMeClicked
         )
         WhatNowTabItem(
             modifier = modifier,
-            enabled = selected == PromiseActivateTab.Friend,
-            textRes = R.string.friend_title,
+            enabled = selected == PromiseActivateTab.Other,
+            textRes = R.string.other_title,
             onClick = onFriendClicked
         )
 
