@@ -15,5 +15,10 @@
     <string name="apologize">사과하기</string>
     <string name="time_over">TIME OVER</string>
 
+    <string name="total_title">전체</string>
+    <string name="me_title">나</string>
+    <string name="friend_title">친구</string>
+
+
 
 </resources>
