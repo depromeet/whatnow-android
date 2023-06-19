@@ -19,7 +19,7 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 @Composable
 fun WhatNowBottomSheetContent(
     modifier: Modifier = Modifier,
-    content: @Composable (ColumnScope.() -> Unit)
+//    content: @Composable (ColumnScope.() -> Unit)
 ) {
     Column(
         modifier = modifier.then(Modifier.fillMaxWidth())
@@ -27,22 +27,23 @@ fun WhatNowBottomSheetContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 9.dp),
+                .padding(top = 16.dp, end = 24.dp)
+            ,
             horizontalArrangement = Arrangement.Center
         ) {
             Surface(
-                color = WhatNowTheme.colors.gray100.copy(0.2f),
+                color = WhatNowTheme.colors.gray600,
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.size(width = 32.dp, height = 4.dp)
             ) {}
         }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            content = content
-        )
-        Spacer(modifier = Modifier.height(12.dp))
+//        Column(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(12.dp),
+//            verticalArrangement = Arrangement.spacedBy(8.dp),
+//            content = content
+//        )
+//        Spacer(modifier = Modifier.height(12.dp))
     }
 }
