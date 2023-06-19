@@ -7,10 +7,9 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -84,7 +83,7 @@ fun setPlace(onClick: () -> Unit, titleResId: Int, MsgResId: Int, img: Int) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .height(120.dp)
+            .height(80.dp)
             .padding(start = 22.dp, end = 22.dp, top = 8.dp, bottom = 8.dp)
             .background(
                 color = WhatNowTheme.colors.whatNowBlack,
@@ -125,25 +124,36 @@ fun setPlace(onClick: () -> Unit, titleResId: Int, MsgResId: Int, img: Int) {
                             .padding(end = 11.dp)
                     )
 
-                    TextField(
+                    BasicTextField(
+                        modifier = Modifier
+                            .height(30.dp)
+                            .width(238.dp),
                         value = text,
                         onValueChange = {
                             text = it
                         },
-                        colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = WhatNowTheme.colors.gray50, // 수정: 배경색을 지정해줍니다.
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            textColor = Color.Blue
-                        ),
                         textStyle = TextStyle(
+                            color = WhatNowTheme.colors.gray200,
                             fontSize = 16.sp // 원하는 크기로 설정
                         ),
-                        shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(238.dp)
+                        decorationBox = {
+
+                            Box(
+                                modifier = Modifier.padding(1.dp)
+                            ) {
+
+                                if (text.isBlank()) {
+                                    Text(
+                                        text = LocalContext.current.getString(R.string.promise_place_msg),
+                                        style = TextStyle(color = WhatNowTheme.colors.gray400,
+                                            fontSize = 16.sp)
+                                    )
+                                }
+                                it()
+                            }
+                        }
                     )
+
                 }
             }
         }
