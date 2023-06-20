@@ -79,15 +79,18 @@ fun WhatNowBottomSheetScaffold(
 
                 when (uiState.selectedTab) {
                     PromiseActivateTab.All -> {
-                        FuturePromiseContent(promises = uiState.allProfile, onCreate = {})
+                        WhatNowTabAllContent(
+                            modifier = modifier,
+                            promises = uiState.allProfile,
+                            onCreate = {})
                     }
 
                     PromiseActivateTab.My -> {
-                        PastPromiseContent(promises = uiState.myProfile, onCreate = {})
+                        WhatNowTabMyContent(modifier = Modifier, promises = uiState.myProfile,)
                     }
 
                     PromiseActivateTab.Other -> {
-                        PastPromiseContent(promises = uiState.otherProfile, onCreate = {})
+                        WhatNowTabOtherContent(promises = uiState.otherProfile, onCreate = {})
                     }
                 }
             }
