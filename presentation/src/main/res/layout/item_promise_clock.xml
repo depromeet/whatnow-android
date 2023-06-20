@@ -7,5 +7,14 @@
     <TimePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:numbersBackgroundColor="@color/base_gray_300"
+        android:numbersTextColor="@color/color_black"
+        android:headerBackground="@color/color_black"
+        android:textColorPrimary="@color/base_gray_900"
+        android:amPmTextColor="@color/white"
+        android:textColor="@color/white"
+        android:amPmBackgroundColor="@color/white"
+        android:background="@color/white"
+        android:numbersSelectorColor="@color/purple_200"
         android:timePickerMode="clock" />
 </LinearLayout>
