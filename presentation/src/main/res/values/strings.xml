@@ -19,4 +19,10 @@
     <string name="promise_bottom_button_next">다음</string>
     <string name="promise_bottom_button_make">만들기</string>
 
+    <string name="activated_promise">활성화된 약속</string>
+    <string name="urge">재촉하기</string>
+    <string name="apologize">사과하기</string>
+    <string name="time_over">TIME OVER</string>
+
+
 </resources>
