@@ -1,9 +1,12 @@
 package com.depromeet.whatnow.ui.promiseAdd
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.widget.DatePicker
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -11,8 +14,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,8 +28,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Devices
@@ -31,28 +36,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.depromeet.whatnow.component.WhatNowSimpleTopBar
-import com.depromeet.whatnow.component.WhatNowToggleTab
 import com.depromeet.whatnow.ui.R
-import com.depromeet.whatnow.ui.archive.ArchiveTab
-import com.depromeet.whatnow.ui.archive.FuturePromiseContent
-import com.depromeet.whatnow.ui.archive.PastPromiseContent
 import com.depromeet.whatnow.ui.promiseAdd.PromiseSection.*
 import com.depromeet.whatnow.ui.theme.MaterialColors
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
-import java.time.LocalDate
 import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PromiseScreen(
 //    viewModel: PromiseAddViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
+    var text by rememberSaveable { mutableStateOf("") }
+
     var isClockDataSet by remember { mutableStateOf(false) }
     var isPlaceDataSet by remember { mutableStateOf(false) }
 
     var isSetDateValue by remember { mutableStateOf(false) }
     var isClockVisible by remember { mutableStateOf(false) }
     var isPlaceVisible by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             WhatNowSimpleTopBar(
@@ -99,11 +103,11 @@ fun PromiseScreen(
                             isPlaceVisible = false
                         },
                         R.string.promise_calendar,
-                        R.string.promise_calendar_msg,
+                        null,
                         R.drawable.calendar,
-                        true)
+                        true, text)
                 } else {
-                    setCalendar()
+                    setCalendar(text = text, setOnDateChangedListener = { text = it })
                     isClockDataSet = false
                 }
 
@@ -130,7 +134,7 @@ fun PromiseScreen(
                         R.string.promise_time,
                         R.string.promise_time_msg,
                         R.drawable.clock,
-                        true)
+                        false)
                 } else {
                     setClock()
                     isPlaceDataSet = false
@@ -169,12 +173,20 @@ fun PromiseScreen(
                         R.drawable.whitemap)
                 }
 
-                Spacer(modifier = Modifier.height(20.dp)) // 간격 설정
+                Spacer(modifier = Modifier.height(18.dp)) // 간격 설정
+
+                val t1 = PromiseAddPlace("강남역 2호선", "서울특별시 강남구 강남대로 396")
+
+//                setPlaceList(t1)
+//                setPlaceList(t1)
+//                setPlaceList(t1)
+//                setPlaceList(t1)
+//                setPlaceList(t1)
+//                setPlaceList(t1)
             }
         }
     }
 }
-
 
 
 sealed class PromiseSection {
@@ -193,8 +205,9 @@ fun Greeting(resId: Int, textSize: Int, textColor: Color) {
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun setCalendar() {
+fun setCalendar(text: String, setOnDateChangedListener: (String) -> Unit) {
     WhatNowTheme {
         Box(
             modifier = Modifier
@@ -202,12 +215,16 @@ fun setCalendar() {
                 .width(350.dp)
                 .clip(RoundedCornerShape(16.dp))
         ) {
+            val selectedDate = remember { mutableStateOf("") }
+            val context = LocalContext.current
+
             AndroidView(
                 modifier = Modifier.fillMaxWidth(),
                 factory = { context ->
                     val themedContext = ContextThemeWrapper(context, R.style.CreateProfileTheme)
                     val view =
-                        LayoutInflater.from(themedContext).inflate(R.layout.item_promise_calendar, null)
+                        LayoutInflater.from(themedContext)
+                            .inflate(R.layout.item_promise_calendar, null)
                     val datePicker = view.findViewById<DatePicker>(R.id.datePicker1)
 
                     // 현재 날짜로 DatePicker 초기화
@@ -216,6 +233,14 @@ fun setCalendar() {
                     val month = calendar.get(Calendar.MONTH)
                     val day = calendar.get(Calendar.DAY_OF_MONTH)
                     datePicker.updateDate(year, month, day)
+
+
+                    datePicker.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
+                        val selectedDateString =
+                            String.format("%d월 %d일 약속", year, monthOfYear + 1, dayOfMonth)
+                        selectedDate.value = selectedDateString
+                        Toast.makeText(context, selectedDate.value, Toast.LENGTH_SHORT).show()
+                    }
 
                     view
                 }
@@ -271,8 +296,6 @@ fun setPlace(onClick: () -> Unit, titleResId: Int, messageResId: Int, iconRes: I
                             .size(24.dp)
                     )
 
-                    Spacer(modifier = Modifier.width(11.dp)) // 간격 설정
-
                     BasicTextField(
                         modifier = Modifier
                             .height(30.dp)
@@ -300,7 +323,51 @@ fun setPlace(onClick: () -> Unit, titleResId: Int, messageResId: Int, iconRes: I
                             }
                         }
                     )
+                }
+            }
+        }
+    }
+}
 
+@Composable
+fun setPlaceList(playList: PromiseAddPlace) {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Card(
+            modifier = Modifier
+                .height(72.dp),
+            colors = CardDefaults.cardColors(containerColor = WhatNowTheme.colors.gray50)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    playList.placeTitle?.let {
+                        androidx.compose.material3.Text(
+                            text = it,
+                            style = WhatNowTheme.typography.body1,
+                            color = WhatNowTheme.colors.whatNowBlack
+                        )
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_location),
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp),
+                            tint = WhatNowTheme.colors.gray700
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        playList.placeAddress?.let {
+                            androidx.compose.material3.Text(
+                                text = it,
+                                style = WhatNowTheme.typography.caption1,
+                                color = WhatNowTheme.colors.gray700
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -326,9 +393,10 @@ fun setClock() {
 fun setMakeBox(
     onClick: () -> Unit,
     titleResId: Int,
-    messageResId: Int,
+    messageResId: Int? = null,
     iconRes: Int,
-    isSelected: Boolean
+    isSelected: Boolean,
+    selectedData: String? = null,
 ) {
 
     val backgroundColor = if (isSelected) MaterialColors.onPrimary else WhatNowTheme.colors.gray50
@@ -367,7 +435,15 @@ fun setMakeBox(
             )
             Spacer(modifier = Modifier.width(10.dp)) // 간격 설정
 
-            Greeting(messageResId, 14, WhatNowTheme.colors.gray500)
+            if (messageResId != null) {
+                Greeting(messageResId, 14, WhatNowTheme.colors.gray500)
+            } else {
+                Text(
+                    text = selectedData!!,
+                    fontSize = 14.sp,
+                    color = WhatNowTheme.colors.gray500
+                )
+            }
         }
     }
 }
@@ -379,59 +455,15 @@ fun IncompleteContent(titleResId: Int) {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview(device = Devices.PIXEL_2)
 @Composable
 fun DefaultPreview() {
     WhatNowTheme {
+
         PromiseScreen(onBack = {})
     }
-}
-
-@Composable
-fun WhatNowPromiseAddTopBar(
-    modifier: Modifier = Modifier,
-    buttonOnClick: () -> Unit,
-) {
-    Box(
-        modifier = modifier.fillMaxWidth()) {
-        Surface(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .height(64.dp)
-                .fillMaxWidth(),
-            color = WhatNowTheme.colors.gray50,
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 22.dp)
-                    .height(42.dp)) {
-                Image(
-                    painter = painterResource(id = R.drawable.leftarrow),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(18.dp)
-                        .fillMaxHeight()
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(30.dp)
-                        .align(Alignment.CenterVertically)
-                        .padding(start = 19.dp),
-                    text = LocalContext.current.getString(R.string.promise_title),
-                    fontSize = 22.sp,
-                    color = WhatNowTheme.colors.whatNowBlack,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = FontFamily.SansSerif
-                    )
-                )
-            }
-        }
-    }
-
 }
 
 @Composable
