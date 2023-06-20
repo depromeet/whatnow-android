@@ -13,4 +13,6 @@
 
     <string name="share_promise">약속 공유</string>
     <string name="delete_promise">약속 삭제</string>
+
+    <string name="highlight">하이라이트</string>
 </resources>
