@@ -6,11 +6,20 @@
 
     <!--Date Picker-->
 
-    <DatePicker
+    <DatePicker xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/datePicker1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/CreateProfileTheme"
+        android:headerBackground="@color/black"
+        android:colorControlActivated="@color/black"
+        android:colorControlHighlight="@color/purple_200"
+        android:colorBackground="@color/black"
+        android:textColorSecondary="@color/white"
+        android:textColorPrimary="@color/black"
+        android:textColorPrimaryInverse="@color/white"
+        android:textColorSecondaryInverse="@color/white"
+        android:textSize="20sp"
+        android:background="@color/white"
         android:calendarViewShown="false"
         android:datePickerMode="calendar" />
 
