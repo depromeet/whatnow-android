@@ -1,23 +1,17 @@
-package com.depromeet.whatnow.ui.promiseactivate
+package com.depromeet.whatnow.ui.promiseActivate
 
 import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.depromeet.whatnow.ui.theme.WhatNowTheme
-import com.naver.maps.map.compose.ExperimentalNaverMapApi
-import com.naver.maps.map.compose.NaverMap
+import com.depromeet.whatnow.component.WhatNowBottomSheetScaffold
 
 
-@OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun PromiseActivateScreen(viewModel: PromiseActivateViewModel = hiltViewModel()) {
     val context = LocalContext.current
@@ -27,15 +21,5 @@ fun PromiseActivateScreen(viewModel: PromiseActivateViewModel = hiltViewModel())
             viewModel.refresh()
         }
     }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(WhatNowTheme.colors.gray50)
-    ) {
-        NaverMap(
-            modifier = Modifier.fillMaxSize()
-        )
-
-    }
+    WhatNowBottomSheetScaffold(modifier = Modifier, viewModel = viewModel)
 }

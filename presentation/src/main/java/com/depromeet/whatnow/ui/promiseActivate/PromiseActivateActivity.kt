@@ -1,4 +1,4 @@
-package com.depromeet.whatnow.ui.promiseactivate
+package com.depromeet.whatnow.ui.promiseActivate
 
 import android.content.Context
 import android.content.Intent

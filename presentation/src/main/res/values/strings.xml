@@ -24,5 +24,12 @@
     <string name="apologize">사과하기</string>
     <string name="time_over">TIME OVER</string>
 
+    <string name="all_title">전체</string>
+    <string name="my_title">나</string>
+    <string name="other_title">친구</string>
+    <string name="arrived_other">도착한 친구</string>
+    <string name="send_photo">사진 보내기</string>
+    <string name="state_change">상태변경</string>
+
 
 </resources>
