@@ -27,7 +27,7 @@ fun WhatNowBottomSheetContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, end = 24.dp)
+                .padding(vertical = 16.dp)
             ,
             horizontalArrangement = Arrangement.Center
         ) {
@@ -37,13 +37,5 @@ fun WhatNowBottomSheetContent(
                 modifier = Modifier.size(width = 32.dp, height = 4.dp)
             ) {}
         }
-//        Column(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(12.dp),
-//            verticalArrangement = Arrangement.spacedBy(8.dp),
-//            content = content
-//        )
-//        Spacer(modifier = Modifier.height(12.dp))
     }
 }
