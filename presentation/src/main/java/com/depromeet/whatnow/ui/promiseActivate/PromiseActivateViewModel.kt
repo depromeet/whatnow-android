@@ -20,10 +20,21 @@ class PromiseActivateViewModel @Inject constructor() : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(PromiseActivateState())
     val uiState: StateFlow<PromiseActivateState> = _uiState.asStateFlow()
+
     init {
         _uiState.update {
             it.copy(
                 allProfile = listOf(
+                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
+                ),
+                myProfile = listOf(
+                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
+                ),
+                otherProfile = listOf(
                     DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
