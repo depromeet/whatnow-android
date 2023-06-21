@@ -57,6 +57,8 @@
         <activity
             android:name=".ui.highlight.HighlightActivity"
             android:screenOrientation="portrait" />
+
+
     </application>
 
 </manifest>
