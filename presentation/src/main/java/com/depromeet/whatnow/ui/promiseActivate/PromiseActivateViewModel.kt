@@ -1,8 +1,6 @@
 package com.depromeet.whatnow.ui.promiseActivate
 
 import com.depromeet.whatnow.base.BaseViewModel
-import com.depromeet.whatnow.ui.archive.ArchiveState
-import com.depromeet.whatnow.ui.archive.ArchiveTab
 import com.depromeet.whatnow.ui.model.DUMMY_PROMISE
 import com.depromeet.whatnow.ui.model.DUMMY_USER
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,13 +26,29 @@ class PromiseActivateViewModel @Inject constructor() : BaseViewModel() {
                     DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                ),
-                myProfile = listOf(
+                ), myProfile = listOf(
+                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
+                ), otherProfile = listOf(
                     DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
                 ),
-                otherProfile = listOf(
+
+                musicEmoji = listOf(
+                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
+                ), poopEmoji = listOf(
+                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
+                ), heartEmoji = listOf(
+                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
+                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
+                ), footPrintEmoji = listOf(
                     DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
@@ -45,6 +59,10 @@ class PromiseActivateViewModel @Inject constructor() : BaseViewModel() {
 
     fun selectTab(tab: PromiseActivateTab) {
         _uiState.update { it.copy(selectedTab = tab) }
+    }
+
+    fun selectEmojiTab(tab: PromiseEmojiTab) {
+        _uiState.update { it.copy(selectedEmojiTab = tab) }
     }
 
     fun refresh() {
