@@ -5,7 +5,7 @@ import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.widget.DatePicker
-import android.widget.Toast
+import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,12 +19,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -35,27 +33,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.depromeet.whatnow.component.WhatNowSimpleTopBar
 import com.depromeet.whatnow.ui.R
-import com.depromeet.whatnow.ui.promiseAdd.PromiseSection.*
 import com.depromeet.whatnow.ui.theme.MaterialColors
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import java.util.*
 
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PromiseScreen(
-//    viewModel: PromiseAddViewModel,
+    viewModel: PromiseAddViewModel = hiltViewModel(),
     onBack: () -> Unit,
 ) {
-    var text by rememberSaveable { mutableStateOf("") }
+    var screenState by remember { mutableStateOf(PromiseScreenState()) }
 
-    var isClockDataSet by remember { mutableStateOf(false) }
-    var isPlaceDataSet by remember { mutableStateOf(false) }
-
-    var isSetDateValue by remember { mutableStateOf(false) }
-    var isClockVisible by remember { mutableStateOf(false) }
-    var isPlaceVisible by remember { mutableStateOf(false) }
+    val selectedDate = remember { mutableStateOf("") }
+    val selectedClock = remember { mutableStateOf("") }
+    val inputPlaceName = remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -67,21 +63,34 @@ fun PromiseScreen(
         bottomBar = {
             WhatNowPromiseAddBottomBar(modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp), buttonOnClick = {
-                if (!isSetDateValue) {
-                    isSetDateValue = true
-                    isClockVisible = true
-                    isPlaceVisible = false
-                } else if (isClockVisible) {
-                    isSetDateValue = true
-                    isClockVisible = false
-                    isPlaceVisible = true
-                } else if (isPlaceVisible) {
-                    isSetDateValue = true
-                    isClockVisible = false
-                    isPlaceVisible = true
-                }
-            })
+                .height(80.dp),
+                buttonOnClick = {
+                    if (!screenState.isClockVisible && !screenState.isPlaceVisible) {
+                        screenState = screenState.copy(
+                            isSetDateValue = true,
+                            isClockVisible = true,
+                            isClockDataSet = true
+                        )
+                    } else if (!screenState.isPlaceVisible) {
+                        screenState = screenState.copy(
+                            isClockVisible = false,
+                            isPlaceVisible = true,
+                            isPlaceDataSet = true,
+                        )
+                    } else {
+                        //TODO 최종만들기 버튼
+                    }
+                },
+                resetOnClick = {
+                    screenState = screenState.copy(
+                        isSetDateValue = false,
+                        isPlaceVisible = false,
+                        isClockVisible = false,
+                        isClockDataSet = false,
+                        isPlaceDataSet = false
+
+                    )
+                })
         }
     ) { innerPadding ->
         Column(
@@ -94,106 +103,129 @@ fun PromiseScreen(
             Column(modifier = Modifier
                 .verticalScroll(rememberScrollState())
             ) {
-
-                if (isSetDateValue) {
+                if (screenState.isSetDateValue) {
                     setMakeBox(
                         onClick = {
-                            isSetDateValue = false
-                            isClockVisible = false
-                            isPlaceVisible = false
+                            screenState = screenState.copy(
+                                isSetDateValue = false,
+                                isPlaceVisible = false,
+                                isClockVisible = false
+                            )
                         },
                         R.string.promise_calendar,
                         null,
                         R.drawable.calendar,
-                        true, text)
+                        true,
+                        selectedDate.value
+                    )
                 } else {
-                    setCalendar(text = text, setOnDateChangedListener = { text = it })
-                    isClockDataSet = false
+                    Calendar(
+                        onDateChanged = {
+                            selectedDate.value = it
+                        }
+                    )
+                    screenState = screenState.copy(isClockDataSet = false)
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                if (!isClockDataSet && !isClockVisible) {
+                if (!screenState.isClockDataSet && !screenState.isClockVisible) {
                     setMakeBox(
                         onClick = {
-                            isSetDateValue = true
-                            isClockVisible = true
-                            isClockDataSet = true
+                            screenState = screenState.copy(
+                                isSetDateValue = true,
+                                isClockVisible = true,
+                                isClockDataSet = true
+                            )
                         },
                         R.string.promise_time,
                         R.string.promise_time_msg,
                         R.drawable.clock,
-                        false)
-                } else if (isClockDataSet && !isClockVisible) {
+                        false, null
+                    )
+                } else if (screenState.isClockDataSet && !screenState.isClockVisible) {
                     setMakeBox(
                         onClick = {
-                            isSetDateValue = true
-                            isClockVisible = true
-                            isClockDataSet = true
+                            screenState = screenState.copy(
+                                isSetDateValue = true,
+                                isClockVisible = true,
+                                isClockDataSet = true,
+                                isPlaceDataSet = true,
+                                isPlaceVisible = false
+                            )
                         },
                         R.string.promise_time,
-                        R.string.promise_time_msg,
+                        null,
                         R.drawable.clock,
-                        false)
+                        true, selectedClock.value
+                    )
                 } else {
-                    setClock()
-                    isPlaceDataSet = false
+                    setClock(
+                        onTimeChanged = {
+                            selectedClock.value = it
+                        }
+                    )
+                    screenState = screenState.copy(isPlaceDataSet = false)
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                if (!isPlaceDataSet && !isPlaceVisible) {
+                if (!screenState.isPlaceDataSet && !screenState.isPlaceVisible) {
                     setMakeBox(
                         onClick = {
-                            isSetDateValue = true
-                            isClockVisible = false
-                            isClockDataSet = true
-                            isPlaceVisible = true
+                            screenState = screenState.copy(
+                                isSetDateValue = true,
+                                isClockVisible = false,
+                                isClockDataSet = true,
+                                isPlaceVisible = true
+                            )
                         },
                         R.string.promise_place,
                         R.string.promise_place_msg,
                         R.drawable.map,
-                        false)
-                } else if (isPlaceDataSet && !isPlaceVisible) {
+                        false, null
+                    )
+                } else if (screenState.isPlaceDataSet && !screenState.isPlaceVisible) {
                     setMakeBox(
                         onClick = {
-                            isSetDateValue = true
-                            isClockVisible = false
-                            isClockDataSet = true
-                            isPlaceVisible = true
+                            screenState = screenState.copy(
+                                isSetDateValue = true,
+                                isClockVisible = false,
+                                isClockDataSet = true,
+                                isPlaceVisible = true
+                            )
                         },
                         R.string.promise_place,
                         R.string.promise_place_msg,
                         R.drawable.map,
-                        true)
+                        true, null
+                    )
                 } else {
-                    setPlace(onClick = {},
-                        R.string.promise_place_select,
-                        R.string.promise_place_msg,
-                        R.drawable.whitemap)
+                    PlaceList(viewModel = viewModel, onPlaceList = {
+
+                    })
                 }
 
                 Spacer(modifier = Modifier.height(18.dp)) // 간격 설정
-
-                val t1 = PromiseAddPlace("강남역 2호선", "서울특별시 강남구 강남대로 396")
-
-//                setPlaceList(t1)
-//                setPlaceList(t1)
-//                setPlaceList(t1)
-//                setPlaceList(t1)
-//                setPlaceList(t1)
-//                setPlaceList(t1)
             }
         }
     }
 }
 
+data class PromiseScreenState(
+    val isSetDateValue: Boolean = false,
+    val isClockDataSet: Boolean = false,
+    val isPlaceDataSet: Boolean = false,
+    val isClockVisible: Boolean = false,
+    val isPlaceVisible: Boolean = false,
+)
 
-sealed class PromiseSection {
-    object CALENDAR : PromiseSection()
-    object TIME : PromiseSection()
-    object PLACE : PromiseSection()
-}
+//@Composable
+//fun PlaceList(placeList: ArrayList<PromiseAddPlace>) {
+//    for (x in placeList) {
+//        SearchPlaceList(x)
+//    }
+//}
 
 
 @Composable
@@ -207,7 +239,7 @@ fun Greeting(resId: Int, textSize: Int, textColor: Color) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun setCalendar(text: String, setOnDateChangedListener: (String) -> Unit) {
+fun Calendar(onDateChanged: (String) -> Unit) {
     WhatNowTheme {
         Box(
             modifier = Modifier
@@ -215,16 +247,14 @@ fun setCalendar(text: String, setOnDateChangedListener: (String) -> Unit) {
                 .width(350.dp)
                 .clip(RoundedCornerShape(16.dp))
         ) {
-            val selectedDate = remember { mutableStateOf("") }
             val context = LocalContext.current
 
             AndroidView(
                 modifier = Modifier.fillMaxWidth(),
                 factory = { context ->
                     val themedContext = ContextThemeWrapper(context, R.style.CreateProfileTheme)
-                    val view =
-                        LayoutInflater.from(themedContext)
-                            .inflate(R.layout.item_promise_calendar, null)
+                    val view = LayoutInflater.from(themedContext)
+                        .inflate(R.layout.item_promise_calendar, null)
                     val datePicker = view.findViewById<DatePicker>(R.id.datePicker1)
 
                     // 현재 날짜로 DatePicker 초기화
@@ -234,12 +264,14 @@ fun setCalendar(text: String, setOnDateChangedListener: (String) -> Unit) {
                     val day = calendar.get(Calendar.DAY_OF_MONTH)
                     datePicker.updateDate(year, month, day)
 
+                    // 날짜를 바꾸지 않으면 현재 날짜 입력
+                    val selectedDateString = String.format("%d월 %d일 약속", month, day)
+                    onDateChanged(selectedDateString)
 
                     datePicker.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
                         val selectedDateString =
-                            String.format("%d월 %d일 약속", year, monthOfYear + 1, dayOfMonth)
-                        selectedDate.value = selectedDateString
-                        Toast.makeText(context, selectedDate.value, Toast.LENGTH_SHORT).show()
+                            String.format("%d월 %d일 약속", monthOfYear, dayOfMonth)
+                        onDateChanged(selectedDateString)
                     }
 
                     view
@@ -250,9 +282,22 @@ fun setCalendar(text: String, setOnDateChangedListener: (String) -> Unit) {
 }
 
 @Composable
-fun setPlace(onClick: () -> Unit, titleResId: Int, messageResId: Int, iconRes: Int) {
+fun PlaceList(viewModel: PromiseAddViewModel, onPlaceList: (List<PromiseAddPlace>) -> Unit) {
     var text by remember { mutableStateOf("") }
+    PlaceEdit(onPlaceChanged = {
+        text = it
+        viewModel.placeData.value.placeList?.let { it1 -> onPlaceList(it1) }
+        //TODO viewmodel 데이터 변경
+    },
+        R.string.promise_place_select,
+        R.string.promise_place_msg,
+        R.drawable.whitemap)
 
+}
+
+@Composable
+fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: Int, iconRes: Int) {
+    var text by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -287,7 +332,6 @@ fun setPlace(onClick: () -> Unit, titleResId: Int, messageResId: Int, iconRes: I
                         .fillMaxSize()
                         .fillMaxHeight()
                         .padding(start = 16.dp)
-                        .clickable(onClick = onClick)
                 ) {
                     Image(
                         painter = painterResource(id = iconRes),
@@ -296,6 +340,8 @@ fun setPlace(onClick: () -> Unit, titleResId: Int, messageResId: Int, iconRes: I
                             .size(24.dp)
                     )
 
+                    Spacer(modifier = Modifier.width(8.dp))
+
                     BasicTextField(
                         modifier = Modifier
                             .height(30.dp)
@@ -303,6 +349,7 @@ fun setPlace(onClick: () -> Unit, titleResId: Int, messageResId: Int, iconRes: I
                         value = text,
                         onValueChange = {
                             text = it
+                            onPlaceChanged(text)
                         },
                         textStyle = TextStyle(
                             color = Color.White,
@@ -330,7 +377,7 @@ fun setPlace(onClick: () -> Unit, titleResId: Int, messageResId: Int, iconRes: I
 }
 
 @Composable
-fun setPlaceList(playList: PromiseAddPlace) {
+fun SearchPlaceList(playList: PromiseAddPlace) {
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -375,7 +422,7 @@ fun setPlaceList(playList: PromiseAddPlace) {
 }
 
 @Composable
-fun setClock() {
+fun setClock(onTimeChanged: (String) -> Unit) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
@@ -383,20 +430,46 @@ fun setClock() {
         AndroidView(
             factory = { context ->
                 val themedContext = ContextThemeWrapper(context, R.style.CustomTimePicker)
-                LayoutInflater.from(themedContext).inflate(R.layout.item_promise_clock, null)
+                val view =
+                    LayoutInflater.from(themedContext).inflate(R.layout.item_promise_clock, null)
+
+                val timePicker = view.findViewById<TimePicker>(R.id.timePicker)
+
+                // 바꾸지 않고 바로 하면 현재 시각 입력
+                onTimeChanged(clockFormatting(timePicker.hour, timePicker.minute))
+
+                timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
+                    onTimeChanged(clockFormatting(hourOfDay, minute))
+                }
+                view
             }
         )
     }
+}
+
+// 시각 포매팅
+fun clockFormatting(hourOfDay: Int, minute: Int): String {
+    val formattedHour = if (hourOfDay >= 12) {
+        val hour = if (hourOfDay > 12) hourOfDay - 12 else hourOfDay
+        String.format("%02d", hour)
+    } else {
+        String.format("%02d", hourOfDay)
+    }
+
+    val formattedMinute = String.format("%02d", minute)
+    val amPm = if (hourOfDay >= 12) "오후" else "오전"
+
+    return "$amPm $formattedHour 시 $formattedMinute 분"
 }
 
 @Composable
 fun setMakeBox(
     onClick: () -> Unit,
     titleResId: Int,
-    messageResId: Int? = null,
+    messageResId: Int?,
     iconRes: Int,
     isSelected: Boolean,
-    selectedData: String? = null,
+    message: String?,
 ) {
 
     val backgroundColor = if (isSelected) MaterialColors.onPrimary else WhatNowTheme.colors.gray50
@@ -435,15 +508,16 @@ fun setMakeBox(
             )
             Spacer(modifier = Modifier.width(10.dp)) // 간격 설정
 
-            if (messageResId != null) {
-                Greeting(messageResId, 14, WhatNowTheme.colors.gray500)
-            } else {
+            if (messageResId == null && message != null) {
                 Text(
-                    text = selectedData!!,
+                    text = message,
                     fontSize = 14.sp,
-                    color = WhatNowTheme.colors.gray500
+                    color = WhatNowTheme.colors.gray900
                 )
+            } else {
+                Greeting(messageResId!!, 14, WhatNowTheme.colors.gray500)
             }
+
         }
     }
 }
@@ -461,21 +535,17 @@ fun IncompleteContent(titleResId: Int) {
 @Composable
 fun DefaultPreview() {
     WhatNowTheme {
-
         PromiseScreen(onBack = {})
     }
 }
 
 @Composable
 fun WhatNowPromiseAddBottomBar(
+    resetOnClick: () -> Unit,
     buttonOnClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val bottomPanelHeight = 80.dp
-    val bottomActionButtonSize = 72.dp
-    val bottomBarItemIconSize = 20.dp
-
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     Box(
         modifier = modifier
@@ -509,7 +579,13 @@ fun WhatNowPromiseAddBottomBar(
                         ),
                         color = WhatNowTheme.colors.gray900) {
                         Text(
-                            modifier = Modifier.padding(top = 14.5.dp),
+                            modifier = Modifier
+                                .padding(top = 14.5.dp)
+                                .clickable(
+                                    interactionSource = MutableInteractionSource(),
+                                    indication = null,
+                                    onClick = resetOnClick
+                                ),
                             text = LocalContext.current.getString(R.string.promise_bottom_reset),
                             style = TextStyle(textDecoration = TextDecoration.Underline),
                             textAlign = TextAlign.Center,
