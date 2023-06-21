@@ -39,7 +39,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.promiseactivate.PromiseActivateActivity"
+            android:name=".ui.promiseActivate.PromiseActivateActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

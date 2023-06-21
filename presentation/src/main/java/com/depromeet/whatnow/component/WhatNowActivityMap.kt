@@ -222,7 +222,7 @@ fun WhatNowActivityMap(
 
                         }
                         Image(
-                            painter = painterResource(id = R.drawable.arrow_forward),
+                            painter = painterResource(id = R.drawable.arrow_forward_ios),
                             contentDescription = null
                         )
                     }
