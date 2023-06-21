@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.model.Promise
-import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateTab
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
 import com.depromeet.whatnow.ui.promiseActivate.PromiseEmojiTab
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
@@ -54,7 +53,7 @@ fun WhatNowTabMyContent(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                WhatNowProfile(promise = promises[0])
+                WhatNowProfile(promise = promises[0], size= 56.dp)
                 Column(modifier = modifier.padding(start = 22.dp)) {
                     Text(
                         text = promises[0].participants[0].name,
