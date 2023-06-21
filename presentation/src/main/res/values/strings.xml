@@ -21,6 +21,8 @@
     <string name="arrived_other">도착한 친구</string>
     <string name="send_photo">사진 보내기</string>
     <string name="state_change">상태변경</string>
+    <string name="new_title">NEW</string>
+    <string name="state">상태</string>
 
 
 </resources>
