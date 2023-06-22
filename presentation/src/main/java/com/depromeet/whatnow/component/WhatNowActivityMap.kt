@@ -178,7 +178,7 @@ fun WhatNowActivityMap(
                             .padding(bottom = 80.dp)
                             .align(Alignment.Center)
                     ) {
-                        WhatNowTimeActivityPicker(modifier = modifier)
+                        WhatNowTimePickerPicker(modifier = modifier)
                     }
 
                 }

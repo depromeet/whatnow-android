@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
-fun WhatNowTimeActivityPicker(modifier: Modifier) {
+fun WhatNowTimePickerPicker(modifier: Modifier) {
     Row() {
         Card(
 
@@ -126,6 +126,6 @@ fun WhatNowTimeActivityPicker(modifier: Modifier) {
 @Composable
 fun WhatNowTimePickerPreview() {
     WhatNowTheme {
-        WhatNowTimeActivityPicker(Modifier)
+        WhatNowTimePickerPicker(Modifier)
     }
 }
