@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
-import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateTab
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
@@ -68,7 +66,6 @@ fun WhatNowNaverMap(modifier: Modifier) {
         position = CameraPosition(seoulCamera, 11.0)
     }
 
-
     Box(
         Modifier
             .fillMaxSize()
@@ -79,6 +76,10 @@ fun WhatNowNaverMap(modifier: Modifier) {
             properties = mapProperties,
             uiSettings = mapUiSettings,
         ) {
+
+            /**
+             * 도착지 마커
+             * */
 
             Marker(
                 icon = OverlayImage.fromResource(R.drawable.map_marker),
@@ -92,6 +93,18 @@ fun WhatNowNaverMap(modifier: Modifier) {
                 outlineColor = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.2f),
                 radius = 3000.0
             )
+
+
+            /**
+             * 사용자 마커
+             * */
+//            Marker(
+//                icon = OverlayImage.fromBitmap(
+//
+//                ),
+//                state = MarkerState(position = seoul),
+//                anchor = Offset(0.5f, 0.5f)
+//            )
         }
 
 
