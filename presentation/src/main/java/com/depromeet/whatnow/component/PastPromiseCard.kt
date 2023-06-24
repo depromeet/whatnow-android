@@ -33,7 +33,7 @@ import com.depromeet.whatnow.ui.theme.White
 @Composable
 fun PastPromiseCard(
     promise: Promise,
-    onClick: (Promise) -> Unit
+    onClick: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.Top,
@@ -61,7 +61,7 @@ fun PastPromiseCard(
                 .weight(1f)
                 .height(214.dp)
                 .clip(RoundedCornerShape(20.dp))
-                .clickable { onClick(promise) },
+                .clickable { onClick() },
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = White)
         ) {

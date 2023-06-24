@@ -1,4 +1,4 @@
-package com.depromeet.whatnow.ui.highlight
+package com.depromeet.whatnow.ui.archive.highlight
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding

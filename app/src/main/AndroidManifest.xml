@@ -19,11 +19,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Whatnow">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -51,7 +47,17 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.highlight.HighlightActivity"
+            android:name=".ui.archive.detail.DetailActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.archive.highlight.HighlightActivity"
             android:screenOrientation="portrait" />
     </application>
 

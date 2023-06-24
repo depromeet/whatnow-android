@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(): BaseViewModel() {
+class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     private val _isRefresh = MutableStateFlow(false)
     val isRefresh = _isRefresh.asStateFlow()
