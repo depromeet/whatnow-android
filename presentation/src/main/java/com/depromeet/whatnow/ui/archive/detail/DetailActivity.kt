@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.depromeet.whatnow.base.BaseActivity
-import com.depromeet.whatnow.ui.highlight.HighlightActivity
+import com.depromeet.whatnow.ui.archive.highlight.HighlightActivity
 import com.depromeet.whatnow.ui.model.Highlight
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.depromeet.whatnow.ui.highlight
+package com.depromeet.whatnow.ui.archive.highlight
 
 import android.content.Context
 import android.content.Intent

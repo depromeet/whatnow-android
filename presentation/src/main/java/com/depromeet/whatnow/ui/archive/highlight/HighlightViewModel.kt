@@ -1,4 +1,4 @@
-package com.depromeet.whatnow.ui.highlight
+package com.depromeet.whatnow.ui.archive.highlight
 
 import androidx.lifecycle.SavedStateHandle
 import com.depromeet.whatnow.base.BaseViewModel
