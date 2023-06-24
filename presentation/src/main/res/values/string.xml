@@ -20,4 +20,8 @@
 
     <string name="timeover_capture_time">타임오버 캡쳐 타임</string>
     <string name="people_meet">만난 사람</string>
+
+    <string name="arrived">도착</string>
+    <string name="late">지각</string>
+    <string name="unspecified">알 수 없음</string>
 </resources>
