@@ -35,7 +35,8 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 @Composable
 fun ArchiveScreen(
     viewModel: ArchiveViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    navigateToDetail: (List<Promise>, Int) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -67,7 +68,11 @@ fun ArchiveScreen(
                     FuturePromiseContent(promises = uiState.futurePromises, onCreate = {})
                 }
                 ArchiveTab.Past -> {
-                    PastPromiseContent(promises = uiState.pastPromises, onCreate = {})
+                    PastPromiseContent(
+                        promises = uiState.pastPromises,
+                        onCreate = {},
+                        onClickItem = navigateToDetail
+                    )
                 }
             }
         }
@@ -98,7 +103,8 @@ fun FuturePromiseContent(
 @Composable
 fun PastPromiseContent(
     promises: List<Promise>,
-    onCreate: () -> Unit
+    onCreate: () -> Unit,
+    onClickItem: (List<Promise>, Int) -> Unit
 ) {
     if (promises.isEmpty()) {
         EmptyArchiveContent(tab = ArchiveTab.Past, onCreate = onCreate)
@@ -109,8 +115,8 @@ fun PastPromiseContent(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(promises) {
-                PastPromiseCard(promise = it, onClick = {})
+            items(promises.size) {
+                PastPromiseCard(promise = promises[it], onClick = { onClickItem(promises, it) })
             }
         }
     }
