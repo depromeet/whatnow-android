@@ -3,16 +3,16 @@ package com.depromeet.whatnow.ui.highlight
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import com.depromeet.whatnow.base.BaseActivity
 import com.depromeet.whatnow.ui.model.Highlight
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.Serializable
 
 @AndroidEntryPoint
-class HighlightActivity : ComponentActivity() {
+class HighlightActivity : BaseActivity() {
 
     private val viewModel: HighlightViewModel by viewModels()
 

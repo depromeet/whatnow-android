@@ -3,16 +3,16 @@ package com.depromeet.whatnow.ui.archive.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import com.depromeet.whatnow.base.BaseActivity
 import com.depromeet.whatnow.ui.highlight.HighlightActivity
 import com.depromeet.whatnow.ui.model.Highlight
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailActivity : ComponentActivity() {
+class DetailActivity : BaseActivity() {
 
     private val viewModel: DetailViewModel by viewModels()
 

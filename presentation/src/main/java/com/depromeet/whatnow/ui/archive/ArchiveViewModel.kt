@@ -1,6 +1,6 @@
 package com.depromeet.whatnow.ui.archive
 
-import androidx.lifecycle.ViewModel
+import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.ui.model.DUMMY_PROMISE
 import com.depromeet.whatnow.ui.model.DUMMY_USER
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class ArchiveViewModel @Inject constructor() : ViewModel() {
+class ArchiveViewModel @Inject constructor() : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ArchiveState())
     val uiState: StateFlow<ArchiveState> = _uiState.asStateFlow()

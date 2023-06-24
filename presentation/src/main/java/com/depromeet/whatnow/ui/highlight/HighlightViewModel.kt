@@ -1,7 +1,7 @@
 package com.depromeet.whatnow.ui.highlight
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.ui.model.Highlight
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HighlightViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val highlights = requireNotNull(
         savedStateHandle.get<List<Highlight>>(HighlightActivity.EXTRA_KEY_HIGHLIGHTS)
