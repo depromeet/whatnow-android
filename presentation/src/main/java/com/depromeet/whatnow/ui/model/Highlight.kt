@@ -1,11 +1,13 @@
 package com.depromeet.whatnow.ui.model
 
+import java.io.Serializable
+
 data class Highlight(
     val type: HighlightType,
     val text: String,
     val participants: List<User>,
     val location: String
-)
+) : Serializable
 
 fun DUMMY_HIGHLIGHT(
     type: HighlightType = HighlightType.Meet,

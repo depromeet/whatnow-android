@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.ui.model
 
+import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Promise(
@@ -10,7 +11,7 @@ data class Promise(
     val imageUrls: List<String>,
     val highlights: List<Highlight>,
     val timeOverImageUrl: String
-)
+) : Serializable
 
 fun DUMMY_PROMISE(
     title: String = "약속 이름",

@@ -1,11 +1,13 @@
 package com.depromeet.whatnow.ui.model
 
+import java.io.Serializable
+
 data class User(
     val name: String,
     val profileImageUrl: String,
     val arrivalState: ArrivalState,
     val emojis: Map<EmojiInteraction, Int>
-)
+) : Serializable
 
 fun DUMMY_USER(
     name: String = "사용자",
