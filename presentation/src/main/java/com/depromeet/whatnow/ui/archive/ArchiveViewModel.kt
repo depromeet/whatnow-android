@@ -23,13 +23,13 @@ class ArchiveViewModel @Inject constructor() : BaseViewModel() {
                     DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                ),
+                ).sortedByDescending { it.datetime },
                 pastPromises = listOf(
                     DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(1) { DUMMY_USER() }),
                     DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                )
+                ).sortedByDescending { it.datetime }
             )
         }
     }
