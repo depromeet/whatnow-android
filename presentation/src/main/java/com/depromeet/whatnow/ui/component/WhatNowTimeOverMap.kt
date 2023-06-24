@@ -197,7 +197,7 @@ fun WhatNowTimeOverMap(
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.background(themeColor)
                             ) {
-                                if(isLate) InteractionTitle(stringResource(R.string.apologize))
+                                if (isLate) InteractionTitle(stringResource(R.string.apologize))
                                 else InteractionTitle(stringResource(R.string.urge))
                             }
                         }
@@ -210,7 +210,7 @@ fun WhatNowTimeOverMap(
 }
 
 @Composable
-fun InteractionTitle(title : String) {
+fun InteractionTitle(title: String) {
     Text(
         text = title,
         style = WhatNowTheme.typography.body3.copy(

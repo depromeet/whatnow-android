@@ -1,6 +1,6 @@
 package com.depromeet.whatnow.ui.main
 
-import com.depromeet.whatnow.base.BaseViewModel
+import com.depromeet.whatnow.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

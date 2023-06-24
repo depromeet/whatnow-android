@@ -56,7 +56,7 @@ fun WhatNowTab(
 
 @Composable
 private fun WhatNowTabItem(
-    modifier : Modifier,
+    modifier: Modifier,
     enabled: Boolean,
     @StringRes textRes: Int,
     onClick: () -> Unit

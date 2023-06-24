@@ -15,7 +15,7 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 @Composable
 fun WhatNowProfile(
     promise: Promise,
-    size : Dp
+    size: Dp
 ) {
     AsyncImage(
         model = promise.participants[0].profileImageUrl,

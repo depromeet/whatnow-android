@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -47,8 +46,7 @@ fun WhatNowTabAllContent(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth()
-                    .padding(top = 12.dp, bottom = 12.dp)
-                ,
+                    .padding(top = 12.dp, bottom = 12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -97,7 +95,7 @@ fun WhatNowTabAllContent(
                     }
                 }
             }
-            Spacer(modifier = modifier.padding(bottom = 24.dp ))
+            Spacer(modifier = modifier.padding(bottom = 24.dp))
         }
         items(promises) {
             WhatNowTabAllContentGrid(promise = it, modifier = modifier)

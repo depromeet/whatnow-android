@@ -1,6 +1,6 @@
 package com.depromeet.whatnow.ui.promiseActivate
 
-import com.depromeet.whatnow.base.BaseViewModel
+import com.depromeet.whatnow.ui.base.BaseViewModel
 import com.depromeet.whatnow.ui.model.DUMMY_PROMISE
 import com.depromeet.whatnow.ui.model.DUMMY_USER
 import dagger.hilt.android.lifecycle.HiltViewModel

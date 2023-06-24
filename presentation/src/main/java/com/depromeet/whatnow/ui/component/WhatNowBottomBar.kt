@@ -31,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import coil.compose.AsyncImage
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.main.Destination
 import com.depromeet.whatnow.ui.theme.WhatNowTheme

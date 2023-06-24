@@ -1,4 +1,4 @@
-package com.depromeet.whatnow.base
+package com.depromeet.whatnow.ui.base
 
 import android.os.Bundle
 import android.util.Log
