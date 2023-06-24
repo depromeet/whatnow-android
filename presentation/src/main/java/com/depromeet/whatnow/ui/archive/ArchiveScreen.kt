@@ -3,6 +3,7 @@ package com.depromeet.whatnow.ui.archive
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -91,7 +92,8 @@ fun FuturePromiseContent(
             modifier = Modifier
                 .padding(top = 24.dp)
                 .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(bottom = 16.dp)
         ) {
             items(promises) {
                 FuturePromiseTile(promise = it, onShare = {}, onDelete = {})
@@ -113,7 +115,8 @@ fun PastPromiseContent(
             modifier = Modifier
                 .padding(top = 24.dp)
                 .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(bottom = 16.dp)
         ) {
             items(promises.size) {
                 PastPromiseCard(promise = promises[it], onClick = { onClickItem(promises, it) })
