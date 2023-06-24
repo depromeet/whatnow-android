@@ -15,4 +15,9 @@
     <string name="delete_promise">약속 삭제</string>
 
     <string name="highlight">하이라이트</string>
+
+    <string name="month_day_fmt">M월 d일</string>
+
+    <string name="timeover_capture_time">타임오버 캡쳐 타임</string>
+    <string name="people_meet">만난 사람</string>
 </resources>
