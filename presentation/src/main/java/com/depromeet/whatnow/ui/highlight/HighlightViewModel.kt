@@ -1,32 +1,23 @@
 package com.depromeet.whatnow.ui.highlight
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.depromeet.whatnow.ui.model.DUMMY_HIGHLIGHT
-import com.depromeet.whatnow.ui.model.HighlightType
+import com.depromeet.whatnow.ui.model.Highlight
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class HighlightViewModel @Inject constructor() : ViewModel() {
+class HighlightViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HighlightState())
+    private val highlights = requireNotNull(
+        savedStateHandle.get<List<Highlight>>(HighlightActivity.EXTRA_KEY_HIGHLIGHTS)
+    )
+
+    private val _uiState = MutableStateFlow(HighlightState(highlights = highlights))
     val uiState: StateFlow<HighlightState> = _uiState.asStateFlow()
-
-    init {
-        _uiState.update {
-            it.copy(
-                highlights = listOf(
-                    DUMMY_HIGHLIGHT(),
-                    DUMMY_HIGHLIGHT(type = HighlightType.Arrive, text = "윤여준 도착완료"),
-                    DUMMY_HIGHLIGHT(),
-                    DUMMY_HIGHLIGHT(type = HighlightType.Arrive, text = "윤여준 도착완료"),
-                    DUMMY_HIGHLIGHT(),
-                )
-            )
-        }
-    }
 }

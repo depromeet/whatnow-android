@@ -27,13 +27,15 @@ import com.depromeet.whatnow.component.WhatNowPastEmojiTile
 import com.depromeet.whatnow.component.WhatNowSimpleTopBar
 import com.depromeet.whatnow.component.WhatNowTimeOverCapture
 import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.model.Highlight
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun DetailScreen(
     viewModel: DetailViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    navigateToHighLight: (List<Highlight>) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -127,7 +129,7 @@ fun DetailScreen(
                     iconRes = R.drawable.ic_chevron_right,
                     tint = WhatNowTheme.colors.whatNowBlack,
                     size = 24.dp,
-                    onClick = {}
+                    onClick = { navigateToHighLight(promise.highlights) }
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
