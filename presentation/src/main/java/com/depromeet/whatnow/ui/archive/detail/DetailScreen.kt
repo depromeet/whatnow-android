@@ -40,7 +40,7 @@ fun DetailScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     val scrollState = rememberScrollState()
-    val promise = uiState.selectedPromise
+    val promise = uiState.promises[uiState.currentIndex]
 
     Scaffold(
         topBar = {
@@ -63,7 +63,7 @@ fun DetailScreen(
                         iconRes = R.drawable.ic_chevron_left,
                         tint = WhatNowTheme.colors.whatNowBlack,
                         size = 24.dp,
-                        onClick = {}
+                        onClick = viewModel::decreaseIndex
                     )
                     Text(
                         text = promise.datetime.format(
@@ -76,7 +76,7 @@ fun DetailScreen(
                         iconRes = R.drawable.ic_chevron_right,
                         tint = WhatNowTheme.colors.whatNowBlack,
                         size = 24.dp,
-                        onClick = {}
+                        onClick = viewModel::increaseIndex
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
