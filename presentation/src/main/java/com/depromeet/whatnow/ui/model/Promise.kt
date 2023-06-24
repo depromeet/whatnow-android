@@ -2,6 +2,7 @@ package com.depromeet.whatnow.ui.model
 
 import java.io.Serializable
 import java.time.LocalDateTime
+import kotlin.random.Random
 
 data class Promise(
     val title: String,
@@ -16,7 +17,7 @@ data class Promise(
 fun DUMMY_PROMISE(
     title: String = "약속 이름",
     location: String = "약속 장소",
-    datetime: LocalDateTime = LocalDateTime.now(),
+    datetime: LocalDateTime = LocalDateTime.now().minusDays(Random.nextLong(100)),
     participants: List<User> = listOf(
         DUMMY_USER(),
         DUMMY_USER(),
