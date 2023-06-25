@@ -1,28 +1,53 @@
 package com.depromeet.whatnow.component
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import com.depromeet.whatnow.ui.theme.WhatNowTheme
+import androidx.core.graphics.drawable.toBitmap
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.compose.ExperimentalNaverMapApi
+import com.naver.maps.map.compose.Marker
+import com.naver.maps.map.compose.MarkerState
+import com.naver.maps.map.overlay.OverlayImage
 
 
+@OptIn(ExperimentalNaverMapApi::class)
 @Composable
-fun WhatNowMarkerIcon() {
-    AsyncImage(
-        model = "https://media.licdn.com/dms/image/C5603AQHcoKPU9alW9w/profile-displayphoto-shrink_800_800/0/1644498344282?e=1692230400&v=beta&t=aK3Qau7_xpiie2xqI5hulE4H8iEbAcVZPnUXBe7-t6E",
-        contentDescription = null,
-        modifier = Modifier
-            .size(56.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .border(
-                width = 2.dp,
-                color = WhatNowTheme.colors.gray50,
-                shape = RoundedCornerShape(24.dp)
-            )
+fun WhatNowMarkerIcon(url: String, position: LatLng) {
+
+    val overlayPainter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current).data(url)
+            .size(Size.ORIGINAL) // Set the target size to load the image at.
+            .build()
     )
+
+    val overlayImageLoadedState = overlayPainter.state
+
+    if (overlayImageLoadedState is AsyncImagePainter.State.Success) {
+
+        SideEffect {
+            println("🔥 COMPOSING...")
+        }
+
+        val overlayImageBitmap = overlayImageLoadedState.result.drawable.toBitmap()
+
+
+        /**
+         * 사용자 마커
+         * */
+        Marker(
+            icon = OverlayImage.fromBitmap(overlayImageBitmap),
+            width = 56.dp,
+            height = 56.dp,
+            state = MarkerState(position = position),
+            anchor = Offset(0.5f, 0.5f),
+            captionText = "침착맨"
+        )
+    }
 }

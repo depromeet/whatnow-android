@@ -80,7 +80,6 @@ fun WhatNowNaverMap(modifier: Modifier) {
             /**
              * 도착지 마커
              * */
-
             Marker(
                 icon = OverlayImage.fromResource(R.drawable.map_marker),
                 state = MarkerState(position = seoul),
@@ -94,22 +93,15 @@ fun WhatNowNaverMap(modifier: Modifier) {
                 radius = 3000.0
             )
 
-
-            /**
-             * 사용자 마커
-             * */
-//            Marker(
-//                icon = OverlayImage.fromBitmap(
-//
-//                ),
-//                state = MarkerState(position = seoul),
-//                anchor = Offset(0.5f, 0.5f)
-//            )
+            WhatNowMarkerIcon(
+                "https://media.licdn.com/dms/image/C5603AQHcoKPU9alW9w/profile-displayphoto-shrink_800_800/0/1644498344282?e=1692230400&v=beta&t=aK3Qau7_xpiie2xqI5hulE4H8iEbAcVZPnUXBe7-t6E",
+                seoul
+            )
+            
         }
 
 
-        WhatNowNaverMapIconButton(
-            modifier = modifier,
+        WhatNowNaverMapIconButton(modifier = modifier,
             iconButtonRes = R.drawable.home_icon_button,
             PaddingValues(start = 16.dp, top = 24.dp),
             alignment = Alignment.TopStart,
@@ -118,13 +110,11 @@ fun WhatNowNaverMap(modifier: Modifier) {
         )
 
 
-        WhatNowNaverMapIconButton(
-            modifier = modifier,
+        WhatNowNaverMapIconButton(modifier = modifier,
             iconButtonRes = R.drawable.location_icon_button,
             PaddingValues(bottom = 32.dp, end = 16.dp),
             alignment = Alignment.BottomEnd,
-            onClick = {}
-        )
+            onClick = {})
 
 
         if (isPromiseInfo) {
@@ -135,13 +125,11 @@ fun WhatNowNaverMap(modifier: Modifier) {
                 alignment = Alignment.TopCenter
             )
 
-            WhatNowNaverMapIconButton(
-                modifier = modifier,
+            WhatNowNaverMapIconButton(modifier = modifier,
                 iconButtonRes = R.drawable.arrow_forward_ios,
                 PaddingValues(end = 16.dp, top = 24.dp),
                 alignment = Alignment.TopEnd,
-                onClick = { isPromiseInfo = false }
-            )
+                onClick = { isPromiseInfo = false })
         } else {
 
             Box(
@@ -157,19 +145,16 @@ fun WhatNowNaverMap(modifier: Modifier) {
                     hour = 58,
                     min = 33,
                     style = WhatNowTheme.typography.headline3.copy(
-                        fontSize = 28.sp,
-                        color = Color.White
+                        fontSize = 28.sp, color = Color.White
                     )
                 )
             }
 
-            WhatNowNaverMapIconButton(
-                modifier = modifier,
+            WhatNowNaverMapIconButton(modifier = modifier,
                 iconButtonRes = R.drawable.location,
                 PaddingValues(end = 16.dp, top = 24.dp),
                 alignment = Alignment.TopEnd,
-                onClick = {}
-            )
+                onClick = {})
         }
     }
 }
