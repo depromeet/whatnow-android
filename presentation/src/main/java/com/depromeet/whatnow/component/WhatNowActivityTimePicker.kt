@@ -18,44 +18,51 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
-fun WhatNowTimeActivityPicker(modifier: Modifier) {
+fun WhatNowTimePickerPicker(
+    modifier: Modifier,
+    width: Dp,
+    height: Dp,
+    roundedCornerShape: RoundedCornerShape,
+    hour: Int,
+    min: Int,
+    style: TextStyle
+) {
     Row() {
         Card(
 
             modifier = modifier
                 .border(
                     BorderStroke(width = 0.dp, color = WhatNowTheme.colors.whatNowPurple),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = roundedCornerShape
                 ),
-            shape = RoundedCornerShape(16.dp),
+            shape = roundedCornerShape,
         ) {
             Box(
                 modifier = Modifier
-                    .width(43.dp)
-                    .height(40.dp)
+                    .width(width)
+                    .height(height)
                     .background(WhatNowTheme.colors.whatNowPurple),
                 contentAlignment = Alignment.Center
 
             ) {
                 Text(
-                    text = "58",
-                    style = WhatNowTheme.typography.headline3.copy(
-                        fontSize = 20.sp,
-                        color = Color.White
-                    )
+                    text = hour.toString(),
+                    style = style
                 )
             }
         }
 
         Column(
             modifier = modifier
-                .height(40.dp)
+                .height(height)
                 .padding(start = 4.dp, end = 4.dp),
             verticalArrangement = Arrangement.Center,
         ) {
@@ -102,18 +109,15 @@ fun WhatNowTimeActivityPicker(modifier: Modifier) {
         ) {
             Box(
                 modifier = Modifier
-                    .width(43.dp)
-                    .height(40.dp)
+                    .width(width)
+                    .height(height)
                     .background(WhatNowTheme.colors.whatNowPurple),
                 contentAlignment = Alignment.Center
 
             ) {
                 Text(
-                    text = "33",
-                    style = WhatNowTheme.typography.headline3.copy(
-                        fontSize = 20.sp,
-                        color = Color.White
-                    )
+                    text = min.toString(),
+                    style = style
                 )
             }
         }
@@ -125,6 +129,17 @@ fun WhatNowTimeActivityPicker(modifier: Modifier) {
 @Composable
 fun WhatNowTimePickerPreview() {
     WhatNowTheme {
-        WhatNowTimeActivityPicker(Modifier)
+        WhatNowTimePickerPicker(
+            Modifier,
+            56.dp,
+            56.dp,
+            RoundedCornerShape(16.dp),
+            58,
+            33,
+            WhatNowTheme.typography.headline3.copy(
+                fontSize = 20.sp,
+                color = Color.White
+            )
+        )
     }
 }

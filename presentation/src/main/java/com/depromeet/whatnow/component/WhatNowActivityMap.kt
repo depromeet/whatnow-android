@@ -178,9 +178,19 @@ fun WhatNowActivityMap(
                             .padding(bottom = 80.dp)
                             .align(Alignment.Center)
                     ) {
-                        WhatNowTimeActivityPicker(modifier = modifier)
+                        WhatNowTimePickerPicker(
+                            modifier = Modifier,
+                            width = 43.dp,
+                            height = 40.dp,
+                            roundedCornerShape = RoundedCornerShape(16.dp),
+                            hour = 58,
+                            min = 33,
+                            style = WhatNowTheme.typography.headline3.copy(
+                                fontSize = 20.sp,
+                                color = Color.White
+                            )
+                        )
                     }
-
                 }
                 Column() {
 
