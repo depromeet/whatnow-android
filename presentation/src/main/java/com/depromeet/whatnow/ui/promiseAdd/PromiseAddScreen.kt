@@ -2,6 +2,7 @@ package com.depromeet.whatnow.ui.promiseAdd
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.widget.DatePicker
@@ -47,11 +48,16 @@ fun PromiseScreen(
     viewModel: PromiseAddViewModel = hiltViewModel(),
     onBack: () -> Unit,
 ) {
+    val itemList = viewModel.getItemList()
+
     var screenState by remember { mutableStateOf(PromiseScreenState()) }
 
     val selectedDate = remember { mutableStateOf("") }
     val selectedClock = remember { mutableStateOf("") }
     val inputPlaceName = remember { mutableStateOf("") }
+
+    val buttonText = remember { mutableStateOf("다음") }
+
 
     Scaffold(
         topBar = {
@@ -65,20 +71,27 @@ fun PromiseScreen(
                 .fillMaxWidth()
                 .height(80.dp),
                 buttonOnClick = {
-                    if (!screenState.isClockVisible && !screenState.isPlaceVisible) {
+                    if (!screenState.isSetDateValue && !screenState.isClockVisible && !screenState.isPlaceVisible) {
                         screenState = screenState.copy(
                             isSetDateValue = true,
                             isClockVisible = true,
                             isClockDataSet = true
                         )
-                    } else if (!screenState.isPlaceVisible) {
+                    } else if (screenState.isSetDateValue && screenState.isClockVisible && !screenState.isPlaceVisible) {
                         screenState = screenState.copy(
                             isClockVisible = false,
                             isPlaceVisible = true,
                             isPlaceDataSet = true,
                         )
+                    } else if (screenState.isSetDateValue && screenState.isClockDataSet && screenState.isPlaceDataSet) {
+                        screenState = screenState.copy(
+                            isClockVisible = false,
+                            isPlaceVisible = false
+                        )
+                        buttonText.value = "만들기"
                     } else {
                         //TODO 최종만들기 버튼
+                        Log.d("yw", "만들기 버튼 클릭")
                     }
                 },
                 resetOnClick = {
@@ -88,9 +101,10 @@ fun PromiseScreen(
                         isClockVisible = false,
                         isClockDataSet = false,
                         isPlaceDataSet = false
-
                     )
-                })
+                    buttonText.value = "다음"
+                },
+                buttonText = buttonText.value)
         }
     ) { innerPadding ->
         Column(
@@ -118,6 +132,7 @@ fun PromiseScreen(
                         true,
                         selectedDate.value
                     )
+                    buttonText.value = "다음"
                 } else {
                     Calendar(
                         onDateChanged = {
@@ -143,6 +158,7 @@ fun PromiseScreen(
                         R.drawable.clock,
                         false, null
                     )
+                    buttonText.value = "다음"
                 } else if (screenState.isClockDataSet && !screenState.isClockVisible) {
                     setMakeBox(
                         onClick = {
@@ -177,7 +193,8 @@ fun PromiseScreen(
                                 isSetDateValue = true,
                                 isClockVisible = false,
                                 isClockDataSet = true,
-                                isPlaceVisible = true
+                                isPlaceVisible = true,
+                                isPlaceDataSet = true
                             )
                         },
                         R.string.promise_place,
@@ -185,6 +202,7 @@ fun PromiseScreen(
                         R.drawable.map,
                         false, null
                     )
+                    buttonText.value = "다음"
                 } else if (screenState.isPlaceDataSet && !screenState.isPlaceVisible) {
                     setMakeBox(
                         onClick = {
@@ -200,13 +218,20 @@ fun PromiseScreen(
                         R.drawable.map,
                         true, null
                     )
+                    buttonText.value = "만들기"
                 } else {
                     PlaceList(viewModel = viewModel, onPlaceList = {
-
+                        Log.d("yw", "it $it")
                     })
                 }
 
                 Spacer(modifier = Modifier.height(18.dp)) // 간격 설정
+
+                Column {
+                    for (item in itemList) {
+                        SearchPlaceList(place = item)
+                    }
+                }
             }
         }
     }
@@ -286,8 +311,6 @@ fun PlaceList(viewModel: PromiseAddViewModel, onPlaceList: (List<PromiseAddPlace
     var text by remember { mutableStateOf("") }
     PlaceEdit(onPlaceChanged = {
         text = it
-        viewModel.placeData.value.placeList?.let { it1 -> onPlaceList(it1) }
-        //TODO viewmodel 데이터 변경
     },
         R.string.promise_place_select,
         R.string.promise_place_msg,
@@ -377,7 +400,7 @@ fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: I
 }
 
 @Composable
-fun SearchPlaceList(playList: PromiseAddPlace) {
+fun SearchPlaceList(place: PromiseAddPlace) {
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -392,7 +415,7 @@ fun SearchPlaceList(playList: PromiseAddPlace) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    playList.placeTitle?.let {
+                    place.placeTitle.let {
                         androidx.compose.material3.Text(
                             text = it,
                             style = WhatNowTheme.typography.body1,
@@ -407,7 +430,7 @@ fun SearchPlaceList(playList: PromiseAddPlace) {
                             tint = WhatNowTheme.colors.gray700
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-                        playList.placeAddress?.let {
+                        place.placeAddress.let {
                             androidx.compose.material3.Text(
                                 text = it,
                                 style = WhatNowTheme.typography.caption1,
@@ -544,6 +567,7 @@ fun WhatNowPromiseAddBottomBar(
     resetOnClick: () -> Unit,
     buttonOnClick: () -> Unit,
     modifier: Modifier = Modifier,
+    buttonText: String,
 ) {
     val bottomPanelHeight = 80.dp
 
@@ -609,7 +633,7 @@ fun WhatNowPromiseAddBottomBar(
                             modifier = Modifier.background(WhatNowTheme.colors.whatNowPurple)
                         ) {
                             Text(
-                                text = LocalContext.current.getString(R.string.promise_bottom_button_next),
+                                text = buttonText,
                                 textAlign = TextAlign.Center,
                                 color = Color(0xEEEEEFEE)
                             )
