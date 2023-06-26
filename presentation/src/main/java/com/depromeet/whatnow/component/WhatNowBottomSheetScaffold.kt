@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateTab
@@ -28,8 +29,14 @@ fun WhatNowBottomSheetScaffold(
     val contextForToast = LocalContext.current.applicationContext
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
+
+    val isClickedMyStatus by viewModel.isClickedMyStatus.collectAsState()
+
     BottomSheetScaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = if (isClickedMyStatus) modifier
+            .fillMaxSize()
+            .blur(5.dp) else modifier
+            .fillMaxSize(),
         scaffoldState = scaffoldState,
         sheetPeekHeight = 300.dp,
         sheetBackgroundColor = WhatNowTheme.colors.whatNowBlack,

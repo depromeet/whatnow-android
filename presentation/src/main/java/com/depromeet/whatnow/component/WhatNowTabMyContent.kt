@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,6 +40,7 @@ fun WhatNowTabMyContent(
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
+    val isClickedMyStatus by viewModel.isClickedMyStatus.collectAsState()
 
     Column(
         modifier = Modifier
@@ -86,6 +88,10 @@ fun WhatNowTabMyContent(
                     .width(84.dp)
                     .height(40.dp),
                 shape = RoundedCornerShape(16.dp),
+                onClick = {
+                    viewModel.onClickedMyStatus()
+                    Log.d("ttt", isClickedMyStatus.toString())
+                }
             ) {
                 Box(
                     contentAlignment = Alignment.Center,

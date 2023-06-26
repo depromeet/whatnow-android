@@ -16,6 +16,9 @@ class PromiseActivateViewModel @Inject constructor() : BaseViewModel() {
     private val _isRefresh = MutableStateFlow(false)
     val isRefresh = _isRefresh.asStateFlow()
 
+    private val _isClickedMyStatus = MutableStateFlow(false)
+    var isClickedMyStatus = _isClickedMyStatus.asStateFlow()
+
     private val _uiState = MutableStateFlow(PromiseActivateState())
     val uiState: StateFlow<PromiseActivateState> = _uiState.asStateFlow()
 
@@ -71,5 +74,9 @@ class PromiseActivateViewModel @Inject constructor() : BaseViewModel() {
 
     fun onRefresh() {
         _isRefresh.value = false
+    }
+
+    fun onClickedMyStatus() {
+        _isClickedMyStatus.value = !_isClickedMyStatus.value
     }
 }
