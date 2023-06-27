@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.depromeet.whatnow.component.WhatNowMyStatusChange
 import com.depromeet.whatnow.component.WhatNowNaverMapIconButton
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
@@ -94,6 +95,7 @@ fun MyStatusScreen(
             )
         }
 
+        WhatNowMyStatusChange(onCreate = {})
 
         IconButton(
             onClick = {},
