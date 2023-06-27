@@ -61,7 +61,7 @@ fun WhatNowTabAllContentGrid(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            WhatNowProfile(promise = promise)
+            WhatNowProfile(promise = promise, size = 72.dp)
             Text(text = promise.participants[0].name, modifier = modifier.padding(top = 16.dp))
         }
 
@@ -69,7 +69,7 @@ fun WhatNowTabAllContentGrid(
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
-            WhatNowProfile(promise = promise)
+            WhatNowProfile(promise = promise, size = 72.dp)
             Text(text = promise.participants[0].name, modifier = modifier.padding(top = 16.dp))
 
         }
@@ -77,7 +77,7 @@ fun WhatNowTabAllContentGrid(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            WhatNowProfile(promise = promise)
+            WhatNowProfile(promise = promise, size = 72.dp)
             Text(text = promise.participants[0].name, modifier = modifier.padding(top = 16.dp))
 
         }

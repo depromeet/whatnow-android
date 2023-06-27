@@ -1,24 +1,22 @@
 package com.depromeet.whatnow.component
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,29 +27,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.model.Promise
+import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
+import com.depromeet.whatnow.ui.promiseActivate.PromiseEmojiTab
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
 fun WhatNowTabMyContent(
+    viewModel: PromiseActivateViewModel,
     modifier: Modifier,
-    promises: List<Promise>,
+    promises: List<Promise>
+) {
 
-    ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 36.dp, start = 16.dp, end = 16.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                WhatNowProfile(promise = promises[0])
+                WhatNowProfile(promise = promises[0], size= 56.dp)
                 Column(modifier = modifier.padding(start = 22.dp)) {
                     Text(
                         text = promises[0].participants[0].name,
@@ -101,29 +103,30 @@ fun WhatNowTabMyContent(
             }
         }
 
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            WhatNowEmojiStats(modifier = modifier, emojiIconRes = R.drawable.emoji_music, 31)
-            WhatNowEmojiStats(modifier = modifier, emojiIconRes = R.drawable.emoji_poop, 1)
-            WhatNowEmojiStats(modifier = modifier, emojiIconRes = R.drawable.emoji_heart, 130)
-            WhatNowEmojiStats(modifier = modifier, emojiIconRes = R.drawable.emoji_footprint, 0)
-
-        }
-
-        Box(
-            modifier = modifier
-                .padding(top = 16.dp, end = 16.dp)
-                .align(Alignment.End)
+        WhatNowEmojiTab(
+            selected = uiState.selectedEmojiTab,
+            onMusicEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.Music) },
+            onPoopEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.Poop) },
+            onHeartEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.Heart) },
+            onFootprintEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.FootPrint) }
         )
-        {
-            WhatNowImageStack(imageUrls = promises[0].participants.map { it.profileImageUrl })
 
+        when (uiState.selectedEmojiTab) {
+            PromiseEmojiTab.Music -> {
+                WhatNowTabMyContentList(modifier = modifier, promises = uiState.musicEmoji)
+            }
+
+            PromiseEmojiTab.Poop -> {
+                WhatNowTabMyContentList(modifier = modifier, promises = uiState.poopEmoji)
+            }
+
+            PromiseEmojiTab.Heart -> {
+                WhatNowTabMyContentList(modifier = modifier, promises = uiState.heartEmoji)
+            }
+
+            PromiseEmojiTab.FootPrint -> {
+                WhatNowTabMyContentList(modifier = modifier, promises = uiState.footPrintEmoji)
+            }
         }
-
-
     }
 }

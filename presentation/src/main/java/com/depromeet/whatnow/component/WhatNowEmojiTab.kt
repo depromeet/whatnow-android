@@ -23,22 +23,83 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateTab
+import com.depromeet.whatnow.ui.promiseActivate.PromiseEmojiTab
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
+
 @Composable
-fun WhatNowEmojiStats(modifier: Modifier, @DrawableRes emojiIconRes: Int, count: Int) {
+fun WhatNowEmojiTab(
+    modifier: Modifier = Modifier,
+    selected: PromiseEmojiTab,
+    onMusicEmojiClicked: () -> Unit,
+    onPoopEmojiClicked: () -> Unit,
+    onHeartEmojiClicked: () -> Unit,
+    onFootprintEmojiClicked: () -> Unit,
+
+    ) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        WhatNowEmojiTabItem(
+            modifier = modifier,
+            enabled = selected == PromiseEmojiTab.Music,
+            emojiIconRes = R.drawable.emoji_music,
+            count = 31,
+            onClick = onMusicEmojiClicked
+        )
+        WhatNowEmojiTabItem(
+            modifier = modifier,
+            enabled = selected == PromiseEmojiTab.Poop,
+            emojiIconRes = R.drawable.emoji_poop,
+            count = 1,
+            onClick = onPoopEmojiClicked
+        )
+        WhatNowEmojiTabItem(
+            modifier = modifier,
+            enabled = selected == PromiseEmojiTab.Heart,
+            emojiIconRes = R.drawable.emoji_heart,
+            count = 130,
+            onClick = onHeartEmojiClicked
+        )
+        WhatNowEmojiTabItem(
+            modifier = modifier,
+            enabled = selected == PromiseEmojiTab.FootPrint,
+            emojiIconRes = R.drawable.emoji_footprint,
+            count = 0,
+            onClick = onFootprintEmojiClicked
+        )
+    }
+}
+
+@Composable
+fun WhatNowEmojiTabItem(
+    modifier: Modifier,
+    enabled: Boolean,
+    @DrawableRes emojiIconRes: Int,
+    count: Int,
+    onClick: () -> Unit
+
+) {
     Surface(
+        onClick = onClick,
         modifier = Modifier
             .width(76.dp)
             .height(32.dp),
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(
-            width = 1.dp, color = WhatNowTheme.colors.gray50
+            width = 1.dp, color = if (enabled) WhatNowTheme.colors.gray50 else Color(0xff35373E)
         ),
     ) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = modifier.background(WhatNowTheme.colors.whatNowPurple)
+            modifier = if (enabled) modifier.background(WhatNowTheme.colors.whatNowPurple) else modifier.background(
+                Color(0xff35373E)
+            )
         ) {
             Row(
                 modifier = Modifier

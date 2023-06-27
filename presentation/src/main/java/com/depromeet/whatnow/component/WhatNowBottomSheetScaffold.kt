@@ -86,7 +86,11 @@ fun WhatNowBottomSheetScaffold(
                     }
 
                     PromiseActivateTab.My -> {
-                        WhatNowTabMyContent(modifier = Modifier, promises = uiState.myProfile,)
+                        WhatNowTabMyContent(
+                            modifier = Modifier,
+                            promises = uiState.myProfile,
+                            viewModel = viewModel
+                        )
                     }
 
                     PromiseActivateTab.Other -> {

@@ -2,21 +2,21 @@ package com.depromeet.whatnow.ui.promiseAdd
 
 import com.depromeet.whatnow.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class PromiseAddViewModel @Inject constructor(): BaseViewModel() {
+class PromiseAddViewModel @Inject constructor() : BaseViewModel() {
 
-    private val _isRefresh = MutableStateFlow(false)
-    val isRefresh = _isRefresh.asStateFlow()
+    private val itemList = mutableListOf<PromiseAddPlace>()
 
-    fun refresh() {
-        _isRefresh.value = true
+    init {
+        val asdasd = PromiseAddPlace(placeAddress = "asd", placeTitle = "asdasd")
+        for (i in 1..5) {
+            itemList.add(asdasd)
+        }
     }
 
-    fun onRefresh() {
-        _isRefresh.value = false
+    fun getItemList(): List<PromiseAddPlace> {
+        return itemList
     }
 }
