@@ -69,7 +69,7 @@ fun WhatNowNaverMap(modifier: Modifier) {
     Box(
         Modifier
             .fillMaxSize()
-            .padding(bottom = 284.dp)
+            .padding(bottom = 312.dp)
     ) {
         NaverMap(
             cameraPositionState = cameraPositionState,
