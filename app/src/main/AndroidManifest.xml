@@ -49,6 +49,8 @@
         <activity
             android:name=".ui.archive.detail.DetailActivity"
             android:screenOrientation="portrait">
+            android:name=".ui.picture.PictureActivity"
+            android:screenOrientation="portrait" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
