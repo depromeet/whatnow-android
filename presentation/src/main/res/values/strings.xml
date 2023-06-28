@@ -24,5 +24,14 @@
     <string name="new_title">NEW</string>
     <string name="state">상태</string>
 
+    <string name="my_state_change">내 상태 변경</string>
+    <string name="on_the_way">가는 중</string>
+    <string name="before_departure">출발 전</string>
+    <string name="tardy">지각</string>
+    <string name="scheduled_time">예정시간</string>
+
+
+    on the way
+
 
 </resources>

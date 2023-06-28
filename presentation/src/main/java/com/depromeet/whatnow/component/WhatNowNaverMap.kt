@@ -69,7 +69,7 @@ fun WhatNowNaverMap(modifier: Modifier) {
     Box(
         Modifier
             .fillMaxSize()
-            .padding(bottom = 284.dp)
+            .padding(bottom = 312.dp)
     ) {
         NaverMap(
             cameraPositionState = cameraPositionState,
@@ -97,7 +97,7 @@ fun WhatNowNaverMap(modifier: Modifier) {
                 "https://media.licdn.com/dms/image/C5603AQHcoKPU9alW9w/profile-displayphoto-shrink_800_800/0/1644498344282?e=1692230400&v=beta&t=aK3Qau7_xpiie2xqI5hulE4H8iEbAcVZPnUXBe7-t6E",
                 seoul
             )
-            
+
         }
 
 
@@ -105,6 +105,8 @@ fun WhatNowNaverMap(modifier: Modifier) {
             iconButtonRes = R.drawable.home_icon_button,
             PaddingValues(start = 16.dp, top = 24.dp),
             alignment = Alignment.TopStart,
+            color = WhatNowTheme.colors.whatNowBlack,
+            tint = Color.White,
             onClick = {}
 
         )
@@ -114,6 +116,8 @@ fun WhatNowNaverMap(modifier: Modifier) {
             iconButtonRes = R.drawable.location_icon_button,
             PaddingValues(bottom = 32.dp, end = 16.dp),
             alignment = Alignment.BottomEnd,
+            color = WhatNowTheme.colors.whatNowBlack,
+            tint = Color.White,
             onClick = {})
 
 
@@ -129,6 +133,8 @@ fun WhatNowNaverMap(modifier: Modifier) {
                 iconButtonRes = R.drawable.arrow_forward_ios,
                 PaddingValues(end = 16.dp, top = 24.dp),
                 alignment = Alignment.TopEnd,
+                color = WhatNowTheme.colors.whatNowBlack,
+                tint = Color.White,
                 onClick = { isPromiseInfo = false })
         } else {
 
@@ -154,6 +160,8 @@ fun WhatNowNaverMap(modifier: Modifier) {
                 iconButtonRes = R.drawable.location,
                 PaddingValues(end = 16.dp, top = 24.dp),
                 alignment = Alignment.TopEnd,
+                color = WhatNowTheme.colors.whatNowBlack,
+                tint = Color.White,
                 onClick = {})
         }
     }

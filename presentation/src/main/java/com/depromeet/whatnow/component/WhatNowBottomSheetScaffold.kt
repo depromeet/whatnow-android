@@ -28,10 +28,11 @@ fun WhatNowBottomSheetScaffold(
     val contextForToast = LocalContext.current.applicationContext
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
+
     BottomSheetScaffold(
         modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
-        sheetPeekHeight = 300.dp,
+        sheetPeekHeight = 328.dp,
         sheetBackgroundColor = WhatNowTheme.colors.whatNowBlack,
         sheetShape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
         sheetContent = {

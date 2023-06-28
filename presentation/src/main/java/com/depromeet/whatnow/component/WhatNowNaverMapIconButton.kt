@@ -14,9 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 
 @Composable
@@ -25,6 +25,8 @@ fun WhatNowNaverMapIconButton(
     @DrawableRes iconButtonRes: Int,
     padding: PaddingValues,
     alignment: Alignment,
+    color: Color,
+    tint: Color,
     onClick: () -> Unit,
 ) {
     Box(
@@ -39,12 +41,13 @@ fun WhatNowNaverMapIconButton(
                 .align(alignment = alignment)
                 .clip(shape = RoundedCornerShape(16.dp))
                 .size(40.dp)
-                .background(WhatNowTheme.colors.whatNowBlack)
+                .background(color)
         ) {
             Icon(
                 painter = painterResource(id = iconButtonRes),
                 contentDescription = null,
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(16.dp),
+                tint = tint
             )
         }
     }
