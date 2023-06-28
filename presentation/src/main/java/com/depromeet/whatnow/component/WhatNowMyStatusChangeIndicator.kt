@@ -21,13 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.PagerState
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun WhatNowMyStatusChangeIndicator(
-    pagerState: PagerState, modifier: Modifier
+    modifier: Modifier
 ) {
     Row(
         modifier = modifier.padding(top = 32.dp),
