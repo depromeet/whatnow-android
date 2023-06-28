@@ -45,7 +45,7 @@ fun WhatNowTabMyContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 36.dp, start = 16.dp, end = 16.dp),
+            .padding(top = 32.dp, start = 16.dp, end = 16.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
