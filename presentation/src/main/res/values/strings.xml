@@ -29,6 +29,8 @@
     <string name="before_departure">출발 전</string>
     <string name="tardy">지각</string>
     <string name="scheduled_time">예정시간</string>
+    <string name="camera">카메라</string>
+    <string name="gallery">갤러리</string>
 
 
     on the way
