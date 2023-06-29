@@ -15,7 +15,10 @@ import com.depromeet.whatnow.ui.promiseActivate.myStatus.MyStatusScreen
 
 
 @Composable
-fun PictureScreen(viewModel: PictureViewModel = hiltViewModel()) {
+fun PictureScreen(
+    viewModel: PictureViewModel = hiltViewModel(), onBack: () -> Unit,
+
+    ) {
     val context = LocalContext.current
     val isRefresh by viewModel.isRefresh.collectAsState()
     val launcher = rememberLauncherForActivityResult(StartActivityForResult()) { result ->

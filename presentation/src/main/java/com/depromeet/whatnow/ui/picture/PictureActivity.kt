@@ -20,6 +20,7 @@ class PictureActivity : BaseActivity() {
             WhatNowTheme {
                 PictureScreen(
                     viewModel = viewModel,
+                    onBack = ::finish,
                 )
             }
         }
