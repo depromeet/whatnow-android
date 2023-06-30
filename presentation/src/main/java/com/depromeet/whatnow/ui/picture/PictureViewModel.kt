@@ -1,68 +1,107 @@
 package com.depromeet.whatnow.ui.picture
 
+import android.content.ContentValues
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import android.util.Log
+import android.widget.Toast
+import androidx.camera.core.AspectRatio
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraControl
+import androidx.camera.core.CameraInfo
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.CameraSelector.LENS_FACING_BACK
+import androidx.camera.core.CameraSelector.LENS_FACING_FRONT
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCapture.FLASH_MODE_OFF
+import androidx.camera.core.ImageCapture.FLASH_MODE_ON
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.LifecycleCameraController
+import androidx.camera.view.PreviewView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.viewModelScope
 import com.depromeet.whatnow.base.BaseViewModel
-import com.depromeet.whatnow.ui.model.DUMMY_PROMISE
-import com.depromeet.whatnow.ui.model.DUMMY_USER
+import com.depromeet.whatnow.ui.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class PictureViewModel @Inject constructor() : BaseViewModel() {
 
+    // CameraController
+    private var camera: Camera? = null
+    private var cameraController: CameraControl? = null
+    private var cameraInfo: CameraInfo? = null
+
+    var selector = CameraSelector.Builder()
+        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+        .build()
+    val preview = Preview.Builder().build()
+
+    val imageAnalysis = ImageAnalysis.Builder()
+        .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
+        .build()
+    private val imageCapture = ImageCapture.Builder()
+        .setFlashMode(FLASH_MODE_OFF)
+        .setTargetAspectRatio(AspectRatio.RATIO_16_9)
+        .build()
     private val _isRefresh = MutableStateFlow(false)
     val isRefresh = _isRefresh.asStateFlow()
-
-    private val _isClickedMyStatus = MutableStateFlow(false)
-    var isClickedMyStatus = _isClickedMyStatus.asStateFlow()
-
-    private val _isClickedMyStatusCategory = MutableStateFlow(false)
-    var isClickedMyStatusCategory = _isClickedMyStatusCategory.asStateFlow()
-
-    private val _myStatusCategoryTitle = MutableStateFlow("가는 중")
-    var myStatusCategoryTitle = _myStatusCategoryTitle.asStateFlow()
 
     private val _uiState = MutableStateFlow(PictureState())
     val uiState: StateFlow<PictureState> = _uiState.asStateFlow()
 
-    init {
-        _uiState.update {
-            it.copy(
-                allProfile = listOf(
-                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                ), myProfile = listOf(
-                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                ), otherProfile = listOf(
-                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                ),
+    private val _pictureUploadText = MutableStateFlow(listOf(PictureUploadText("", 0, false)))
+    val pictureUploadText: StateFlow<List<PictureUploadText>> = _pictureUploadText.asStateFlow()
 
-                musicEmoji = listOf(
-                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                ), poopEmoji = listOf(
-                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                ), heartEmoji = listOf(
-                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                ), footPrintEmoji = listOf(
-                    DUMMY_PROMISE(participants = List(6) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(2) { DUMMY_USER() }),
-                    DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
-                )
+    private val _pictureUploadImg = MutableStateFlow(R.drawable.on_the_way_icon)
+    val pictureUploadImg: StateFlow<Int> = _pictureUploadImg.asStateFlow()
+
+    init {
+        _pictureUploadText.update {
+            listOf(
+                PictureUploadText("가는중", R.drawable.on_the_way_icon, true),
+                PictureUploadText("헐레벌떡", R.drawable.panting_icon, false),
+                PictureUploadText("남겨놔", R.drawable.leave_icon, false),
+                PictureUploadText("조그만 기다려", R.drawable.wait_icon, false)
             )
+        }
+    }
+
+    fun onClickedPictureUploadText(index: Int) {
+        /**
+         * 왜 update를 시켜야만 하는가ㅏ?
+         * 전체 값을 옵저버하고 있어서? 전체 값이 변화해야한다??? 근데 전체 값이 변화고 나서 하나의 값이 변화는데,,
+         * _pictureUploadImg의 경우는???
+         *
+         * **/
+        _pictureUploadText.update {
+            listOf(
+                PictureUploadText("가는중", R.drawable.on_the_way_icon, false),
+                PictureUploadText("헐레벌떡", R.drawable.panting_icon, false),
+                PictureUploadText("남겨놔", R.drawable.leave_icon, false),
+                PictureUploadText("조그만 기다려", R.drawable.wait_icon, false)
+            )
+        }
+        viewModelScope.launch {
+//                _pictureUploadText.value.forEach { it.enabled = false }
+            _pictureUploadText.value[index].enabled = true
+            _pictureUploadImg.value = _pictureUploadText.value[index].img
         }
     }
 
@@ -74,16 +113,145 @@ class PictureViewModel @Inject constructor() : BaseViewModel() {
         _isRefresh.value = false
     }
 
-    fun onClickedMyStatus() {
-        _isClickedMyStatus.value = !_isClickedMyStatus.value
+    private val _bitmap: MutableStateFlow<Bitmap?> = MutableStateFlow(null)
+    val bitmap: StateFlow<Bitmap?> = _bitmap.asStateFlow()
+
+
+    fun uriToBitmap(imageUri: Uri?, context: Context) {
+        _bitmap.value = imageUri!!.parseBitmap(context)
     }
 
-    fun onClickedMyStatusCategory() {
-        _isClickedMyStatusCategory.value = !_isClickedMyStatusCategory.value
+    fun bitmapInit() {
+        _bitmap.value = null
     }
 
-    fun onMyStatusCategoryChange(category: String) {
-        _myStatusCategoryTitle.value = category
-        onClickedMyStatusCategory()
+    fun captureAndSaveImage(
+        context: Context
+    ) {
+
+        //for file name
+        val name = SimpleDateFormat(
+            "yyyy-MM-dd-HH-mm-ss-SSS",
+            Locale.ENGLISH
+        ).format(System.currentTimeMillis())
+
+
+        // for storing
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            if (Build.VERSION.SDK_INT > 28) {
+                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/My-Camera-App-Images")
+            }
+        }
+
+        // for capture output
+        val outputOptions = ImageCapture.OutputFileOptions
+            .Builder(
+                context.contentResolver,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                contentValues
+            )
+            .build()
+
+
+        imageCapture.takePicture(
+            outputOptions,
+            ContextCompat.getMainExecutor(context),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    Toast.makeText(
+                        context,
+                        "저장중",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    _bitmap.value = outputFileResults.savedUri!!.parseBitmap(context = context)
+                }
+
+                override fun onError(exception: ImageCaptureException) {
+                    Toast.makeText(
+                        context,
+                        "some error occurred ${exception.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        )
+
+    }
+
+
+    fun showCameraPreview(
+        previewView: PreviewView,
+        lifecycleOwner: LifecycleOwner,
+        context: Context
+    ) {
+
+        preview.setSurfaceProvider(previewView.surfaceProvider)
+        try {
+            ProcessCameraProvider.getInstance(context).get().unbindAll()
+
+            camera = ProcessCameraProvider.getInstance(context).get().bindToLifecycle(
+                lifecycleOwner,
+                selector,
+                preview,
+                imageAnalysis,
+                imageCapture
+            )
+
+            cameraController = camera!!.cameraControl
+            cameraInfo = camera!!.cameraInfo
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun onClickedFlash() {
+        when (imageCapture.flashMode) {
+            FLASH_MODE_ON -> {
+                imageCapture.flashMode = FLASH_MODE_OFF
+
+            }
+
+            FLASH_MODE_OFF -> {
+                imageCapture.flashMode = FLASH_MODE_ON
+
+            }
+
+            else -> {}
+        }
+    }
+
+
+    fun onClickedLensFacing(context: Context) {
+
+        Log.d("ttt", cameraInfo!!.lensFacing.toString())
+
+//        cameraInfo?.cameraSelector.se
+
+        when (cameraInfo!!.lensFacing) {
+            LENS_FACING_FRONT -> {
+
+                selector = CameraSelector.Builder()
+                    .requireLensFacing(LENS_FACING_BACK)
+                    .build()
+                LifecycleCameraController(context).cameraSelector = selector
+
+            }
+
+            LENS_FACING_BACK -> {
+                selector = CameraSelector.Builder()
+                    .requireLensFacing(LENS_FACING_FRONT)
+                    .build()
+                LifecycleCameraController(context).cameraSelector = selector
+
+            }
+
+            else -> {}
+        }
+
+
     }
 }
