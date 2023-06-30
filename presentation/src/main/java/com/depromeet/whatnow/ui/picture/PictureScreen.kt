@@ -100,7 +100,9 @@ fun PictureScreen(
 
     val galleryLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
-            viewModel.uriToBitmap(imageUri = uri, context = context)
+            if (uri != null) {
+                viewModel.uriToBitmap(imageUri = uri, context = context)
+            }
         }
 
     val bitmap by viewModel.bitmap.collectAsState()
