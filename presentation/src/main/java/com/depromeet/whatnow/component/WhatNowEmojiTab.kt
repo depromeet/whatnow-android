@@ -24,7 +24,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
-import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateTab
 import com.depromeet.whatnow.ui.promiseActivate.PromiseEmojiTab
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 

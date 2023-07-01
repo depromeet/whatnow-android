@@ -30,5 +30,19 @@
     <string name="arrived_other">도착한 친구</string>
     <string name="send_photo">사진 보내기</string>
     <string name="state_change">상태변경</string>
+    <string name="new_title">NEW</string>
+    <string name="state">상태</string>
+
+    <string name="my_state_change">내 상태 변경</string>
+    <string name="on_the_way">가는 중</string>
+    <string name="before_departure">출발 전</string>
+    <string name="tardy">지각</string>
+    <string name="scheduled_time">예정시간</string>
+    <string name="camera">카메라</string>
+    <string name="gallery">갤러리</string>
+
+
+    on the way
+
 
 </resources>

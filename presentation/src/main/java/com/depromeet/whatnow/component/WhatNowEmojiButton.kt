@@ -36,9 +36,7 @@ fun WhatNowEmojiButton(
         ) {
             Box(
                 modifier = modifier.background(
-                    WhatNowTheme.colors.whatNowPurple.copy(
-                        0.7f, 0f, 0f, 0f
-                    )
+                    Color(0xff47499F)
                 )
 
             ) {

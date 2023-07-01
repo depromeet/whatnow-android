@@ -1,11 +1,18 @@
 package com.depromeet.whatnow.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,11 +21,9 @@ import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.model.Promise
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun WhatNowTabOtherContent(
     promises: List<Promise>,
@@ -26,33 +31,43 @@ fun WhatNowTabOtherContent(
 ) {
     val pagerState = rememberPagerState()
 
-
     Column(
         modifier = Modifier.padding(top = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        HorizontalPager(
-            count = 4,
-            state = pagerState,
-            modifier = Modifier.width(400.dp)
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            WhatNowTabOtherContentCard(modifier = Modifier, promises = promises)
+
+            HorizontalPager(
+                modifier = Modifier,
+                state = pagerState,
+                pageCount = promises[0].imageUrls.size,
+                contentPadding = PaddingValues(horizontal = 24.dp),
+                pageSpacing = 8.dp
+            ) {
+                WhatNowTabOtherContentCard(modifier = Modifier, promises = promises)
+            }
+
+            Spacer(modifier = Modifier.height(9.dp))
+            HorizontalPagerIndicator(
+                pagerState = pagerState,
+                pageCount = promises[0].imageUrls.size,
+                indicatorWidth = 4.dp,
+                indicatorHeight = 4.dp,
+                indicatorShape = CircleShape,
+                activeColor = WhatNowTheme.colors.whatNowPurple,
+                inactiveColor = WhatNowTheme.colors.gray600,
+                spacing = 4.dp
+            )
         }
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            activeColor = WhatNowTheme.colors.whatNowPurple,
-            inactiveColor = WhatNowTheme.colors.gray600,
-            indicatorWidth = 4.dp,
-            indicatorHeight = 4.dp,
-            spacing = 4.dp,
-            modifier = Modifier
-                .padding(top = 9.dp)
-        )
 
         Row(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(top = 12.dp),
+                .padding(top = 22.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             WhatNowEmojiButton(

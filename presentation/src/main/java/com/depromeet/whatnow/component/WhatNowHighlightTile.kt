@@ -32,6 +32,7 @@ import com.depromeet.whatnow.ui.theme.White
 
 @Composable
 fun WhatNowHighlightTile(
+    modifier: Modifier = Modifier,
     highlight: Highlight,
     isStart: Boolean = false,
     isEnd: Boolean = false,
@@ -41,7 +42,7 @@ fun WhatNowHighlightTile(
         if (isStart) HIGHLIGHT_TILE_HEIGHT else HIGHLIGHT_TILE_HEIGHT + listSpacing
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.then(Modifier.fillMaxWidth()),
         verticalAlignment = Alignment.Bottom
     ) {
         WhatNowStepper(height = stepperHeight, isStart = isStart, isEnd = isEnd)

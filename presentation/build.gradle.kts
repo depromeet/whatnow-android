@@ -69,4 +69,16 @@ dependencies {
     implementation(libs.google.accompanist.pager.indicators)
 
     coreLibraryDesugaring(libs.android.tools.desugar)
+
+
+    //  Camerax dependencies
+    implementation("androidx.camera:camera-core:1.2.3")
+    implementation("androidx.camera:camera-camera2:1.2.3")
+    implementation("androidx.camera:camera-lifecycle:1.2.3")
+    implementation("androidx.camera:camera-view:1.3.0-beta01")
+    implementation("androidx.camera:camera-extensions:1.3.0-beta01")
+
+
+    //permission handling in compose
+    implementation("com.google.accompanist:accompanist-permissions:0.30.0")
 }
