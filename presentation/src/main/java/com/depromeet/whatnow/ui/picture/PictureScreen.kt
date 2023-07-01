@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,9 +35,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -93,10 +99,22 @@ fun PictureScreen(
     val configuration = LocalConfiguration.current
     val screeHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
-    var previewView: PreviewView
 
-    val onUpload: (Uri?) -> Unit
-// 이미지 선택 액티비티 launcher
+    var lensFacing by remember { mutableStateOf(CameraSelector.LENS_FACING_BACK) }
+    val preview = Preview.Builder().build()
+    var previewView = remember { PreviewView(context) }
+    val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
+
+
+    LaunchedEffect(lensFacing) {
+        val cameraProvider = context.getCameraProvider()
+        cameraProvider.unbindAll()
+        cameraProvider.bindToLifecycle(
+            lifecycleOwner, cameraSelector, preview
+        )
+
+        preview.setSurfaceProvider(previewView.surfaceProvider)
+    }
 
     val galleryLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -134,8 +152,6 @@ fun PictureScreen(
                     ) {
                         AndroidView(
                             factory = {
-                                previewView = PreviewView(it)
-                                viewModel.showCameraPreview(previewView, lifecycleOwner, context)
                                 previewView
                             }, modifier = Modifier
                                 .height(screeHeight * 0.825f)
@@ -205,8 +221,11 @@ fun PictureScreen(
                         .align(Alignment.BottomEnd)
                         .padding(end = 59.dp, bottom = 59.dp)
                         .size(24.dp), onClick = {
-                        viewModel.onClickedLensFacing(context)
-
+                        lensFacing = if (lensFacing == CameraSelector.LENS_FACING_BACK) {
+                            CameraSelector.LENS_FACING_FRONT
+                        } else {
+                            CameraSelector.LENS_FACING_BACK
+                        }
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.arrow_sync),
