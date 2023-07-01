@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     // Promise
+    <string name="promise_title">약속 만들기</string>
+
     <string name="promise_time">시간</string>
     <string name="promise_calendar">날짜</string>
     <string name="promise_place">장소</string>
+    <string name="promise_place_select">장소 선택</string>
 
+    <string name="promise_calendar_msg">일단 날짜 넣긴했어</string>
     <string name="promise_time_msg">몇시에 만날까요?</string>
     <string name="promise_place_msg">어디에서 만날까요?</string>
     <string name="upcoming_promise">다가오는 약속</string>
     <string name="inactivity_map_title">활성된 약속이 없어</string>
     <string name="promise_create">약속 만들기</string>
+
+    <string name="promise_bottom_reset">재설정</string>
+    <string name="promise_bottom_button_next">다음</string>
+    <string name="promise_bottom_button_make">만들기</string>
+
     <string name="activated_promise">활성화된 약속</string>
     <string name="urge">재촉하기</string>
     <string name="apologize">사과하기</string>

@@ -2,9 +2,11 @@ package com.depromeet.whatnow.ui.promiseAdd
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import com.depromeet.whatnow.base.BaseActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class PromiseAddActivity : BaseActivity() {
     private val viewModel: PromiseAddViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -22,6 +25,7 @@ class PromiseAddActivity : BaseActivity() {
             WhatNowTheme {
                 PromiseScreen(
                     viewModel = viewModel,
+                    onBack = {}
                 )
             }
         }
