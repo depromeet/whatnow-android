@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.depromeet.whatnow.component.WhatNowImageStack
 import com.depromeet.whatnow.component.WhatNowNaverMapIconButton
 import com.depromeet.whatnow.component.WhatNowPictureUploadText
 import com.depromeet.whatnow.ui.R
@@ -177,13 +178,28 @@ fun PictureScreen(
                 if (bitmap == null) {
                     WhatNowNaverMapIconButton(modifier = Modifier,
                         iconButtonRes = R.drawable.close,
-                        PaddingValues(start = 16.dp, top = 24.dp),
+                        PaddingValues(start = 16.dp, top = 20.dp),
                         alignment = Alignment.TopStart,
-                        color = Color(0xFFF9F9F9),
-                        tint = Color.Black,
+                        color = WhatNowTheme.colors.whatNowBlack,
+                        tint = Color.White,
                         onClick = {
                             onBack()
                         })
+
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(start = 64.dp, top = 22.dp)
+                    ) {
+                        WhatNowImageStack(
+                            imageUrls = listOf(
+                                "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1642&q=80",
+                                "https://images.unsplash.com/photo-1440615496174-ee7ecbe8e733?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80",
+                                "https://images.unsplash.com/photo-1419133126304-d17b34c34d76?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                            )
+                        )
+
+                    }
 
                     IconButton(modifier = Modifier
                         .align(Alignment.BottomStart)
