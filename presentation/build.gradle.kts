@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.google.accompanist.pager)
     implementation(libs.google.accompanist.pager.indicators)
 
+    implementation(libs.calendar.compose)
+    
     coreLibraryDesugaring(libs.android.tools.desugar)
 
 
