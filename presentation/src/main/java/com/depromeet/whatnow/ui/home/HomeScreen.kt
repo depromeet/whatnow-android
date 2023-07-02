@@ -51,6 +51,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val isActivate: Boolean = true
     val isTimeOver: Boolean = false
     val isLate: Boolean = false
+    val promise = listOf("test", "test", "test", "test")
 
     Column(
         modifier = Modifier
@@ -84,7 +85,6 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
 //                .verticalScroll(rememberScrollState())
         ) {
-            val promise = listOf("test", "test", "test", "test")
 
             Box(
                 modifier = Modifier
