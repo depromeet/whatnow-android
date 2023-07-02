@@ -138,6 +138,16 @@ fun WhatNowBottomBar(
                             modifier = Modifier.background(WhatNowTheme.colors.whatNowPurple)
                         ) {
                             if (!isPromise) {
+
+                                Text(
+                                    modifier = modifier.padding(start = 20.dp, end = 20.dp),
+                                    text = stringResource(R.string.fest_promise_create),
+                                    style = WhatNowTheme.typography.body1.copy(
+                                        fontSize = 18.sp, color = Color.White
+                                    )
+                                )
+                            } else {
+
                                 Row(modifier = modifier.padding(start = 15.dp, end = 20.dp)) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.add),
@@ -155,14 +165,6 @@ fun WhatNowBottomBar(
                                         )
                                     )
                                 }
-                            } else {
-                                Text(
-                                    modifier = modifier.padding(start = 20.dp, end = 20.dp),
-                                    text = stringResource(R.string.fest_promise_create),
-                                    style = WhatNowTheme.typography.body1.copy(
-                                        fontSize = 18.sp, color = Color.White
-                                    )
-                                )
                             }
 
                         }

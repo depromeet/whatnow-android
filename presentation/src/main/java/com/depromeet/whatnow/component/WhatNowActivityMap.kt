@@ -1,9 +1,11 @@
 package com.depromeet.whatnow.component
 
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
@@ -54,6 +58,7 @@ import com.naver.maps.map.overlay.OverlayImage
 @Composable
 fun WhatNowActivityMap(
     modifier: Modifier = Modifier,
+    context: Context
 ) {
 
     var mapProperties by remember {
@@ -86,10 +91,10 @@ fun WhatNowActivityMap(
 
     Box() {
         Image(
-            painter = painterResource(id = R.drawable.whatnow_home_lcon),
+            painter = painterResource(id = R.drawable.whatnow_home_ing_icon),
             contentDescription = null,
             modifier = modifier
-                .padding(end = 23.dp)
+                .padding(top = 4.dp, end = 16.dp)
                 .align(Alignment.TopEnd)
         )
         Card(
@@ -199,7 +204,7 @@ fun WhatNowActivityMap(
                             .background(WhatNowTheme.colors.gray100)
                             .fillMaxHeight()
                             .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 14.dp, start = 16.dp, end = 23.dp),
+                            .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -231,9 +236,14 @@ fun WhatNowActivityMap(
                             }
 
                         }
-                        Image(
-                            painter = painterResource(id = R.drawable.arrow_forward_ios),
-                            contentDescription = null
+
+                        Icon(
+                            modifier = modifier.clickable {
+                                PromiseActivateActivity.startActivity(context = context)
+                            },
+                            painter = painterResource(id = R.drawable.arrow_forward_ios_24),
+                            contentDescription = null,
+                            tint = WhatNowTheme.colors.whatNowBlack
                         )
                     }
                 }
@@ -242,12 +252,3 @@ fun WhatNowActivityMap(
 
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun WhatNowActivityMapPreview() {
-    WhatNowTheme {
-        WhatNowActivityMap(Modifier)
-    }
-}
-
