@@ -54,8 +54,6 @@ fun MainScreen(
 
     val navController = rememberNavController()
     val navigator = rememberNavigator(navController = navController)
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
 
     val coroutineScope = rememberCoroutineScope()
     val modalBottomSheetState =
@@ -68,8 +66,8 @@ fun MainScreen(
     Scaffold(
         bottomBar = {
             WhatNowBottomBar(
-                currentDestination = currentDestination,
                 onNavigate = { navigator.navigateTo(it) },
+                isPromise = true
             )
         },
     ) {
