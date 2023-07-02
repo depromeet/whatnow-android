@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -47,16 +50,15 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         }
     }
     val uiState by viewModel.uiState.collectAsState()
+    val promise = listOf("test", "test", "test", "test", "test", "test", "test")
+    val scrollState = rememberScrollState()
 
-    val isActivate: Boolean = true
-    val isTimeOver: Boolean = false
-    val isLate: Boolean = false
-    val promise = listOf("test", "test", "test", "test")
-
+    // 스크롤을 위로 땡겼을 때 리로드 되면 좋을듯
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(WhatNowTheme.colors.gray50)
+            .verticalScroll(scrollState)
     ) {
         Box {
             /**
@@ -73,7 +75,10 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                     )
 
                     HomeActivateStatus.Activity -> WhatNowActivityMap(modifier = Modifier)
-                    else -> WhatNowTimeOverMap(modifier = Modifier, isLate = isLate)
+                    else -> WhatNowTimeOverMap(
+                        modifier = Modifier,
+                        isLate = uiState.currentStatus == HomeActivateStatus.Late
+                    )
                 }
             }
 
@@ -83,7 +88,6 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-//                .verticalScroll(rememberScrollState())
         ) {
 
             Box(
@@ -124,15 +128,11 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                     }
                 }
 
-
             } else {
                 WhatNowPromiseList(
                     modifier = Modifier, promises = promise
                 )
-
             }
-
-
         }
     }
 }
