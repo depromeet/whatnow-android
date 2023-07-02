@@ -86,10 +86,10 @@ fun WhatNowActivityMap(
 
     Box() {
         Image(
-            painter = painterResource(id = R.drawable.whatnow_home_lcon),
+            painter = painterResource(id = R.drawable.whatnow_home_ing_icon),
             contentDescription = null,
             modifier = modifier
-                .padding(end = 23.dp)
+                .padding(top = 4.dp, end = 16.dp)
                 .align(Alignment.TopEnd)
         )
         Card(

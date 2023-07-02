@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -88,6 +89,21 @@ fun WhatNowTimeOverMap(
         if (isLate) Color(0xFFFF4747) else WhatNowTheme.colors.whatNowPurple
 
     Box() {
+
+        Image(
+            painter =
+            if (isLate) painterResource(id = R.drawable.whatnow_home_late_icon)
+            else painterResource(id = R.drawable.whatnow_home_wait_icon),
+            contentDescription = null,
+            modifier =
+            if (isLate) modifier
+                .padding(top = 3.dp, end = 26.dp)
+                .align(Alignment.TopEnd)
+            else modifier
+                .padding(top = 11.dp, end = 18.dp)
+                .align(Alignment.TopEnd)
+        )
+
         Card(
             shape = RoundedCornerShape(
                 topEnd = 28.dp, topStart = 28.dp, bottomEnd = 28.dp, bottomStart = 28.dp

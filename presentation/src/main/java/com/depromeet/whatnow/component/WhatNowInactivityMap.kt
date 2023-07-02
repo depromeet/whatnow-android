@@ -36,91 +36,103 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 fun WhatNowInactivityMap(
     modifier: Modifier = Modifier,
 ) {
-    Card(
-        shape = RoundedCornerShape(
-            topEnd = 28.dp,
-            topStart = 28.dp,
-            bottomEnd = 28.dp,
-            bottomStart = 28.dp
-        ),
-        modifier = Modifier
-            .border(
-                BorderStroke(width = 1.dp, color = WhatNowTheme.colors.gray400),
-                shape = RoundedCornerShape(28.dp)
-            )
+    Box {
+        Image(
+            painter = painterResource(id = R.drawable.whatnow_home_ing_icon),
+            contentDescription = null,
+            modifier = modifier
+                .padding(top = 4.dp, end = 16.dp)
+                .align(Alignment.TopEnd)
+        )
 
-    ) {
-        Box(
+        Card(
+            shape = RoundedCornerShape(
+                topEnd = 28.dp,
+                topStart = 28.dp,
+                bottomEnd = 28.dp,
+                bottomStart = 28.dp
+            ),
             modifier = Modifier
-                .fillMaxWidth()
-                .height(380.dp)
-                .background(Color.White),
+                .padding(start = 16.dp, end = 16.dp, bottom = 41.dp, top = 64.dp)
+                .background(WhatNowTheme.colors.gray50)
+                .border(
+                    BorderStroke(width = 1.dp, color = WhatNowTheme.colors.gray400),
+                    shape = RoundedCornerShape(28.dp)
+                )
+
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.inactivity_map),
-                contentDescription = "contentDescription",
-                contentScale = ContentScale.Crop
-            )
-
-            Column(
-                modifier = modifier.align(Alignment.BottomCenter)
-
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(380.dp)
+                    .background(Color.White),
             ) {
                 Image(
-                    modifier = Modifier
-                        .padding(start = 53.dp),
-                    painter = painterResource(id = R.drawable.inactivity_map_whatnow_icon),
+                    painter = painterResource(id = R.drawable.inactivity_map),
                     contentDescription = "contentDescription",
                     contentScale = ContentScale.Crop
                 )
-                Row(
-                    modifier = Modifier
-                        .background(WhatNowTheme.colors.gray400.copy(alpha = 0.8f))
-                        .fillMaxWidth()
-                        .padding(top = 26.5.dp, bottom = 26.5.dp, start = 16.dp, end = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
+
+                Column(
+                    modifier = modifier.align(Alignment.BottomCenter)
+
                 ) {
-                    Text(
-                        text = stringResource(R.string.inactivity_map_title),
-                        fontSize = 18.sp,
-                        color = WhatNowTheme.colors.whatNowBlack,
-                        fontWeight = FontWeight.Bold,
-
-//                                    style = WhatNowTheme.typography.regular.copy(
-//                                        fontSize = 14.sp,
-//                                        color = WhatNowTheme.colors.grey7F
-//                                    ),
-                        textAlign = TextAlign.Center
-                    )
-
-
-                    Surface(
+                    Image(
                         modifier = Modifier
-                            .width(100.dp)
-                            .height(40.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        border = BorderStroke(
-                            width = 0.dp,
-                            color = WhatNowTheme.colors.gray500
-                        ),
+                            .padding(start = 53.dp),
+                        painter = painterResource(id = R.drawable.inactivity_map_whatnow_icon),
+                        contentDescription = "contentDescription",
+                        contentScale = ContentScale.Crop
+                    )
+                    Row(
+                        modifier = Modifier
+                            .background(WhatNowTheme.colors.gray400.copy(alpha = 0.8f))
+                            .fillMaxWidth()
+                            .padding(top = 26.5.dp, bottom = 26.5.dp, start = 16.dp, end = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier.background(WhatNowTheme.colors.gray500)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.promise_create),
-                                fontSize = 14.sp,
-                                color = Color.White,
-//                                    style = WhatNowTheme.typography.regular.copy(
-//                                        fontSize = 14.sp,
-//                                        color = WhatNowTheme.colors.grey7F
-//                                    ),
-                                textAlign = TextAlign.Center
-                            )
-                        }
+                        Text(
+                            text = stringResource(R.string.inactivity_map_title),
+                            fontSize = 18.sp,
+                            color = WhatNowTheme.colors.whatNowBlack,
+                            fontWeight = FontWeight.Bold,
 
+                            //                                    style = WhatNowTheme.typography.regular.copy(
+                            //                                        fontSize = 14.sp,
+                            //                                        color = WhatNowTheme.colors.grey7F
+                            //                                    ),
+                            textAlign = TextAlign.Center
+                        )
+
+
+                        Surface(
+                            modifier = Modifier
+                                .width(100.dp)
+                                .height(40.dp),
+                            shape = RoundedCornerShape(16.dp),
+                            border = BorderStroke(
+                                width = 0.dp,
+                                color = WhatNowTheme.colors.gray500
+                            ),
+                        ) {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.background(WhatNowTheme.colors.gray500)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.promise_create),
+                                    fontSize = 14.sp,
+                                    color = Color.White,
+                                    //                                    style = WhatNowTheme.typography.regular.copy(
+                                    //                                        fontSize = 14.sp,
+                                    //                                        color = WhatNowTheme.colors.grey7F
+                                    //                                    ),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+
+                        }
                     }
                 }
             }

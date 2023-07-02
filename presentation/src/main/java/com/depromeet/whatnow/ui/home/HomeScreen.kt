@@ -23,7 +23,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.depromeet.whatnow.component.WhatNowActivityMap
 import com.depromeet.whatnow.component.WhatNowHomeAppBar
+import com.depromeet.whatnow.component.WhatNowInactivityMap
 import com.depromeet.whatnow.component.WhatNowPromiseList
 import com.depromeet.whatnow.component.WhatNowTimeOverMap
 import com.depromeet.whatnow.ui.R
@@ -40,11 +42,11 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             viewModel.refresh()
         }
     }
+    val uiState by viewModel.uiState.collectAsState()
 
     val isActivate: Boolean = true
     val isTimeOver: Boolean = false
     val isLate: Boolean = false
-
 
     Column(
         modifier = Modifier
@@ -52,23 +54,19 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             .background(WhatNowTheme.colors.gray50)
     ) {
         Box {
-
             /**
-             * 홈 활성화와 타임오버에 따라서 맵 변경
+             * 홈 활성화 여부와 타임오버에 따라서 맵 변경
              * */
-            // 홈 비활성화
-//            WhatNowInactivityMap(modifier = Modifier)
-            // 홈 활성화
-//            WhatNowActivityMap(modifier = Modifier)
-
             Surface(onClick = {
                 PromiseActivateActivity.startActivity(context = context)
             }) {
-                // 홈 활성화 - 타임오버
-                WhatNowTimeOverMap(modifier = Modifier, isLate = isLate)
 
+                when (uiState.currentStatus) {
+                    HomeActivateStatus.InActivate -> WhatNowInactivityMap(modifier = Modifier)
+                    HomeActivateStatus.Activate -> WhatNowActivityMap(modifier = Modifier)
+                    else -> WhatNowTimeOverMap(modifier = Modifier, isLate = isLate)
+                }
             }
-
 
             // 앱바
             WhatNowHomeAppBar(modifier = Modifier)
