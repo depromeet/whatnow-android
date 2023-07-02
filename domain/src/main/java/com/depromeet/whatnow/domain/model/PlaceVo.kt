@@ -1,4 +1,4 @@
-package com.depromeet.whatnow.data.entity.promises
+package com.depromeet.whatnow.domain.model
 
 data class PlaceVo(
     val coordinate : CoordinateVo,

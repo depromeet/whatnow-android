@@ -227,11 +227,11 @@ fun PromiseScreen(
 
                 Spacer(modifier = Modifier.height(18.dp)) // 간격 설정
 
-                Column {
-                    for (item in itemList) {
-                        SearchPlaceList(place = item)
-                    }
-                }
+//                Column {
+//                    for (item in itemList) {
+//                        SearchPlaceList(place = item)
+//                    }
+//                }
             }
         }
     }

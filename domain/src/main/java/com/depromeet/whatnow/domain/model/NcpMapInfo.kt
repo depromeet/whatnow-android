@@ -1,6 +1,6 @@
-package com.depromeet.whatnow.data.entity.promises
+package com.depromeet.whatnow.domain.model
 
-data class NcpMapInfoResponse(
+data class NcpMapInfo(
     val last_build_date : String,
     val total : Int,
     val start : Int,
