@@ -5,11 +5,14 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -72,42 +76,65 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             WhatNowHomeAppBar(modifier = Modifier)
         }
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
 //                .verticalScroll(rememberScrollState())
         ) {
+            val promise = listOf("test", "test", "test", "test")
 
             Box(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 17.dp)
             ) {
                 Text(
-                    modifier = Modifier.padding(bottom = 17.dp),
+                    modifier = Modifier,
                     text = stringResource(R.string.upcoming_promise),
                     style = WhatNowTheme.typography.headline3.copy(
                         fontSize = 20.sp, color = WhatNowTheme.colors.whatNowBlack
                     )
                 )
+                Icon(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .clickable { },
+                    painter = painterResource(id = R.drawable.arrow_forward_ios_24),
+                    contentDescription = null,
+                    tint = if (promise.isEmpty()) WhatNowTheme.colors.gray400
+                    else WhatNowTheme.colors.whatNowBlack
 
-                if (isTimeOver) {
-                    Image(
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .padding(end = 8.dp, bottom = 24.dp),
-                        painter = painterResource(id = R.drawable.arrow_forward_ios),
-                        contentDescription = null
-                    )
-                } else {
-                    Image(
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd),
-                        painter = painterResource(id = R.drawable.whatnow_home_lcon),
-                        contentDescription = null
-                    )
-                }
+
+                )
+
             }
 
-            WhatNowPromiseList(
-                modifier = Modifier, promises = listOf("test", "test", "test", "test")
-            )
+            when (uiState.currentStatus) {
+                HomeActivateStatus.InActivate -> WhatNowInactivityMap(modifier = Modifier)
+                HomeActivateStatus.Activate -> WhatNowActivityMap(modifier = Modifier)
+                else -> WhatNowTimeOverMap(modifier = Modifier, isLate = isLate)
+            }
+
+            if (promise.isEmpty()) {
+                when (uiState.currentStatus) {
+                    HomeActivateStatus.Activate -> Image(
+                        painter = painterResource(id = R.drawable.home_promise_empty_icon),
+                        contentDescription = null
+                    )
+
+                    else -> {
+                        // 달력
+                    }
+                }
+
+
+            } else {
+                WhatNowPromiseList(
+                    modifier = Modifier, promises = promise
+                )
+
+            }
+
+
         }
     }
 }
