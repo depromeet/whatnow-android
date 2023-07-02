@@ -66,8 +66,12 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             }) {
 
                 when (uiState.currentStatus) {
-                    HomeActivateStatus.InActivate -> WhatNowInactivityMap(modifier = Modifier)
-                    HomeActivateStatus.Activate -> WhatNowActivityMap(modifier = Modifier)
+                    HomeActivateStatus.InActivity -> WhatNowInactivityMap(
+                        modifier = Modifier,
+                        isPromise = promise.isNotEmpty()
+                    )
+
+                    HomeActivateStatus.Activity -> WhatNowActivityMap(modifier = Modifier)
                     else -> WhatNowTimeOverMap(modifier = Modifier, isLate = isLate)
                 }
             }
@@ -108,15 +112,9 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
             }
 
-            when (uiState.currentStatus) {
-                HomeActivateStatus.InActivate -> WhatNowInactivityMap(modifier = Modifier)
-                HomeActivateStatus.Activate -> WhatNowActivityMap(modifier = Modifier)
-                else -> WhatNowTimeOverMap(modifier = Modifier, isLate = isLate)
-            }
-
             if (promise.isEmpty()) {
                 when (uiState.currentStatus) {
-                    HomeActivateStatus.Activate -> Image(
+                    HomeActivateStatus.Activity -> Image(
                         painter = painterResource(id = R.drawable.home_promise_empty_icon),
                         contentDescription = null
                     )
