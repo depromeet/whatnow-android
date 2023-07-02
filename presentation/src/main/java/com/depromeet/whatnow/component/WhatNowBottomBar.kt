@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.main.Destination
@@ -38,9 +39,8 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 @Composable
 fun WhatNowBottomBar(
     modifier: Modifier = Modifier,
-    currentDestination: NavDestination?,
     onNavigate: (Destination) -> Unit,
-    @DrawableRes actionIconRes: Int = R.drawable.alarm,
+    isPromise: Boolean
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -48,73 +48,45 @@ fun WhatNowBottomBar(
         ((screenWidth - bottomActionButtonSize) / 2 - bottomBarItemIconSize) / 2 - 4.dp
 
     @Composable
-    fun History() = WhatNowBottomBarItem(
-        onSelected = {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.padding(end = 22.dp)
-            ) {
-                Surface(
-                    shape = CircleShape,
-                    color = WhatNowTheme.colors.gray100,
-                    modifier = Modifier.size(bottomBarItemIconSize)
-                ) {}
-                Image(
-                    painter = painterResource(id = R.drawable.history),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(bottomBarItemIconSize)
-                )
-            }
-        },
-        onClick = { onNavigate(Destination.History) }
-    )
+    fun History() = IconButton(
+        modifier = modifier
+            .padding(start = 8.dp),
+        onClick = { onNavigate(Destination.History) }) {
+        Icon(
+            modifier = modifier.size(24.dp),
+            painter = painterResource(id = R.drawable.history),
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
+
 
     @Composable
-    fun Alarm() = WhatNowBottomBarItem(
-        onSelected = {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.padding(end = 22.dp)
-
-            ) {
-                Surface(
-                    shape = CircleShape,
-                    color = WhatNowTheme.colors.gray100,
-                    modifier = Modifier.size(bottomBarItemIconSize)
-                ) {}
-                Image(
-                    painter = painterResource(id = R.drawable.alarm),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(bottomBarItemIconSize)
-                )
-            }
-        },
-        onClick = { onNavigate(Destination.Alarm) }
-    )
+    fun Alarm() = IconButton(
+        modifier = modifier
+            .padding(start = 16.dp),
+        onClick = { onNavigate(Destination.Alarm) }) {
+        Icon(
+            modifier = modifier.size(24.dp),
+            painter = painterResource(id = R.drawable.alarm),
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
 
     @Composable
-    fun Setting() = WhatNowBottomBarItem(
-        onSelected = {
-            Box(
-                contentAlignment = Alignment.Center
-            ) {
-                Surface(
-                    shape = CircleShape,
-                    color = WhatNowTheme.colors.gray100,
-                    modifier = Modifier.size(bottomBarItemIconSize)
-                ) {}
-                Image(
-                    painter = painterResource(id = R.drawable.setting),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(bottomBarItemIconSize)
-                )
-            }
-        },
-        onClick = { onNavigate(Destination.Setting) }
-    )
+    fun Setting() = IconButton(
+        modifier = modifier
+            .padding(start = 16.dp),
+        onClick = { onNavigate(Destination.Setting) }) {
+        Icon(
+            modifier = modifier
+                .size(24.dp),
+            painter = painterResource(id = R.drawable.setting),
+            contentDescription = null,
+            tint = Color.White
+        )
+    }
 
     Box(
         modifier = modifier
@@ -125,18 +97,16 @@ fun WhatNowBottomBar(
                 .align(Alignment.BottomCenter)
                 .height(bottomPanelHeight)
                 .fillMaxWidth(),
-            color = WhatNowTheme.colors.gray100,
+            color = WhatNowTheme.colors.whatNowBlack,
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .width(screenWidth / 2)
-                        .padding(start = 18.dp)
                 ) {
                     History()
                     Alarm()
@@ -147,13 +117,12 @@ fun WhatNowBottomBar(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 37.dp, top = 12.dp, end = 16.dp, bottom = 12.dp)
+                        .padding(top = 12.dp, end = 16.dp, bottom = 12.dp)
 
                 ) {
                     Surface(
                         modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .width(screenWidth / 2)
+                            .align(Alignment.CenterEnd)
                             .height(56.dp)
                             .clickable(
                                 interactionSource = MutableInteractionSource(),
@@ -163,31 +132,39 @@ fun WhatNowBottomBar(
                                 }
                             ),
                         shape = RoundedCornerShape(16.dp),
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color = WhatNowTheme.colors.gray100
-                        ),
                     ) {
                         Box(
                             contentAlignment = Alignment.Center,
-                            modifier = Modifier.background(Color.Black)
+                            modifier = Modifier.background(WhatNowTheme.colors.whatNowPurple)
                         ) {
-                            Row() {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.add),
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier
-                                        .height(14.dp)
-                                        .align(Alignment.CenterVertically)
-                                        .padding(end = 9.dp)
-                                )
+                            if (!isPromise) {
+                                Row(modifier = modifier.padding(start = 15.dp, end = 20.dp)) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.add),
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier
+                                            .height(14.dp)
+                                            .align(Alignment.CenterVertically)
+                                            .padding(end = 9.dp)
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.promise_create),
+                                        style = WhatNowTheme.typography.body1.copy(
+                                            fontSize = 18.sp, color = Color.White
+                                        )
+                                    )
+                                }
+                            } else {
                                 Text(
-                                    text = stringResource(R.string.promise_create),
-                                    textAlign = TextAlign.Center,
-                                    color = Color(0xFFFFFFFF)
+                                    modifier = modifier.padding(start = 20.dp, end = 20.dp),
+                                    text = stringResource(R.string.fest_promise_create),
+                                    style = WhatNowTheme.typography.body1.copy(
+                                        fontSize = 18.sp, color = Color.White
+                                    )
                                 )
                             }
+
                         }
                     }
                 }
@@ -202,7 +179,6 @@ fun WhatNowBottomBarItem(
     onClick: () -> Unit,
 ) {
     IconButton(onClick = onClick) {
-        Log.d("ttt", "몇번 눌림")
         onSelected()
     }
 }
