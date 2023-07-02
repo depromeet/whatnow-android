@@ -6,27 +6,13 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.camera.core.AspectRatio
-import androidx.camera.core.Camera
-import androidx.camera.core.CameraControl
-import androidx.camera.core.CameraInfo
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.CameraSelector.LENS_FACING_BACK
-import androidx.camera.core.CameraSelector.LENS_FACING_FRONT
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCapture.FLASH_MODE_OFF
 import androidx.camera.core.ImageCapture.FLASH_MODE_ON
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.LifecycleCameraController
-import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.ui.R
@@ -43,19 +29,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PictureViewModel @Inject constructor() : BaseViewModel() {
 
-    // CameraController
-    private var camera: Camera? = null
-    private var cameraController: CameraControl? = null
-    private var cameraInfo: CameraInfo? = null
-
-    var selector = CameraSelector.Builder()
-        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-        .build()
-    val preview = Preview.Builder().build()
-
-    val imageAnalysis = ImageAnalysis.Builder()
-        .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
-        .build()
     private val imageCapture = ImageCapture.Builder()
         .setFlashMode(FLASH_MODE_OFF)
         .setTargetAspectRatio(AspectRatio.RATIO_16_9)
@@ -181,33 +154,6 @@ class PictureViewModel @Inject constructor() : BaseViewModel() {
 
     }
 
-
-    fun showCameraPreview(
-        previewView: PreviewView,
-        lifecycleOwner: LifecycleOwner,
-        context: Context
-    ) {
-
-        preview.setSurfaceProvider(previewView.surfaceProvider)
-        try {
-            ProcessCameraProvider.getInstance(context).get().unbindAll()
-
-            camera = ProcessCameraProvider.getInstance(context).get().bindToLifecycle(
-                lifecycleOwner,
-                selector,
-                preview,
-                imageAnalysis,
-                imageCapture
-            )
-
-            cameraController = camera!!.cameraControl
-            cameraInfo = camera!!.cameraInfo
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
     fun onClickedFlash() {
         when (imageCapture.flashMode) {
             FLASH_MODE_ON -> {
@@ -222,36 +168,5 @@ class PictureViewModel @Inject constructor() : BaseViewModel() {
 
             else -> {}
         }
-    }
-
-
-    fun onClickedLensFacing(context: Context) {
-
-        Log.d("ttt", cameraInfo!!.lensFacing.toString())
-
-//        cameraInfo?.cameraSelector.se
-
-        when (cameraInfo!!.lensFacing) {
-            LENS_FACING_FRONT -> {
-
-                selector = CameraSelector.Builder()
-                    .requireLensFacing(LENS_FACING_BACK)
-                    .build()
-                LifecycleCameraController(context).cameraSelector = selector
-
-            }
-
-            LENS_FACING_BACK -> {
-                selector = CameraSelector.Builder()
-                    .requireLensFacing(LENS_FACING_FRONT)
-                    .build()
-                LifecycleCameraController(context).cameraSelector = selector
-
-            }
-
-            else -> {}
-        }
-
-
     }
 }

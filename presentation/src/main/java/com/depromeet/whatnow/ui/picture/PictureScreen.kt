@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,9 +35,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.depromeet.whatnow.component.WhatNowImageStack
 import com.depromeet.whatnow.component.WhatNowNaverMapIconButton
 import com.depromeet.whatnow.component.WhatNowPictureUploadText
 import com.depromeet.whatnow.ui.R
@@ -93,14 +100,28 @@ fun PictureScreen(
     val configuration = LocalConfiguration.current
     val screeHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
-    var previewView: PreviewView
 
-    val onUpload: (Uri?) -> Unit
-// 이미지 선택 액티비티 launcher
+    var lensFacing by remember { mutableStateOf(CameraSelector.LENS_FACING_BACK) }
+    val preview = Preview.Builder().build()
+    var previewView = remember { PreviewView(context) }
+    val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
+
+
+    LaunchedEffect(lensFacing) {
+        val cameraProvider = context.getCameraProvider()
+        cameraProvider.unbindAll()
+        cameraProvider.bindToLifecycle(
+            lifecycleOwner, cameraSelector, preview
+        )
+
+        preview.setSurfaceProvider(previewView.surfaceProvider)
+    }
 
     val galleryLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
-            viewModel.uriToBitmap(imageUri = uri, context = context)
+            if (uri != null) {
+                viewModel.uriToBitmap(imageUri = uri, context = context)
+            }
         }
 
     val bitmap by viewModel.bitmap.collectAsState()
@@ -132,8 +153,6 @@ fun PictureScreen(
                     ) {
                         AndroidView(
                             factory = {
-                                previewView = PreviewView(it)
-                                viewModel.showCameraPreview(previewView, lifecycleOwner, context)
                                 previewView
                             }, modifier = Modifier
                                 .height(screeHeight * 0.825f)
@@ -159,13 +178,28 @@ fun PictureScreen(
                 if (bitmap == null) {
                     WhatNowNaverMapIconButton(modifier = Modifier,
                         iconButtonRes = R.drawable.close,
-                        PaddingValues(start = 16.dp, top = 24.dp),
+                        PaddingValues(start = 16.dp, top = 20.dp),
                         alignment = Alignment.TopStart,
-                        color = Color(0xFFF9F9F9),
-                        tint = Color.Black,
+                        color = WhatNowTheme.colors.whatNowBlack,
+                        tint = Color.White,
                         onClick = {
                             onBack()
                         })
+
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(start = 64.dp, top = 22.dp)
+                    ) {
+                        WhatNowImageStack(
+                            imageUrls = listOf(
+                                "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1642&q=80",
+                                "https://images.unsplash.com/photo-1440615496174-ee7ecbe8e733?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80",
+                                "https://images.unsplash.com/photo-1419133126304-d17b34c34d76?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
+                            )
+                        )
+
+                    }
 
                     IconButton(modifier = Modifier
                         .align(Alignment.BottomStart)
@@ -203,8 +237,11 @@ fun PictureScreen(
                         .align(Alignment.BottomEnd)
                         .padding(end = 59.dp, bottom = 59.dp)
                         .size(24.dp), onClick = {
-                        viewModel.onClickedLensFacing(context)
-
+                        lensFacing = if (lensFacing == CameraSelector.LENS_FACING_BACK) {
+                            CameraSelector.LENS_FACING_FRONT
+                        } else {
+                            CameraSelector.LENS_FACING_BACK
+                        }
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.arrow_sync),
