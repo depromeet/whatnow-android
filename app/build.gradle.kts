@@ -52,4 +52,6 @@ dependencies {
     implementation(project(Modules.DATA))
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
+    implementation(libs.squareup.okhttp)
+    implementation(libs.squareup.okhttp.logging)
 }
