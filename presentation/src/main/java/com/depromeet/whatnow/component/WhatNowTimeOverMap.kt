@@ -169,7 +169,7 @@ fun WhatNowTimeOverMap(
                             .background(WhatNowTheme.colors.gray100)
                             .fillMaxHeight()
                             .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 14.dp, start = 16.dp, end = 23.dp),
+                            .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -200,7 +200,6 @@ fun WhatNowTimeOverMap(
                         }
                         Surface(
                             modifier = Modifier
-                                .padding(start = 16.dp, top = 16.dp)
                                 .width(84.dp)
                                 .height(40.dp),
                             shape = RoundedCornerShape(16.dp),

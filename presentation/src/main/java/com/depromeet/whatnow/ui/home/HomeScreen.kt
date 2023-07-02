@@ -64,22 +64,22 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             /**
              * 홈 활성화 여부와 타임오버에 따라서 맵 변경
              * */
-            Surface(onClick = {
-                PromiseActivateActivity.startActivity(context = context)
-            }) {
 
-                when (uiState.currentStatus) {
-                    HomeActivateStatus.InActivity -> WhatNowInactivityMap(
-                        modifier = Modifier,
-                        isPromise = promise.isNotEmpty()
-                    )
+            when (uiState.currentStatus) {
+                HomeActivateStatus.InActivity -> WhatNowInactivityMap(
+                    modifier = Modifier,
+                    isPromise = promise.isNotEmpty()
+                )
 
-                    HomeActivateStatus.Activity -> WhatNowActivityMap(modifier = Modifier)
-                    else -> WhatNowTimeOverMap(
-                        modifier = Modifier,
-                        isLate = uiState.currentStatus == HomeActivateStatus.Late
-                    )
-                }
+                HomeActivateStatus.Activity -> WhatNowActivityMap(
+                    modifier = Modifier,
+                    context = context
+                )
+
+                else -> WhatNowTimeOverMap(
+                    modifier = Modifier,
+                    isLate = uiState.currentStatus == HomeActivateStatus.Late
+                )
             }
 
             // 앱바
