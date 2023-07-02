@@ -53,6 +53,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.pictureView.PictureViewActivity"
+            android:screenOrientation="portrait" />
+        
+        <activity
             android:name=".ui.picture.PictureActivity"
             android:screenOrientation="portrait" />
 
