@@ -24,7 +24,8 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 @Composable
 fun WhatNowBottomSheetScaffold(
     viewModel: PromiseActivateViewModel,
-    modifier: Modifier
+    modifier: Modifier,
+    onBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val contextForToast = LocalContext.current.applicationContext
@@ -33,8 +34,7 @@ fun WhatNowBottomSheetScaffold(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
-    BottomSheetScaffold(
-        modifier = modifier.fillMaxSize(),
+    BottomSheetScaffold(modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         sheetPeekHeight = 328.dp,
         sheetBackgroundColor = WhatNowTheme.colors.whatNowBlack,
@@ -58,17 +58,14 @@ fun WhatNowBottomSheetScaffold(
 
                 when (uiState.selectedTab) {
                     PromiseActivateTab.All -> {
-                        WhatNowTabAllContent(
-                            modifier = modifier,
+                        WhatNowTabAllContent(modifier = modifier,
                             promises = uiState.allProfile,
                             onCreate = {})
                     }
 
                     PromiseActivateTab.My -> {
                         WhatNowTabMyContent(
-                            modifier = Modifier,
-                            promises = uiState.myProfile,
-                            viewModel = viewModel
+                            modifier = Modifier, promises = uiState.myProfile, viewModel = viewModel
                         )
                     }
 
@@ -79,7 +76,7 @@ fun WhatNowBottomSheetScaffold(
             }
         }) {
         // app UI
-        WhatNowNaverMap(modifier = Modifier)
+        WhatNowNaverMap(modifier = Modifier, onBack = onBack)
 
     }
 

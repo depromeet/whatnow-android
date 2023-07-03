@@ -20,6 +20,7 @@ class PromiseActivateActivity : BaseActivity() {
             WhatNowTheme {
                 PromiseActivateScreen(
                     viewModel = viewModel,
+                    onBack = ::finish,
                 )
             }
         }
