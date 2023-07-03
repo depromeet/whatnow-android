@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class LocationRequest(
     @SerializedName("location")
-    val location : String
+    val location: String,
 )
 
-fun LocationEntity.toRemote() : LocationRequest = LocationRequest(
+fun LocationEntity.toData(): LocationRequest = LocationRequest(
     location = location
 )
