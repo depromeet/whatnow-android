@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,18 +41,34 @@ fun WhatNowTabMyContentList(
                         fontSize = 18.sp, color = Color.White
                     )
                 )
-                AsyncImage(
-                    model = it.profileImageUrl,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(RoundedCornerShape(14.dp))
-                        .border(
-                            width = (1.5).dp,
-                            color = MaterialTheme.colorScheme.background,
-                            shape = RoundedCornerShape(14.dp)
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Text(
+                        modifier = modifier
+                            .padding(end = 8.dp)
+                            .height(21.dp),
+                        text = "침착맨",
+                        style = WhatNowTheme.typography.caption2.copy(
+                            fontSize = 14.sp, color = Color.White
                         )
-                )
+                    )
+                    AsyncImage(
+                        model = it.profileImageUrl,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .border(
+                                width = (1.5).dp,
+                                color = MaterialTheme.colorScheme.background,
+                                shape = RoundedCornerShape(14.dp)
+                            )
+                    )
+                }
+
             }
         }
     }
