@@ -34,7 +34,9 @@ import com.naver.maps.map.overlay.OverlayImage
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
-fun WhatNowNaverMap(modifier: Modifier) {
+fun WhatNowNaverMap(
+    modifier: Modifier, onBack: () -> Unit,
+) {
 
     var isPromiseInfo by rememberSaveable { mutableStateOf(true) }
 
@@ -107,7 +109,7 @@ fun WhatNowNaverMap(modifier: Modifier) {
             alignment = Alignment.TopStart,
             color = WhatNowTheme.colors.whatNowBlack,
             tint = Color.White,
-            onClick = {}
+            onClick = {onBack()}
 
         )
 
@@ -162,7 +164,7 @@ fun WhatNowNaverMap(modifier: Modifier) {
                 alignment = Alignment.TopEnd,
                 color = WhatNowTheme.colors.whatNowBlack,
                 tint = Color.White,
-                onClick = {})
+                onClick = { isPromiseInfo = true })
         }
     }
 }

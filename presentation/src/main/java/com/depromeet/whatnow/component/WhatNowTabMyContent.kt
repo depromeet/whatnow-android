@@ -34,9 +34,7 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
 fun WhatNowTabMyContent(
-    viewModel: PromiseActivateViewModel,
-    modifier: Modifier,
-    promises: List<Promise>
+    viewModel: PromiseActivateViewModel, modifier: Modifier, promises: List<Promise>
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
@@ -55,7 +53,9 @@ fun WhatNowTabMyContent(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                WhatNowProfile(promise = promises[0], size = 56.dp)
+                WhatNowProfile(
+                    promise = promises[0], profileImageSize = 56.dp, statusImageSize = 88.dp
+                )
                 Column(modifier = modifier.padding(start = 22.dp)) {
                     Text(
                         text = promises[0].participants[0].name,
@@ -65,34 +65,35 @@ fun WhatNowTabMyContent(
                     )
                     Row(
                         modifier = modifier.padding(top = 4.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.state_icon),
                             contentDescription = null,
+                            tint = WhatNowTheme.colors.gray400
                         )
                         Text(
                             text = "씻는중",
-                            modifier = modifier.padding(start = 3.67.dp),
+                            modifier = modifier
+                                .padding(start = 2.dp)
+                                .height(22.dp),
                             style = WhatNowTheme.typography.caption2.copy(
-                                fontSize = 14.sp, color = WhatNowTheme.colors.gray400
-                            )
+                                fontSize = 14.sp,
+                                color = WhatNowTheme.colors.gray400,
+                            ),
                         )
                     }
 
                 }
             }
-            Surface(
-                modifier = Modifier
-                    .width(84.dp)
-                    .height(40.dp),
+            Surface(modifier = Modifier
+                .width(84.dp)
+                .height(40.dp),
                 shape = RoundedCornerShape(16.dp),
                 onClick = {
                     viewModel.onClickedMyStatus()
                     Log.d("ttt", isClickedMyStatus.toString())
-                }
-            ) {
+                }) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.background(WhatNowTheme.colors.whatNowPurple)
@@ -109,13 +110,11 @@ fun WhatNowTabMyContent(
             }
         }
 
-        WhatNowEmojiTab(
-            selected = uiState.selectedEmojiTab,
+        WhatNowEmojiTab(selected = uiState.selectedEmojiTab,
             onMusicEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.Music) },
             onPoopEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.Poop) },
             onHeartEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.Heart) },
-            onFootprintEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.FootPrint) }
-        )
+            onFootprintEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.FootPrint) })
 
         when (uiState.selectedEmojiTab) {
             PromiseEmojiTab.Music -> {

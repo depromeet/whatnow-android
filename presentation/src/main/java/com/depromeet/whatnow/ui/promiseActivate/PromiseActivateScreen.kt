@@ -15,7 +15,10 @@ import com.depromeet.whatnow.ui.promiseActivate.myStatus.MyStatusScreen
 
 
 @Composable
-fun PromiseActivateScreen(viewModel: PromiseActivateViewModel = hiltViewModel()) {
+fun PromiseActivateScreen(
+    viewModel: PromiseActivateViewModel = hiltViewModel(),
+    onBack: () -> Unit,
+) {
     val context = LocalContext.current
     val isRefresh by viewModel.isRefresh.collectAsState()
     val launcher = rememberLauncherForActivityResult(StartActivityForResult()) { result ->
@@ -27,7 +30,7 @@ fun PromiseActivateScreen(viewModel: PromiseActivateViewModel = hiltViewModel())
     val isClickedMyStatus by viewModel.isClickedMyStatus.collectAsState()
 
     Box() {
-        WhatNowBottomSheetScaffold(modifier = Modifier, viewModel = viewModel)
+        WhatNowBottomSheetScaffold(modifier = Modifier, viewModel = viewModel, onBack = onBack)
         if (isClickedMyStatus) MyStatusScreen(viewModel = viewModel)
     }
 }

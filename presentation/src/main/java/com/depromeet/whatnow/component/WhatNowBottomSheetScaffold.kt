@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.component
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateTab
@@ -22,15 +24,17 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 @Composable
 fun WhatNowBottomSheetScaffold(
     viewModel: PromiseActivateViewModel,
-    modifier: Modifier
+    modifier: Modifier,
+    onBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val contextForToast = LocalContext.current.applicationContext
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
 
-    BottomSheetScaffold(
-        modifier = modifier.fillMaxSize(),
+    BottomSheetScaffold(modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         sheetPeekHeight = 328.dp,
         sheetBackgroundColor = WhatNowTheme.colors.whatNowBlack,
@@ -39,7 +43,7 @@ fun WhatNowBottomSheetScaffold(
 
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxHeight(0.9f)
                     .padding(horizontal = 16.dp),
             ) {
                 WhatNowBottomSheetContent(modifier = modifier)
@@ -54,17 +58,14 @@ fun WhatNowBottomSheetScaffold(
 
                 when (uiState.selectedTab) {
                     PromiseActivateTab.All -> {
-                        WhatNowTabAllContent(
-                            modifier = modifier,
+                        WhatNowTabAllContent(modifier = modifier,
                             promises = uiState.allProfile,
                             onCreate = {})
                     }
 
                     PromiseActivateTab.My -> {
                         WhatNowTabMyContent(
-                            modifier = Modifier,
-                            promises = uiState.myProfile,
-                            viewModel = viewModel
+                            modifier = Modifier, promises = uiState.myProfile, viewModel = viewModel
                         )
                     }
 
@@ -75,7 +76,7 @@ fun WhatNowBottomSheetScaffold(
             }
         }) {
         // app UI
-        WhatNowNaverMap(modifier = Modifier)
+        WhatNowNaverMap(modifier = Modifier, onBack = onBack)
 
     }
 
