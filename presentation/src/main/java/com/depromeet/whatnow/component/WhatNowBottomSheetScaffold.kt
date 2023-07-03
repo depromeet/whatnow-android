@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.component
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateTab
@@ -28,6 +30,8 @@ fun WhatNowBottomSheetScaffold(
     val contextForToast = LocalContext.current.applicationContext
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
 
     BottomSheetScaffold(
         modifier = modifier.fillMaxSize(),
@@ -39,7 +43,7 @@ fun WhatNowBottomSheetScaffold(
 
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxHeight(0.9f)
                     .padding(horizontal = 16.dp),
             ) {
                 WhatNowBottomSheetContent(modifier = modifier)
