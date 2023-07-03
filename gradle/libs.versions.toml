@@ -79,7 +79,13 @@ google-accompanist-webview = { module = "com.google.accompanist:accompanist-webv
 google-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanist" }
 google-accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanist" }
 
+# Network
+retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
+gson = "com.google.code.gson:gson:2.9.0"
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin" }

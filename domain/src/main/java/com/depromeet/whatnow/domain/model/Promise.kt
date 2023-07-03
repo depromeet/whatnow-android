@@ -1,6 +1,6 @@
-package com.depromeet.whatnow.data.entity.promises
+package com.depromeet.whatnow.domain.model
 
-data class PromiseRequest (
+data class Promise (
     val title : String,
     val mainUserId : Int,
     val meetPlace : PlaceVo,
