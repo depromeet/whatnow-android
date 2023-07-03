@@ -55,7 +55,11 @@ fun WhatNowTabMyContent(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                WhatNowProfile(promise = promises[0], size = 56.dp)
+                WhatNowProfile(
+                    promise = promises[0],
+                    profileImageSize = 56.dp,
+                    statusImageSize = 88.dp
+                )
                 Column(modifier = modifier.padding(start = 22.dp)) {
                     Text(
                         text = promises[0].participants[0].name,
