@@ -173,7 +173,7 @@ fun MyStatusScreen(
                         .clickable {
                             viewModel.onMyStatusCategoryChange("예정시간")
                         },
-                    text = stringResource(R.string.before_departure),
+                    text = stringResource(R.string.scheduled_time),
                     style = WhatNowTheme.typography.headline3.copy(
                         fontSize = 20.sp, color = WhatNowTheme.colors.gray400
                     )

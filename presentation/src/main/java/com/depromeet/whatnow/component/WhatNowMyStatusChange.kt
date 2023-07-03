@@ -29,8 +29,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 fun WhatNowMyStatusChange(
     onCreate: () -> Unit
 ) {
-    val pagerState = rememberPagerState()
-
+    val pagerState = rememberPagerState(initialPage = 1)
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -42,14 +41,14 @@ fun WhatNowMyStatusChange(
             HorizontalPager(
                 state = pagerState,
                 verticalAlignment = Alignment.CenterVertically,
-                pageCount = 4,
+                pageCount = 3,
                 contentPadding = PaddingValues(horizontal = 116.34.dp),
             ) {
                 Box(
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
-                        model = DUMMY_PROMISE().participants[0].profileImageUrl,
+                        model = DUMMY_PROMISE().participants[pagerState.currentPage].profileImageUrl,
                         contentDescription = null,
                         modifier = Modifier
                             .size(128.dp)
@@ -69,8 +68,10 @@ fun WhatNowMyStatusChange(
                 }
             }
 
-            WhatNowMyStatusChangeIndicator(modifier = Modifier)
-
+            WhatNowMyStatusChangeIndicator(
+                modifier = Modifier,
+                pagerState = pagerState,
+            )
         }
     }
 }
