@@ -45,7 +45,7 @@ fun WhatNowTabOtherContent(
                 modifier = Modifier,
                 state = pagerState,
                 pageCount = promises[0].imageUrls.size,
-                contentPadding = PaddingValues(horizontal = 24.dp),
+                contentPadding = PaddingValues(horizontal = 22.dp),
                 pageSpacing = 8.dp
             ) {
                 WhatNowTabOtherContentCard(modifier = Modifier, promises = promises)
