@@ -164,7 +164,7 @@ fun WhatNowNaverMap(
                 alignment = Alignment.TopEnd,
                 color = WhatNowTheme.colors.whatNowBlack,
                 tint = Color.White,
-                onClick = {})
+                onClick = { isPromiseInfo = true })
         }
     }
 }
