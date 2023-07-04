@@ -19,6 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -40,40 +43,51 @@ fun ArchiveScreen(
     navigateToDetail: (List<Promise>, Int) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var isCalendarView by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             WhatNowSimpleTopBar(
-                onBack = onBack,
+                onBack = { if (isCalendarView) isCalendarView = false else onBack() },
                 titleRes = R.string.promise_archive,
-                actionIconRes = R.drawable.ic_calendar
+                actionIconRes = if (!isCalendarView) R.drawable.ic_calendar else null,
+                onAction = { isCalendarView = true }
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            WhatNowToggleTab(
-                enabled = uiState.selectedTab == ArchiveTab.Future,
-                enabledTextRes = R.string.future_promise,
-                disabledTextRes = R.string.past_promise,
-                onEnable = { viewModel.selectTab(ArchiveTab.Future) },
-                onDisable = { viewModel.selectTab(ArchiveTab.Past) }
+        if (isCalendarView) {
+            CalendarScreen(
+                modifier = Modifier.padding(innerPadding),
+                promises = (uiState.pastPromises + uiState.futurePromises),
+                onClickItem = navigateToDetail
             )
-            when (uiState.selectedTab) {
-                ArchiveTab.Future -> {
-                    FuturePromiseContent(promises = uiState.futurePromises, onCreate = {})
-                }
-                ArchiveTab.Past -> {
-                    PastPromiseContent(
-                        promises = uiState.pastPromises,
-                        onCreate = {},
-                        onClickItem = navigateToDetail
-                    )
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                WhatNowToggleTab(
+                    enabled = uiState.selectedTab == ArchiveTab.Future,
+                    enabledTextRes = R.string.future_promise,
+                    disabledTextRes = R.string.past_promise,
+                    onEnable = { viewModel.selectTab(ArchiveTab.Future) },
+                    onDisable = { viewModel.selectTab(ArchiveTab.Past) }
+                )
+                when (uiState.selectedTab) {
+                    ArchiveTab.Future -> {
+                        FuturePromiseContent(promises = uiState.futurePromises, onCreate = {})
+                    }
+
+                    ArchiveTab.Past -> {
+                        PastPromiseContent(
+                            promises = uiState.pastPromises,
+                            onCreate = {},
+                            onClickItem = navigateToDetail
+                        )
+                    }
                 }
             }
         }

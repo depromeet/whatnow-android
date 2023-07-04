@@ -33,7 +33,7 @@ fun WhatNowImageCarousel(
     modifier: Modifier = Modifier,
     imageUrls: List<String>
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(pageCount = { imageUrls.size })
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -42,7 +42,6 @@ fun WhatNowImageCarousel(
         HorizontalPager(
             modifier = modifier,
             state = pagerState,
-            pageCount = imageUrls.size,
             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp),
             pageSpacing = 8.dp
         ) {

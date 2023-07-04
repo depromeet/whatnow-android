@@ -49,9 +49,7 @@ fun DetailScreen(
             ) {
                 WhatNowSimpleTopBar(
                     onBack = onBack,
-                    titleRes = R.string.past_promise,
-                    actionIconRes = R.drawable.ic_calendar,
-                    onAction = {}
+                    titleRes = R.string.past_promise
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
