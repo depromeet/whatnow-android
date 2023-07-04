@@ -71,7 +71,7 @@ fun WhatNowNaverMap(
     Box(
         Modifier
             .fillMaxSize()
-            .padding(bottom = 312.dp)
+            .padding(bottom = 284.dp)
     ) {
         NaverMap(
             cameraPositionState = cameraPositionState,
@@ -97,7 +97,7 @@ fun WhatNowNaverMap(
 
             WhatNowMarkerIcon(
                 "https://media.licdn.com/dms/image/C5603AQHcoKPU9alW9w/profile-displayphoto-shrink_800_800/0/1644498344282?e=1692230400&v=beta&t=aK3Qau7_xpiie2xqI5hulE4H8iEbAcVZPnUXBe7-t6E",
-                seoul
+                LatLng(37.516152086, 127.019497385)
             )
 
         }
