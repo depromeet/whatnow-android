@@ -48,15 +48,16 @@ fun ArchiveScreen(
     Scaffold(
         topBar = {
             WhatNowSimpleTopBar(
-                onBack = onBack,
+                onBack = { if (isCalendarView) isCalendarView = false else onBack() },
                 titleRes = R.string.promise_archive,
-                actionIconRes = R.drawable.ic_calendar,
-                onAction = { if (isCalendarView) isCalendarView = true else onBack() }
+                actionIconRes = if (!isCalendarView) R.drawable.ic_calendar else null,
+                onAction = { isCalendarView = true }
             )
         }
     ) { innerPadding ->
         if (isCalendarView) {
             CalendarScreen(
+                modifier = Modifier.padding(innerPadding),
                 promises = (uiState.pastPromises + uiState.futurePromises),
                 onClickItem = navigateToDetail
             )
