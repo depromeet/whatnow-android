@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,7 +34,6 @@ fun WhatNowTabOtherContent(
 
     Column(
         modifier = Modifier.padding(top = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Column(
@@ -66,9 +66,9 @@ fun WhatNowTabOtherContent(
 
         Row(
             modifier = Modifier
-                .fillMaxHeight()
-                .padding(top = 22.dp),
-            horizontalArrangement = Arrangement.Center
+                .fillMaxSize()
+                .padding(top = 12.dp, start = 8.dp, end = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             WhatNowEmojiButton(
                 modifier = Modifier,
