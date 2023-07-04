@@ -1,15 +1,17 @@
 package com.depromeet.whatnow.component
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
+import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.Marker
@@ -31,12 +33,7 @@ fun WhatNowMarkerIcon(url: String, position: LatLng) {
 
     if (overlayImageLoadedState is AsyncImagePainter.State.Success) {
 
-        SideEffect {
-            println("🔥 COMPOSING...")
-        }
-
         val overlayImageBitmap = overlayImageLoadedState.result.drawable.toBitmap()
-
 
         /**
          * 사용자 마커
@@ -47,7 +44,17 @@ fun WhatNowMarkerIcon(url: String, position: LatLng) {
             height = 56.dp,
             state = MarkerState(position = position),
             anchor = Offset(0.5f, 0.5f),
-            captionText = "침착맨"
+        )
+
+        Marker(
+            icon = OverlayImage.fromResource(R.drawable.status_change_washing_img),
+            width = 88.dp,
+            height = 88.dp,
+            state = MarkerState(position = position),
+            anchor = Offset(0.5f, 0.5f),
+            captionText = "침착맨",
+            captionTextSize = 14.sp,
+            captionColor = WhatNowTheme.colors.whatNowBlack,
         )
     }
 }
