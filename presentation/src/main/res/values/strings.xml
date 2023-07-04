@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    // Splash
+    <string name="splash_item1_title">타임오버 기능으로\n누가누가 제시간에 도착했나!</string>
+    <string name="splash_item1_description">느슨해진 친구 사이의 약속에\n긴장감을 줘봐!</string>
+
+    <string name="splash_item2_title">약속 장소로 가고 있는 모습을\n다양하게 업데이트!</string>
+    <string name="splash_item2_description">내 상황이 궁금한 친구들에게\n귀여운 그래픽으로 표현하고 알려봐! </string>
+
+    <string name="splash_item3_title">달려가면서, 기다리면서\n사진으로 빠르게 소통!</string>
+    <string name="splash_item3_description">친구가 혹시나 늦더라도\n기다리다 지친 셀카로 재촉해봐!</string>
+
     // Promise
     <string name="promise_title">약속 만들기</string>
 
@@ -16,7 +26,6 @@
     <string name="inactivity_not_promise_map_title">오랜만에 친구랑 만나봐!</string>
     <string name="promise_create">약속 잡기</string>
     <string name="fest_promise_create">빠른 약속 잡기</string>
-
 
     <string name="promise_bottom_reset">재설정</string>
     <string name="promise_bottom_button_next">다음</string>

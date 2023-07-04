@@ -1,11 +1,16 @@
 package com.depromeet.whatnow.di
 
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.depromeet.whatnow.BuildConfig
+import com.depromeet.whatnow.data.api.AuthenticationListener
 import com.depromeet.whatnow.data.api.BaseUrl
 import com.depromeet.whatnow.data.api.Interceptors
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -29,6 +34,16 @@ internal object AppModule {
             )
         } else {
             Interceptors.Empty
+        }
+    }
+
+    @Provides
+    fun provideAuthenticationListener(
+        @ApplicationContext context: Context,
+        sharedPreferences: SharedPreferences,
+    ): AuthenticationListener = object : AuthenticationListener {
+        override fun onSessionExpired() {
+            sharedPreferences.edit { clear() }
         }
     }
 }
