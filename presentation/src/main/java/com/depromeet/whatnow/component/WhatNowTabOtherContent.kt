@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,7 +29,7 @@ fun WhatNowTabOtherContent(
     promises: List<Promise>,
     onCreate: () -> Unit
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(pageCount = { promises[0].imageUrls.size })
 
     Column(
         modifier = Modifier.padding(top = 16.dp),
@@ -44,7 +43,6 @@ fun WhatNowTabOtherContent(
             HorizontalPager(
                 modifier = Modifier,
                 state = pagerState,
-                pageCount = promises[0].imageUrls.size,
                 contentPadding = PaddingValues(horizontal = 22.dp),
                 pageSpacing = 8.dp
             ) {

@@ -29,7 +29,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 fun WhatNowMyStatusChange(
     onCreate: () -> Unit
 ) {
-    val pagerState = rememberPagerState(initialPage = 1)
+    val pagerState = rememberPagerState(pageCount = { 3 })
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -41,7 +41,6 @@ fun WhatNowMyStatusChange(
             HorizontalPager(
                 state = pagerState,
                 verticalAlignment = Alignment.CenterVertically,
-                pageCount = 3,
                 contentPadding = PaddingValues(horizontal = 116.34.dp),
             ) {
                 Box(
