@@ -51,7 +51,7 @@ fun WhatNowTabAllContent(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth()
-                    .padding(top = 12.dp, bottom = 12.dp),
+                    .padding(top = 12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -103,7 +103,7 @@ fun WhatNowTabAllContent(
                     }
                 }
             }
-            Spacer(modifier = modifier.padding(bottom = 24.dp))
+            Spacer(modifier = modifier.height(20.dp))
         }
         items(promises) {
             WhatNowTabAllContentGrid(promise = it, modifier = modifier)

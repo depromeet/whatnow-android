@@ -24,7 +24,7 @@ fun WhatNowBottomSheetContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp),
+                .padding(top = 16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             Surface(

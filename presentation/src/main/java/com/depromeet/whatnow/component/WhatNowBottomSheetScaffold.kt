@@ -36,7 +36,7 @@ fun WhatNowBottomSheetScaffold(
 
     BottomSheetScaffold(modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
-        sheetPeekHeight = 328.dp,
+        sheetPeekHeight = 300.dp,
         sheetBackgroundColor = WhatNowTheme.colors.whatNowBlack,
         sheetShape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
         sheetContent = {
