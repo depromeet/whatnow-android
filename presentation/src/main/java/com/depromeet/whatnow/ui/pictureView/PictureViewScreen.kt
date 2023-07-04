@@ -89,11 +89,11 @@ fun PictureViewScreen(
 
 
             WhatNowNaverMapIconButton(modifier = Modifier,
-                iconButtonRes = R.drawable.arrow_back_ios,
+                iconButtonRes = R.drawable.close,
                 PaddingValues(start = 16.dp, top = 24.dp),
                 alignment = Alignment.TopStart,
-                color = Color(0xFFF9F9F9),
-                tint = Color.Black,
+                color = Color.Black,
+                tint = Color.White,
                 onClick = {
                     onBack()
                 })
