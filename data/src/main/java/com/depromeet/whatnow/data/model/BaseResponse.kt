@@ -7,8 +7,8 @@ data class BaseResponse<T>(
     val status: Int,
     @SerializedName("data")
     val data: T,
-    @SerializedName("reason")
-    val s: String,
+    @SerializedName("success")
+    val success: Boolean,
     @SerializedName("timeStamp")
     val timeStamp: String,
 )
