@@ -3,7 +3,8 @@ package com.depromeet.whatnow.data.source
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.entity.LocationEntity
 import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
-import com.depromeet.whatnow.data.model.toData
+import com.depromeet.whatnow.data.model.request.toData
+import com.depromeet.whatnow.data.model.response.toData
 import javax.inject.Inject
 
 internal class PromisesRemoteDataSourceImpl @Inject constructor(
