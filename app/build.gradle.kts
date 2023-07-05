@@ -54,4 +54,8 @@ dependencies {
     kapt(libs.google.hilt.compiler)
     implementation(libs.squareup.okhttp)
     implementation(libs.squareup.okhttp.logging)
+
+    // 카카오 로그인
+    implementation("com.kakao.sdk:v2-all:2.11.2")
+
 }
