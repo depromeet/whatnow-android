@@ -63,7 +63,7 @@
         <activity
             android:name=".ui.pictureView.PictureViewActivity"
             android:screenOrientation="portrait" />
-        
+
         <activity
             android:name=".ui.picture.PictureActivity"
             android:screenOrientation="portrait" />
@@ -81,6 +81,26 @@
         <activity
             android:name=".ui.archive.highlight.HighlightActivity"
             android:screenOrientation="portrait" />
+
+        <!--카카오 로그인-->
+        <!--        <activity-->
+        <!--            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"-->
+        <!--            android:exported="true">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.VIEW" />-->
+
+        <!--                <category android:name="android.intent.category.DEFAULT" />-->
+        <!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+        <!--                <data-->
+        <!--                    android:host="oauth"-->
+        <!--                    android:scheme="kakao${KAKAO_API_KEY}" />-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
+
+        <!--        <meta-data-->
+        <!--            android:name="com.kakao.sdk.AppKey"-->
+        <!--            android:value="${KAKAO_NATIVE_APP_KEY}" />-->
     </application>
 
 </manifest>
