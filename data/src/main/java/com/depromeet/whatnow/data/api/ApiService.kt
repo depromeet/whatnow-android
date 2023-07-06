@@ -1,23 +1,23 @@
 package com.depromeet.whatnow.data.api
 
 import com.depromeet.whatnow.data.model.BaseResponse
-import com.depromeet.whatnow.data.model.request.EndTime
+import com.depromeet.whatnow.data.model.request.EndTimeRequest
 import com.depromeet.whatnow.data.model.request.LocationRequest
 import com.depromeet.whatnow.data.model.request.PromiseRequest
 import com.depromeet.whatnow.data.model.request.UsersFcmTokenRequest
 import com.depromeet.whatnow.data.model.request.UsersProfileRequest
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.LocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesLocationResponse
-import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
+import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.PromisesResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersStatus
+import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.UsersProfileResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
@@ -107,7 +107,7 @@ interface ApiService {
     // 약속 시간 수정
     @PUT(API.PROMISE.putPromisesEndTimes)
     suspend fun putPromisesEndTimes(
-        @Path("promise-id") promise_id: String, @Body body: EndTime
+        @Path("promise-id") promise_id: String, @Body body: EndTimeRequest
     ): BaseResponse<PromisesResponse>
 
     // 약속 생성
@@ -120,7 +120,7 @@ interface ApiService {
     @GET(API.PROMISE.getPromisesMonthlyUsers)
     suspend fun getPromisesMonthlyUsers(
         @Query("year-month") year_month: String,
-    ): BaseResponse<PromisesMonthlyUsersResponse>
+    ): BaseResponse<PromisesMonthlyUsersListResponse>
 
     // 약속 모음집 상세
     @GET(API.PROMISE.getPromisesUsersStatus)
@@ -131,7 +131,7 @@ interface ApiService {
     // 나의 약속 전부 조회
     @GET(API.PROMISE.getPromisesUsersSeparated)
     suspend fun getPromisesUsersSeparated(
-    ): BaseResponse<PromisesUsersSeparatedResponse>
+    ): BaseResponse<PromisesUsersSeparatedListResponse>
 
     // 약속 취소
     @DELETE(API.PROMISE.deletePromises)
@@ -151,20 +151,20 @@ interface ApiService {
         @Path("promise-id") promise_id: String,
         @Path("user-id") user_id: Int,
         @Path("status") status: String,
-    ): BaseResponse<PromisesUsersStatusResponse>
+    ): BaseResponse<PromisesUsersStatusListResponse>
 
     // 약속 유저 생성
     @POST(API.PROMISE.postPromisesUsers)
     suspend fun postPromisesUsers(
         @Path("promise-id") promise_id: String, @Path("user-id") user_id: Int, body: CoordinateVo
-    ): BaseResponse<PromisesUsersStatus>
+    ): BaseResponse<PromisesUsersStatusResponse>
 
 
     // 약속 유저 조회
     @GET(API.PROMISE.getPromisesUsers)
     suspend fun getPromisesUsers(
         @Path("promise-id") promise_id: String
-    ): BaseResponse<PromisesUsersStatusResponse>
+    ): BaseResponse<PromisesUsersStatusListResponse>
 
     // 해당 약속 유저 진행 상태 변경
     @PATCH(API.PROMISE.patchPromisesProgress)
@@ -181,7 +181,7 @@ interface ApiService {
 
     // 약속 진행 단계
     @GET(API.PROMISE.getPromisesProgress)
-    suspend fun getPromisesProgress(): BaseResponse<GetPromisesProgressResponse>
+    suspend fun getPromisesProgress(): BaseResponse<GetPromisesProgressListResponse>
 
     // 유저 프로필 이미지 업로드
     @POST(API.USER.postUsersMeImageSuccess)
