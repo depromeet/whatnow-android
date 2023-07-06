@@ -15,6 +15,7 @@ import com.depromeet.whatnow.domain.model.PromisesProgress
 import com.depromeet.whatnow.domain.model.TimeOverLocations
 import com.depromeet.whatnow.domain.model.Users
 
+@JvmName("PromisesMonthlyUsersResponse")
 fun List<PromisesMonthlyUsersResponse>.toDomain(): PromisesMonthlyUserList {
     return PromisesMonthlyUserList(
         map {
@@ -27,6 +28,7 @@ fun List<PromisesMonthlyUsersResponse>.toDomain(): PromisesMonthlyUserList {
         })
 }
 
+@JvmName("UsersResponse")
 fun UsersResponse.toDomain(): Users {
     return Users(
         id = this.id,
@@ -36,6 +38,7 @@ fun UsersResponse.toDomain(): Users {
     )
 }
 
+@JvmName("GetPromisesUsersStatusResponse")
 fun List<GetPromisesUsersStatusResponse>.toDomain(): GetPromisesUsersStatusList {
     return GetPromisesUsersStatusList(
         map {
@@ -49,6 +52,7 @@ fun List<GetPromisesUsersStatusResponse>.toDomain(): GetPromisesUsersStatusList 
         })
 }
 
+@JvmName("PromiseUsersResponse")
 fun List<PromiseUsersResponse>.toDomain(): List<PromiseUsers> {
     return map {
         PromiseUsers(
@@ -60,6 +64,7 @@ fun List<PromiseUsersResponse>.toDomain(): List<PromiseUsers> {
     }
 }
 
+@JvmName("TimeOverLocationsResponse")
 fun List<TimeOverLocationsResponse>.toDomain(): List<TimeOverLocations> {
     return map {
         TimeOverLocations(
@@ -69,6 +74,7 @@ fun List<TimeOverLocationsResponse>.toDomain(): List<TimeOverLocations> {
     }
 }
 
+@JvmName("PromisesProgressResponse")
 fun PromisesProgressResponse.toDomain(): PromisesProgress {
     return PromisesProgress(
         User = this.User.toDomain(),
