@@ -5,6 +5,7 @@ import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.Location
 import com.depromeet.whatnow.domain.model.NcpMapInfo
+import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
 
@@ -26,11 +27,16 @@ interface PromisesRepository {
     ): Result<PromisesProgress>
 
     suspend fun getPromisesProgress(): Result<GetPromisesProgressList>
-    
+
     suspend fun postPromisesImagesSuccess(
         promiseId: Int,
         imageKey: String,
         imageCommentType: String
     ): Unit
+
+    suspend fun getPromisesImages(
+        promiseId: Int,
+        fileExtension: String,
+    ): Result<PromisesImages>
 
 }

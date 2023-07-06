@@ -6,6 +6,7 @@ import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
 import com.depromeet.whatnow.data.model.request.toData
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
+import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.toData
@@ -70,4 +71,15 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
             )
         }
     }
+
+    override suspend fun getPromisesImages(
+        promiseId: Int,
+        fileExtension: String
+    ): Result<PromisesImagesResponse> =
+        runCatching {
+            apiService.getPromisesImages(
+                promiseId = promiseId,
+                fileExtension = fileExtension,
+            ).data
+        }
 }

@@ -8,6 +8,7 @@ import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.Location
 import com.depromeet.whatnow.domain.model.NcpMapInfo
+import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
 import com.depromeet.whatnow.domain.repo.PromisesRepository
@@ -33,24 +34,19 @@ internal class PromisesRepositoryImpl @Inject constructor(
 
     override suspend fun patchPromisesProgress(
         progressCode: String, promiseId: Int
-    ): Result<PromisesProgress> =
-        promisesRemoteDataSource.patchPromisesProgress(
-            progressCode = progressCode,
-            promiseId = promiseId
-        ).mapCatching {
-            it.toDomain()
-        }
+    ): Result<PromisesProgress> = promisesRemoteDataSource.patchPromisesProgress(
+        progressCode = progressCode, promiseId = promiseId
+    ).mapCatching {
+        it.toDomain()
+    }
 
     override suspend fun getPromisesUsersProgress(
-        promiseId: Int,
-        userId: Int
-    ): Result<PromisesProgress> =
-        promisesRemoteDataSource.getPromisesUsersProgress(
-            promiseId = promiseId,
-            userId = userId
-        ).mapCatching {
-            it.toDomain()
-        }
+        promiseId: Int, userId: Int
+    ): Result<PromisesProgress> = promisesRemoteDataSource.getPromisesUsersProgress(
+        promiseId = promiseId, userId = userId
+    ).mapCatching {
+        it.toDomain()
+    }
 
     override suspend fun getPromisesProgress(): Result<GetPromisesProgressList> =
         promisesRemoteDataSource.getPromisesProgress().mapCatching {
@@ -59,14 +55,16 @@ internal class PromisesRepositoryImpl @Inject constructor(
 
 
     override suspend fun postPromisesImagesSuccess(
-        promiseId: Int,
-        imageKey: String,
-        imageCommentType: String
+        promiseId: Int, imageKey: String, imageCommentType: String
     ) = promisesRemoteDataSource.postPromisesImagesSuccess(
-        promiseId = promiseId,
-        imageKey = imageKey,
-        imageCommentType = imageCommentType
+        promiseId = promiseId, imageKey = imageKey, imageCommentType = imageCommentType
     )
 
-
+    override suspend fun getPromisesImages(
+        promiseId: Int, fileExtension: String
+    ): Result<PromisesImages> = promisesRemoteDataSource.getPromisesImages(
+        promiseId = promiseId, fileExtension = fileExtension
+    ).mapCatching {
+        it.toDomain()
+    }
 }

@@ -4,6 +4,7 @@ import com.depromeet.whatnow.data.entity.LocationEntity
 import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
+import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 
@@ -29,5 +30,10 @@ interface PromisesRemoteDataSource {
         imageKey: String,
         imageCommentType: String
     ): Unit
+
+    suspend fun getPromisesImages(
+        promiseId: Int,
+        fileExtension: String,
+    ): Result<PromisesImagesResponse>
 
 }
