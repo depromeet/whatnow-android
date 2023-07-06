@@ -3,6 +3,7 @@ package com.depromeet.whatnow.data.api
 import com.depromeet.whatnow.data.model.BaseResponse
 import com.depromeet.whatnow.data.model.request.*
 import com.depromeet.whatnow.data.model.response.*
+
 import com.depromeet.whatnow.domain.model.CoordinateVo
 import retrofit2.http.*
 
@@ -83,7 +84,7 @@ interface ApiService {
     // 약속 시간 수정
     @PUT(API.PROMISE.putPromisesEndTimes)
     suspend fun putPromisesEndTimes(
-        @Path("promise-id") promise_id: String, @Body body: EndTime,
+        @Path("promise-id") promise_id: String, @Body body: EndTimeRequest
     ): BaseResponse<PromisesResponse>
 
     // 약속 생성
@@ -96,18 +97,18 @@ interface ApiService {
     @GET(API.PROMISE.getPromisesMonthlyUsers)
     suspend fun getPromisesMonthlyUsers(
         @Query("year-month") year_month: String,
-    ): BaseResponse<PromisesMonthlyUsersResponse>
+    ): BaseResponse<PromisesMonthlyUsersListResponse>
 
     // 약속 모음집 상세
     @GET(API.PROMISE.getPromisesUsersStatus)
     suspend fun getPromisesUsersStatus(
         @Path("status") status: String,
-    ): BaseResponse<GetPromisesUsersStatusResponse>
+    ): BaseResponse<GetPromisesUsersStatusListResponse>
 
     // 나의 약속 전부 조회
     @GET(API.PROMISE.getPromisesUsersSeparated)
     suspend fun getPromisesUsersSeparated(
-    ): BaseResponse<PromisesUsersSeparatedResponse>
+    ): BaseResponse<PromisesUsersSeparatedListResponse>
 
     // 약속 취소
     @DELETE(API.PROMISE.deletePromises)
@@ -127,20 +128,20 @@ interface ApiService {
         @Path("promise-id") promise_id: String,
         @Path("user-id") user_id: Int,
         @Path("status") status: String,
-    ): BaseResponse<PromisesUsersStatusResponse>
+    ): BaseResponse<PromisesUsersStatusListResponse>
 
     // 약속 유저 생성
     @POST(API.PROMISE.postPromisesUsers)
     suspend fun postPromisesUsers(
-        @Path("promise-id") promise_id: String, @Path("user-id") user_id: Int, body: CoordinateVo,
-    ): BaseResponse<PromisesUsersStatus>
+        @Path("promise-id") promise_id: String, @Path("user-id") user_id: Int, body: CoordinateVo
+    ): BaseResponse<PromisesUsersStatusResponse>
 
 
     // 약속 유저 조회
     @GET(API.PROMISE.getPromisesUsers)
     suspend fun getPromisesUsers(
-        @Path("promise-id") promise_id: String,
-    ): BaseResponse<PromisesUsersStatusResponse>
+        @Path("promise-id") promise_id: String
+    ): BaseResponse<PromisesUsersStatusListResponse>
 
     // 해당 약속 유저 진행 상태 변경
     @PATCH(API.PROMISE.patchPromisesProgress)
@@ -157,7 +158,7 @@ interface ApiService {
 
     // 약속 진행 단계
     @GET(API.PROMISE.getPromisesProgress)
-    suspend fun getPromisesProgress(): BaseResponse<GetPromisesProgressResponse>
+    suspend fun getPromisesProgress(): BaseResponse<GetPromisesProgressListResponse>
 
     // 유저 프로필 이미지 업로드
     @POST(API.USER.postUsersMeImageSuccess)
