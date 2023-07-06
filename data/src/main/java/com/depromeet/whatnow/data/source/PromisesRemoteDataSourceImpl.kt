@@ -6,6 +6,7 @@ import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
 import com.depromeet.whatnow.data.model.request.toData
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
+import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.toData
 import javax.inject.Inject
 
@@ -25,5 +26,16 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     override suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusListResponse> =
         runCatching {
             apiService.getPromisesUsersStatus(status = status).data
+        }
+
+    override suspend fun patchPromisesProgress(
+        progressCode: String,
+        promiseId: Int
+    ): Result<PromisesProgressResponse> =
+        runCatching {
+            apiService.patchPromisesProgress(
+                progressCode = progressCode,
+                promiseId = promiseId
+            ).data
         }
 }

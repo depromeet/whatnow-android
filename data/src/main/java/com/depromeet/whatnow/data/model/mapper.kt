@@ -3,6 +3,7 @@ package com.depromeet.whatnow.data.model
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
+import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.TimeOverLocationsResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
@@ -10,6 +11,7 @@ import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.PromiseUsers
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUser
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
+import com.depromeet.whatnow.domain.model.PromisesProgress
 import com.depromeet.whatnow.domain.model.TimeOverLocations
 import com.depromeet.whatnow.domain.model.Users
 
@@ -65,4 +67,12 @@ fun List<TimeOverLocationsResponse>.toDomain(): List<TimeOverLocations> {
             coordinateVo = it.coordinateVo
         )
     }
+}
+
+fun PromisesProgressResponse.toDomain(): PromisesProgress {
+    return PromisesProgress(
+        User = this.User.toDomain(),
+        currentProgress = this.currentProgress,
+        beforeProgress = this.beforeProgress
+    )
 }
