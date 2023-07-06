@@ -57,8 +57,6 @@ internal class PromisesRepositoryImpl @Inject constructor(
             it.contents.toDomain()
         }
 
-    override suspend fun postUsersMeImageSuccess(imageKey: String) =
-        promisesRemoteDataSource.postUsersMeImageSuccess(imageKey = imageKey)
 
     override suspend fun postPromisesImagesSuccess(
         promiseId: Int,

@@ -26,9 +26,7 @@ interface PromisesRepository {
     ): Result<PromisesProgress>
 
     suspend fun getPromisesProgress(): Result<GetPromisesProgressList>
-
-    suspend fun postUsersMeImageSuccess(imageKey: String): Unit
-
+    
     suspend fun postPromisesImagesSuccess(
         promiseId: Int,
         imageKey: String,
