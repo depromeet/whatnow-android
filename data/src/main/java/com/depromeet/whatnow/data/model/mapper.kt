@@ -1,11 +1,14 @@
 package com.depromeet.whatnow.data.model
 
+import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.TimeOverLocationsResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
+import com.depromeet.whatnow.domain.model.GetPromisesProgress
+import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.PromiseUsers
@@ -80,5 +83,18 @@ fun PromisesProgressResponse.toDomain(): PromisesProgress {
         User = this.User.toDomain(),
         currentProgress = this.currentProgress,
         beforeProgress = this.beforeProgress
+    )
+}
+
+@JvmName("GetPromisesProgressListResponse")
+fun List<GetPromisesProgressResponse>.toDomain(): GetPromisesProgressList {
+    return GetPromisesProgressList(
+        map {
+            GetPromisesProgress(
+                group = it.group,
+                progresses = it.progresses
+
+            )
+        }
     )
 }

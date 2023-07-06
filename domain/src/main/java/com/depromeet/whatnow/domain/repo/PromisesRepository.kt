@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.domain.repo
 
 
+import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.Location
 import com.depromeet.whatnow.domain.model.NcpMapInfo
@@ -23,6 +24,8 @@ interface PromisesRepository {
         promiseId: Int,
         userId: Int
     ): Result<PromisesProgress>
+
+    suspend fun getPromisesProgress(): Result<GetPromisesProgressList>
 
 
 }

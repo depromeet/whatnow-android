@@ -4,6 +4,7 @@ import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.entity.LocationEntity
 import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
 import com.depromeet.whatnow.data.model.request.toData
+import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
@@ -48,5 +49,10 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
                 promiseId = promiseId,
                 userId = userId
             ).data
+        }
+
+    override suspend fun getPromisesProgress(): Result<GetPromisesProgressListResponse> =
+        runCatching {
+            apiService.getPromisesProgress().data
         }
 }

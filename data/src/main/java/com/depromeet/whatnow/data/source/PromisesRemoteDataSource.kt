@@ -2,6 +2,7 @@ package com.depromeet.whatnow.data.source
 
 import com.depromeet.whatnow.data.entity.LocationEntity
 import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
+import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
@@ -20,5 +21,8 @@ interface PromisesRemoteDataSource {
         promiseId: Int,
         userId: Int
     ): Result<PromisesProgressResponse>
+
+    suspend fun getPromisesProgress(): Result<GetPromisesProgressListResponse>
+
 
 }

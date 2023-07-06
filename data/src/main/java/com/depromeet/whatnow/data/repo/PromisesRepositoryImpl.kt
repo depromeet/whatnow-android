@@ -4,6 +4,7 @@ import com.depromeet.whatnow.data.entity.toData
 import com.depromeet.whatnow.data.entity.toDomain
 import com.depromeet.whatnow.data.model.toDomain
 import com.depromeet.whatnow.data.source.PromisesRemoteDataSource
+import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.Location
 import com.depromeet.whatnow.domain.model.NcpMapInfo
@@ -49,5 +50,10 @@ internal class PromisesRepositoryImpl @Inject constructor(
             userId = userId
         ).mapCatching {
             it.toDomain()
+        }
+
+    override suspend fun getPromisesProgress(): Result<GetPromisesProgressList> =
+        promisesRemoteDataSource.getPromisesProgress().mapCatching {
+            it.contents.toDomain()
         }
 }
