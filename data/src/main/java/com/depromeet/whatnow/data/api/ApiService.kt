@@ -8,7 +8,7 @@ import com.depromeet.whatnow.data.model.request.UsersFcmTokenRequest
 import com.depromeet.whatnow.data.model.request.UsersProfileRequest
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
 import com.depromeet.whatnow.data.model.response.LocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
@@ -126,7 +126,7 @@ interface ApiService {
     @GET(API.PROMISE.getPromisesUsersStatus)
     suspend fun getPromisesUsersStatus(
         @Path("status") status: String,
-    ): BaseResponse<GetPromisesUsersStatusResponse>
+    ): BaseResponse<GetPromisesUsersStatusListResponse>
 
     // 나의 약속 전부 조회
     @GET(API.PROMISE.getPromisesUsersSeparated)
