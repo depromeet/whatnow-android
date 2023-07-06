@@ -4,6 +4,7 @@ import com.depromeet.whatnow.data.entity.toData
 import com.depromeet.whatnow.data.entity.toDomain
 import com.depromeet.whatnow.data.model.toDomain
 import com.depromeet.whatnow.data.source.PromisesRemoteDataSource
+import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.Location
 import com.depromeet.whatnow.domain.model.NcpMapInfo
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
@@ -22,5 +23,11 @@ internal class PromisesRepositoryImpl @Inject constructor(
         promisesRemoteDataSource.getPromisesMonthlyUsers(year_month = year_month)
             .mapCatching { promisesMonthlyUsersResponse ->
                 promisesMonthlyUsersResponse.contents.toDomain()
+            }
+
+    override suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusList> =
+        promisesRemoteDataSource.getPromisesUsersStatus(status = status)
+            .mapCatching {
+                it.contest.toDomain()
             }
 }
