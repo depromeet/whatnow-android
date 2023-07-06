@@ -2,7 +2,7 @@ package com.depromeet.whatnow.data.model.response
 
 import com.google.gson.annotations.SerializedName
 
-data class InteractionDtoList(
+data class InteractionDtoListResponse(
     @SerializedName("promiseId") val promiseId: Int,
     @SerializedName("userId") val userId: Int,
     @SerializedName("interactionType") val interactionType: String,

@@ -1,12 +1,12 @@
 package com.depromeet.whatnow.data.model
 
-import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsers
+import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUser
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.Users
 
-fun List<PromisesMonthlyUsers>.toDomain(): PromisesMonthlyUserList {
+fun List<PromisesMonthlyUsersResponse>.toDomain(): PromisesMonthlyUserList {
     return PromisesMonthlyUserList(
         map {
             PromisesMonthlyUser(
