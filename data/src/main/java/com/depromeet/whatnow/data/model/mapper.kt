@@ -8,6 +8,7 @@ import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.TimeOverLocationsResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
@@ -23,6 +24,8 @@ import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUser
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersStatus
+import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.TimeOverLocations
 import com.depromeet.whatnow.domain.model.Users
 
@@ -140,4 +143,19 @@ fun List<InteractionsResponse>.toDomain(): PromisesInteractionsDetail {
             )
         }
     )
+}
+
+@JvmName("PromisesUsersStatusResponse")
+fun List<PromisesUsersStatusResponse>.toDomain(): PromisesUsersStatusList {
+    return PromisesUsersStatusList(
+        map {
+            PromisesUsersStatus(
+                promiseId = it.promiseId,
+                mainUserId = it.mainUserId,
+                userLocation = it.userLocation,
+                promiseUserType = it.promiseUserType
+            )
+        }
+    )
+
 }

@@ -9,11 +9,14 @@ import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
 
 interface PromisesRemoteDataSource {
     suspend fun getLocation(request: LocationEntity): Result<NcpMapInfoEntity>
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse>
     suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusListResponse>
+
+    suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusListResponse>
 
     suspend fun patchPromisesProgress(
         progressCode: String,
