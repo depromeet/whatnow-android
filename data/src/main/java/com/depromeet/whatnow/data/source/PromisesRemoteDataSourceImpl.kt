@@ -4,6 +4,7 @@ import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.entity.LocationEntity
 import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
 import com.depromeet.whatnow.data.model.request.toData
+import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
@@ -96,4 +97,11 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
             )
         }
     }
+
+    override suspend fun getPromisesInteractions(promiseId: Int): Result<GetPromisesInteractionsResponse> =
+        runCatching {
+            apiService.getPromisesInteractions(
+                promiseId = promiseId,
+            ).data
+        }
 }

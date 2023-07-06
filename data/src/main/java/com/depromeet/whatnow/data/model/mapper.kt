@@ -2,16 +2,19 @@ package com.depromeet.whatnow.data.model
 
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
+import com.depromeet.whatnow.data.model.response.InteractionDtoListResponse
 import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.TimeOverLocationsResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
+import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgress
 import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
+import com.depromeet.whatnow.domain.model.InteractionDtoList
 import com.depromeet.whatnow.domain.model.PromiseUsers
 import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUser
@@ -106,5 +109,18 @@ fun PromisesImagesResponse.toDomain(): PromisesImages {
     return PromisesImages(
         presignedUrl = this.presignedUrl,
         key = this.key
+    )
+}
+
+fun List<InteractionDtoListResponse>.toDomain(): GetPromisesInteractions {
+    return GetPromisesInteractions(
+        map {
+            InteractionDtoList(
+                promiseId = it.promiseId,
+                userId = it.userId,
+                interactionType = it.interactionType,
+                count = it.count
+            )
+        }
     )
 }

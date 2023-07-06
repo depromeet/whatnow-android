@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.domain.repo
 
 
+import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.Location
@@ -44,5 +45,8 @@ interface PromisesRepository {
         interactionType: String,
         targetUserId: Int,
     ): Unit
+
+    suspend fun getPromisesInteractions(promiseId: Int): Result<GetPromisesInteractions>
+
 
 }

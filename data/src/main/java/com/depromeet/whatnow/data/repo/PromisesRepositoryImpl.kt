@@ -4,6 +4,7 @@ import com.depromeet.whatnow.data.entity.toData
 import com.depromeet.whatnow.data.entity.toDomain
 import com.depromeet.whatnow.data.model.toDomain
 import com.depromeet.whatnow.data.source.PromisesRemoteDataSource
+import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.Location
@@ -73,4 +74,11 @@ internal class PromisesRepositoryImpl @Inject constructor(
     ) = promisesRemoteDataSource.postPromisesInteractionsTarget(
         promiseId = promiseId, interactionType = interactionType, targetUserId = targetUserId
     )
+
+    override suspend fun getPromisesInteractions(promiseId: Int): Result<GetPromisesInteractions> =
+        promisesRemoteDataSource.getPromisesInteractions(
+            promiseId = promiseId
+        ).mapCatching {
+            it.interactionDtoList.toDomain()
+        }
 }
