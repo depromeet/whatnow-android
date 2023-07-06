@@ -3,6 +3,7 @@ package com.depromeet.whatnow.data.model
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.InteractionDtoListResponse
+import com.depromeet.whatnow.data.model.response.InteractionsResponse
 import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
@@ -15,8 +16,10 @@ import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.InteractionDtoList
+import com.depromeet.whatnow.domain.model.Interactions
 import com.depromeet.whatnow.domain.model.PromiseUsers
 import com.depromeet.whatnow.domain.model.PromisesImages
+import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUser
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
@@ -112,6 +115,7 @@ fun PromisesImagesResponse.toDomain(): PromisesImages {
     )
 }
 
+@JvmName("InteractionDtoListResponse")
 fun List<InteractionDtoListResponse>.toDomain(): GetPromisesInteractions {
     return GetPromisesInteractions(
         map {
@@ -120,6 +124,19 @@ fun List<InteractionDtoListResponse>.toDomain(): GetPromisesInteractions {
                 userId = it.userId,
                 interactionType = it.interactionType,
                 count = it.count
+            )
+        }
+    )
+}
+
+@JvmName("InteractionsResponse")
+fun List<InteractionsResponse>.toDomain(): PromisesInteractionsDetail {
+    return PromisesInteractionsDetail(
+        map {
+            Interactions(
+                senderUser = it.senderUser.toDomain(),
+                count = it.count,
+                interactionType = it.interactionType
             )
         }
     )

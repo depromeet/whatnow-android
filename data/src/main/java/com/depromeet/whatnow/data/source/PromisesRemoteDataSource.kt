@@ -6,6 +6,7 @@ import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
+import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 
@@ -44,6 +45,11 @@ interface PromisesRemoteDataSource {
     ): Unit
 
     suspend fun getPromisesInteractions(promiseId: Int): Result<GetPromisesInteractionsResponse>
+
+    suspend fun getPromisesInteractionsDetail(
+        promiseId: Int,
+        interactionType: String
+    ): Result<PromisesInteractionsDetailResponse>
 
 
 }

@@ -8,6 +8,7 @@ import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
+import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.toData
@@ -102,6 +103,17 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
         runCatching {
             apiService.getPromisesInteractions(
                 promiseId = promiseId,
+            ).data
+        }
+
+    override suspend fun getPromisesInteractionsDetail(
+        promiseId: Int,
+        interactionType: String
+    ): Result<PromisesInteractionsDetailResponse> =
+        runCatching {
+            apiService.getPromisesInteractionsDetail(
+                promiseId = promiseId,
+                interactionType = interactionType
             ).data
         }
 }

@@ -10,6 +10,7 @@ import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.Location
 import com.depromeet.whatnow.domain.model.NcpMapInfo
 import com.depromeet.whatnow.domain.model.PromisesImages
+import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
 import com.depromeet.whatnow.domain.repo.PromisesRepository
@@ -81,4 +82,12 @@ internal class PromisesRepositoryImpl @Inject constructor(
         ).mapCatching {
             it.interactionDtoList.toDomain()
         }
+
+    override suspend fun getPromisesInteractionsDetail(
+        promiseId: Int, interactionType: String
+    ): Result<PromisesInteractionsDetail> = promisesRemoteDataSource.getPromisesInteractionsDetail(
+        promiseId = promiseId, interactionType = interactionType
+    ).mapCatching {
+        it.interactions.toDomain()
+    }
 }

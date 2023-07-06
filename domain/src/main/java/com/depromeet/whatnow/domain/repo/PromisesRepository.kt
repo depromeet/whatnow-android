@@ -7,6 +7,7 @@ import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.Location
 import com.depromeet.whatnow.domain.model.NcpMapInfo
 import com.depromeet.whatnow.domain.model.PromisesImages
+import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
 
@@ -48,5 +49,9 @@ interface PromisesRepository {
 
     suspend fun getPromisesInteractions(promiseId: Int): Result<GetPromisesInteractions>
 
+    suspend fun getPromisesInteractionsDetail(
+        promiseId: Int,
+        interactionType: String
+    ): Result<PromisesInteractionsDetail>
 
 }
