@@ -39,4 +39,10 @@ interface PromisesRepository {
         fileExtension: String,
     ): Result<PromisesImages>
 
+    suspend fun postPromisesInteractionsTarget(
+        promiseId: Int,
+        interactionType: String,
+        targetUserId: Int,
+    ): Unit
+
 }

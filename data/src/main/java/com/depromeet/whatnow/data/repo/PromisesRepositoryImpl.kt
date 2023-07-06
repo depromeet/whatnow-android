@@ -67,4 +67,10 @@ internal class PromisesRepositoryImpl @Inject constructor(
     ).mapCatching {
         it.toDomain()
     }
+
+    override suspend fun postPromisesInteractionsTarget(
+        promiseId: Int, interactionType: String, targetUserId: Int
+    ) = promisesRemoteDataSource.postPromisesInteractionsTarget(
+        promiseId = promiseId, interactionType = interactionType, targetUserId = targetUserId
+    )
 }

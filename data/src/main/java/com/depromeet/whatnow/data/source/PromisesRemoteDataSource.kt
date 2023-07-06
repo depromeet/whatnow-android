@@ -36,4 +36,11 @@ interface PromisesRemoteDataSource {
         fileExtension: String,
     ): Result<PromisesImagesResponse>
 
+    suspend fun postPromisesInteractionsTarget(
+        promiseId: Int,
+        interactionType: String,
+        targetUserId: Int,
+    ): Unit
+
+
 }

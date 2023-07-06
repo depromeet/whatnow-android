@@ -82,4 +82,18 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
                 fileExtension = fileExtension,
             ).data
         }
+
+    override suspend fun postPromisesInteractionsTarget(
+        promiseId: Int,
+        interactionType: String,
+        targetUserId: Int
+    ) {
+        runCatching {
+            apiService.postPromisesInteractionsTarget(
+                promiseId = promiseId,
+                interactionType = interactionType,
+                targetUserId = targetUserId
+            )
+        }
+    }
 }
