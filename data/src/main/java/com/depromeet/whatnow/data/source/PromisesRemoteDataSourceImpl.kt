@@ -38,4 +38,15 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
                 promiseId = promiseId
             ).data
         }
+
+    override suspend fun getPromisesUsersProgress(
+        promiseId: Int,
+        userId: Int
+    ): Result<PromisesProgressResponse> =
+        runCatching {
+            apiService.getPromisesUsersProgress(
+                promiseId = promiseId,
+                userId = userId
+            ).data
+        }
 }

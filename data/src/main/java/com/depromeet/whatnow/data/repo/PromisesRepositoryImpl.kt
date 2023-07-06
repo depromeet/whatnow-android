@@ -39,4 +39,15 @@ internal class PromisesRepositoryImpl @Inject constructor(
         ).mapCatching {
             it.toDomain()
         }
+
+    override suspend fun getPromisesUsersProgress(
+        promiseId: Int,
+        userId: Int
+    ): Result<PromisesProgress> =
+        promisesRemoteDataSource.getPromisesUsersProgress(
+            promiseId = promiseId,
+            userId = userId
+        ).mapCatching {
+            it.toDomain()
+        }
 }

@@ -11,9 +11,18 @@ interface PromisesRepository {
     suspend fun getLocation(request: Location): Result<NcpMapInfo>
 
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList>
+
     suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusList>
+
     suspend fun patchPromisesProgress(
         progressCode: String,
         promiseId: Int
     ): Result<PromisesProgress>
+
+    suspend fun getPromisesUsersProgress(
+        promiseId: Int,
+        userId: Int
+    ): Result<PromisesProgress>
+
+
 }

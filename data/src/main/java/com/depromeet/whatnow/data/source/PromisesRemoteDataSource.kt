@@ -11,10 +11,14 @@ interface PromisesRemoteDataSource {
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse>
     suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusListResponse>
 
-    // 해당 약속 유저 진행 상태 변경
     suspend fun patchPromisesProgress(
         progressCode: String,
         promiseId: Int
+    ): Result<PromisesProgressResponse>
+
+    suspend fun getPromisesUsersProgress(
+        promiseId: Int,
+        userId: Int
     ): Result<PromisesProgressResponse>
 
 }
