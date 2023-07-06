@@ -33,6 +33,8 @@ naver-compose = "1.2.3"
 
 calendar = "2.4.0-beta01"
 
+kakao = "2.14.0"
+
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin" }
 android-tools-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
