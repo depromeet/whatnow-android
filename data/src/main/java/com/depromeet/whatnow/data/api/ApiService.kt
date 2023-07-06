@@ -1,35 +1,10 @@
 package com.depromeet.whatnow.data.api
 
 import com.depromeet.whatnow.data.model.BaseResponse
-import com.depromeet.whatnow.data.model.request.EndTime
-import com.depromeet.whatnow.data.model.request.LocationRequest
-import com.depromeet.whatnow.data.model.request.PromiseRequest
-import com.depromeet.whatnow.data.model.request.UsersFcmTokenRequest
-import com.depromeet.whatnow.data.model.request.UsersProfileRequest
-import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
-import com.depromeet.whatnow.data.model.response.LocationResponse
-import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
-import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
-import com.depromeet.whatnow.data.model.response.PromisesLocationResponse
-import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
-import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
-import com.depromeet.whatnow.data.model.response.PromisesResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersStatus
-import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
-import com.depromeet.whatnow.data.model.response.UsersProfileResponse
-import com.depromeet.whatnow.data.model.response.UsersResponse
+import com.depromeet.whatnow.data.model.request.*
+import com.depromeet.whatnow.data.model.response.*
 import com.depromeet.whatnow.domain.model.CoordinateVo
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -43,7 +18,8 @@ interface ApiService {
     @POST(API.AUTH.postAuthKakaoRegister)
     suspend fun postAuthKakaoRegister(
         @Query("id_token") id_token: String,
-    ): BaseResponse<LocationResponse>
+        @Body request: RegisterRequest,
+    ): BaseResponse<TokenAndUserResponse>
 
     // oauth user 정보 가져오기
     @POST(API.AUTH.postAuthKakaoInfo)
@@ -69,18 +45,18 @@ interface ApiService {
     @POST(API.AUTH.postAuthOauthKakaoLogin)
     suspend fun postAuthOauthKakaoLogin(
         @Query("id_token") id_token: String,
-    ): BaseResponse<LocationResponse>
+    ): BaseResponse<TokenAndUserResponse>
 
     // 사용자 프로필 수정
     @PATCH(API.USER.patchUsersProfile)
     suspend fun patchUsersProfile(
-        @Body body: UsersProfileRequest
+        @Body body: UsersProfileRequest,
     ): BaseResponse<UsersProfileResponse>
 
     // fcm 토큰 수정
     @PATCH(API.USER.patchUsersFcmToken)
     suspend fun patchUsersFcmToken(
-        @Body body: UsersFcmTokenRequest
+        @Body body: UsersFcmTokenRequest,
     ): BaseResponse<UsersProfileResponse>
 
     // 내 알림 허용 정보 토글링
@@ -107,7 +83,7 @@ interface ApiService {
     // 약속 시간 수정
     @PUT(API.PROMISE.putPromisesEndTimes)
     suspend fun putPromisesEndTimes(
-        @Path("promise-id") promise_id: String, @Body body: EndTime
+        @Path("promise-id") promise_id: String, @Body body: EndTime,
     ): BaseResponse<PromisesResponse>
 
     // 약속 생성
@@ -156,27 +132,27 @@ interface ApiService {
     // 약속 유저 생성
     @POST(API.PROMISE.postPromisesUsers)
     suspend fun postPromisesUsers(
-        @Path("promise-id") promise_id: String, @Path("user-id") user_id: Int, body: CoordinateVo
+        @Path("promise-id") promise_id: String, @Path("user-id") user_id: Int, body: CoordinateVo,
     ): BaseResponse<PromisesUsersStatus>
 
 
     // 약속 유저 조회
     @GET(API.PROMISE.getPromisesUsers)
     suspend fun getPromisesUsers(
-        @Path("promise-id") promise_id: String
+        @Path("promise-id") promise_id: String,
     ): BaseResponse<PromisesUsersStatusResponse>
 
     // 해당 약속 유저 진행 상태 변경
     @PATCH(API.PROMISE.patchPromisesProgress)
     suspend fun patchPromisesProgress(
-        @Path("progressCode") progressCode: String, @Path("promiseId") promiseId: Int
+        @Path("progressCode") progressCode: String, @Path("promiseId") promiseId: Int,
 
-    ): BaseResponse<PromisesProgressResponse>
+        ): BaseResponse<PromisesProgressResponse>
 
     // 해당 약속 유저 진행 상태 확인
     @GET(API.PROMISE.getPromisesUsersProgress)
     suspend fun getPromisesUsersProgress(
-        @Path("promiseId") promiseId: Int, @Path("userId") userId: Int
+        @Path("promiseId") promiseId: Int, @Path("userId") userId: Int,
     ): BaseResponse<PromisesProgressResponse>
 
     // 약속 진행 단계
@@ -229,7 +205,7 @@ interface ApiService {
     @GET(API.PROMISE.getPromisesInteractionsDetail)
     suspend fun getPromisesInteractionsDetail(
         @Path("promiseId") promiseId: Int,
-        @Path("interactionType") interactionType: String
+        @Path("interactionType") interactionType: String,
     ): BaseResponse<PromisesInteractionsDetailResponse>
 
 }

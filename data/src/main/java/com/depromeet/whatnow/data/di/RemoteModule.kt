@@ -1,6 +1,8 @@
 package com.depromeet.whatnow.data.di
 
 import com.depromeet.whatnow.data.api.*
+import com.depromeet.whatnow.data.provider.AccessTokenProvider
+import com.depromeet.whatnow.data.provider.RefreshTokenProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,21 +21,26 @@ internal object RemoteModule {
     fun provideApiService(
         baseUrl: BaseUrl,
         interceptors: Interceptors,
-//        accessTokenProvider: AccessTokenProvider,
-//        refreshTokenProvider: RefreshTokenProvider,
-//        authenticationListener: AuthenticationListener,
+        accessTokenProvider: AccessTokenProvider,
+        refreshTokenProvider: RefreshTokenProvider,
+        authenticationListener: AuthenticationListener,
     ): ApiService {
 
-//        val authenticator = Authenticator(
-//            apiService = provideRefreshApiService(baseUrl, interceptors),
-//            accessTokenProvider = accessTokenProvider,
-//            refreshTokenProvider = refreshTokenProvider,
-//            authenticationListener = authenticationListener
-//        )
+        val authenticator = Authenticator(
+            apiService = provideRefreshApiService(baseUrl, interceptors),
+            accessTokenProvider = accessTokenProvider,
+            refreshTokenProvider = refreshTokenProvider,
+            authenticationListener = authenticationListener
+        )
 
         return Retrofit.Builder()
             .baseUrl(baseUrl)
-            .client(createOkHttpClient(interceptors))
+            .client(
+                createOkHttpClient(interceptors) {
+                    addInterceptor(AccessTokenInterceptor(accessTokenProvider))
+                    authenticator(authenticator)
+                }
+            )
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)

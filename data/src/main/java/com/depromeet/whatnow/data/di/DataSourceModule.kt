@@ -1,7 +1,6 @@
 package com.depromeet.whatnow.data.di
 
-import com.depromeet.whatnow.data.source.PromisesRemoteDataSource
-import com.depromeet.whatnow.data.source.PromisesRemoteDataSourceImpl
+import com.depromeet.whatnow.data.source.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,5 +12,13 @@ import javax.inject.Singleton
 internal abstract class DataSourceModule {
     @Binds
     @Singleton
-    abstract fun bindPromisesDataSource(source : PromisesRemoteDataSourceImpl) : PromisesRemoteDataSource
+    abstract fun bindPromisesDataSource(source: PromisesRemoteDataSourceImpl): PromisesRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthLocalDataSource(source: AuthLocalDataSourceImpl): AuthLocalDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthDataSource(source: AuthRemoteDataSourceImpl): AuthRemoteDataSource
 }
