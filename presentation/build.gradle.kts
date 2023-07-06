@@ -69,7 +69,7 @@ dependencies {
     implementation(libs.google.accompanist.pager.indicators)
 
     implementation(libs.calendar.compose)
-    
+
     coreLibraryDesugaring(libs.android.tools.desugar)
 
 
@@ -79,6 +79,7 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.2.3")
     implementation("androidx.camera:camera-view:1.3.0-beta01")
     implementation("androidx.camera:camera-extensions:1.3.0-beta01")
+    implementation("com.kakao.sdk:v2-all:2.14.0")
 
 
     //permission handling in compose

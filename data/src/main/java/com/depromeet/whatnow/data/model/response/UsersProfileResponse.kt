@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.data.model.response
 
+import com.depromeet.whatnow.domain.model.UsersProfile
 import com.google.gson.annotations.SerializedName
 
 data class UsersProfileResponse(
@@ -8,5 +9,14 @@ data class UsersProfileResponse(
     @SerializedName("nickname") val nickname: String,
     @SerializedName("isDefaultImg") val isDefaultImg: Boolean,
     @SerializedName("oauthProvider") val oauthProvider: String,
-    @SerializedName("fcmInfo") val fcmInfo: FcmInfoResponse
+    @SerializedName("fcmInfo") val fcmInfo: FcmInfoResponse,
+)
+
+internal fun UsersProfileResponse.toData() = UsersProfile(
+    id = id,
+    profileImg = profileImg,
+    nickname = nickname,
+    isDefaultImg = isDefaultImg,
+    oauthProvider = oauthProvider,
+    fcmInfo = fcmInfo.toData()
 )

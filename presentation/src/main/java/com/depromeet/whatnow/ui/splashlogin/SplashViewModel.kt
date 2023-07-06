@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.ui.splashlogin
 
+import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
+//    private val registerUseCase: RegisterUseCase,
 ) : BaseViewModel() {
     private val _uiState = MutableStateFlow<SplashUiState>(SplashUiState.AppLoading)
     val uiState: StateFlow<SplashUiState> = _uiState.asStateFlow()
@@ -32,11 +34,9 @@ class SplashViewModel @Inject constructor(
             return
         }
         job = launch {
-//            val providerToken = ProviderToken.kakao(accessToken)
-//            val result = loginUseCase(providerToken)
-//                .onFailure { handleException(it) }
-//                .getOrNull()
-
+            loginUseCase(accessToken)
+                .onSuccess { Log.d("yw", "로그인성공") }
+                .onFailure { Log.d("yw", "로그인실패") }
         }
         job?.invokeOnCompletion { job = null }
     }
