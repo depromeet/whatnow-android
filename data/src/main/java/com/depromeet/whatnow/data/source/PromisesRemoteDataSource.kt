@@ -24,5 +24,7 @@ interface PromisesRemoteDataSource {
 
     suspend fun getPromisesProgress(): Result<GetPromisesProgressListResponse>
 
+    suspend fun postUsersMeImageSuccess(imageKey: String): Unit
+
 
 }

@@ -55,4 +55,10 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
         runCatching {
             apiService.getPromisesProgress().data
         }
+
+    override suspend fun postUsersMeImageSuccess(imageKey: String) {
+        runCatching {
+            apiService.postUsersMeImageSuccess(imageKey = imageKey)
+        }
+    }
 }
