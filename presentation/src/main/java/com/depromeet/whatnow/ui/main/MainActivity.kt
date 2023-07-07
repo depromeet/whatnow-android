@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import com.depromeet.whatnow.ui.alarm.AlarmActivity
 import com.depromeet.whatnow.ui.history.HistoryActivity
 import com.depromeet.whatnow.ui.promiseAdd.PromiseAddActivity
-import com.depromeet.whatnow.ui.promiseAdd.PromiseScreen
 import com.depromeet.whatnow.ui.setting.SettingActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,7 +54,6 @@ class MainActivity : ComponentActivity() {
     }
 
     companion object {
-
         fun startActivity(context: Context) {
             val intent = Intent(context, MainActivity::class.java)
             context.startActivity(intent)

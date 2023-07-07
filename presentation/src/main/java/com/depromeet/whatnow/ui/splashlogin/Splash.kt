@@ -47,7 +47,7 @@ fun Splash(visible: Boolean) {
 }
 
 
-@Preview
+@Preview(widthDp = 360, heightDp = 800)
 @Composable
 private fun SplashPreview() {
     WhatNowTheme() {

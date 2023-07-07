@@ -31,7 +31,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.history.HistoryActivity"
             android:screenOrientation="portrait" />
@@ -93,7 +95,7 @@
 
                 <data
                     android:host="oauth"
-                    android:scheme="kakaob414de8074c876531728cbf954a03def" />
+                    android:scheme="kakao4416983cab300794e7e97eef97768746" />
             </intent-filter>
         </activity>
     </application>

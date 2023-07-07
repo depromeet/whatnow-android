@@ -1,4 +1,6 @@
 package com.depromeet.whatnow.kakao
 
-@JvmInline
-value class KakaoAccessToken(val value: String)
+data class KakaoAccessToken(
+    val accessToken: String,
+    val id_token: String,
+)
