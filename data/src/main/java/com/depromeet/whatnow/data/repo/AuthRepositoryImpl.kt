@@ -1,5 +1,7 @@
 package com.depromeet.whatnow.data.repo
 
+import android.util.Log
+import com.depromeet.whatnow.data.entity.toDomain
 import com.depromeet.whatnow.data.model.request.toData
 import com.depromeet.whatnow.data.model.response.toDomain
 import com.depromeet.whatnow.data.model.response.toJwt
@@ -13,13 +15,20 @@ internal class AuthRepositoryImpl @Inject constructor(
     private val authRemoteDataSource: AuthRemoteDataSource,
     private val authLocalDataSource: AuthLocalDataSource,
 ) : AuthRepository {
+    override suspend fun getJwtToken(): Result<JwtToken> = authLocalDataSource
+        .getJwtToken()
+        .map { it?.toDomain() ?: JwtToken("","")}
+
     override suspend fun postAuthOauthKakaoLogin(
         id_token: String,
         usersFcmToken: UsersFcmToken,
     ): Result<TokenAndUser> =
         authRemoteDataSource.postAuthOauthKakaoLogin(id_token = id_token,
             usersFcmTokenRequest = usersFcmToken.toData())
-            .onSuccess { authLocalDataSource.saveJwtToken(it.toJwt()) }
+            .onSuccess {
+                Log.d("yw","로그인 엑세스토큰 it.toJwt() = ${it.toJwt()}")
+                authLocalDataSource.saveJwtToken(it.toJwt())
+            }
             .map { it.toDomain() }
 
     override suspend fun postAuthKakaoRegister(
