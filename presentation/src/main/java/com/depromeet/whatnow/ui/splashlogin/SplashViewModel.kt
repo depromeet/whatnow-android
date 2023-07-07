@@ -35,7 +35,7 @@ class SplashViewModel @Inject constructor(
         }
         job = launch {
             loginUseCase(accessToken)
-                .onSuccess { Log.d("yw", it.toString()) }
+                .onSuccess { Log.d("yw", "로그인성공") }
                 .onFailure { Log.d("yw", "로그인실패") }
         }
         job?.invokeOnCompletion { job = null }
