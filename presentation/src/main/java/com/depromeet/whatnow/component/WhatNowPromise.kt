@@ -21,14 +21,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
+import java.text.SimpleDateFormat
 
 @Composable
-fun WhatNowPromise(modifier: Modifier) {
+fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsersStatus) {
     Card(
         shape = RoundedCornerShape(
             topEnd = 16.dp,
@@ -75,8 +76,28 @@ fun WhatNowPromise(modifier: Modifier) {
                         contentAlignment = Alignment.Center
 
                     ) {
+                        var date = ""
+
+                        val currentTime: Long = System.currentTimeMillis() // ms로 반환
+                        val currentMonth = SimpleDateFormat("MM")
+                        val currentDay = SimpleDateFormat("dd")
+
+                        val promiseMonth = promisesUsersStatusItem.date.substring(5, 7)
+                        val promiseDay = promisesUsersStatusItem.date.substring(8, 10)
+
+                        if (currentMonth.format(currentTime) == promiseMonth) {
+                            if (currentDay.format(currentTime).toInt() >= promiseDay.toInt() + 2) {
+                                date = "D-${
+                                    promiseDay.toInt() - currentDay.format(currentTime).toInt()
+                                }"
+                            }
+                        } else {
+                            date = "${promiseMonth.toInt()}/$promiseDay"
+                        }
+
+
                         Text(
-                            text = "D-2",
+                            text = date,
                             style = WhatNowTheme.typography.body2.copy(
                                 fontSize = 16.sp, color = WhatNowTheme.colors.whatNowPurple
                             )
@@ -89,7 +110,7 @@ fun WhatNowPromise(modifier: Modifier) {
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = "먹쨩이 되고싶은 모임",
+                        text = promisesUsersStatusItem.title,
                         style = WhatNowTheme.typography.body1.copy(
                             fontSize = 18.sp, color = WhatNowTheme.colors.whatNowBlack
                         )
@@ -110,21 +131,9 @@ fun WhatNowPromise(modifier: Modifier) {
                                 fontSize = 14.sp, color = WhatNowTheme.colors.gray700
                             )
                         )
-
                     }
-
                 }
-
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun WhatNowPromisePreview() {
-    WhatNowTheme {
-        WhatNowPromise(Modifier)
     }
 }

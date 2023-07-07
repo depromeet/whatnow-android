@@ -3,11 +3,14 @@ package com.depromeet.whatnow.data.model
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.InteractionDtoListResponse
+import com.depromeet.whatnow.data.model.response.InteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.InteractionsResponse
 import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.TimeOverLocationsResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
@@ -18,12 +21,15 @@ import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.InteractionDtoList
 import com.depromeet.whatnow.domain.model.Interactions
+import com.depromeet.whatnow.domain.model.InteractionsDetail
 import com.depromeet.whatnow.domain.model.PromiseUsers
 import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUser
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersSeparated
+import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
 import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.TimeOverLocations
@@ -73,7 +79,20 @@ fun List<PromiseUsersResponse>.toDomain(): List<PromiseUsers> {
             profileImg = it.profileImg,
             nickname = it.nickname,
             isDefaultImg = it.isDefaultImg,
-            promiseUserType = it.promiseUserType
+            promiseUserType = it.promiseUserType,
+            interactions = it.interactions.toDomain()
+        )
+    }
+}
+
+@JvmName("InteractionsResponse")
+fun List<InteractionsResponse>.toDomain(): List<Interactions> {
+    return map {
+        Interactions(
+            promiseId = it.promiseId,
+            userId = it.userId,
+            interactionType = it.interactionType,
+            count = it.count
         )
     }
 }
@@ -132,11 +151,11 @@ fun List<InteractionDtoListResponse>.toDomain(): GetPromisesInteractions {
     )
 }
 
-@JvmName("InteractionsResponse")
-fun List<InteractionsResponse>.toDomain(): PromisesInteractionsDetail {
+@JvmName("InteractionsDetailResponse")
+fun List<InteractionsDetailResponse>.toDomain(): PromisesInteractionsDetail {
     return PromisesInteractionsDetail(
         map {
-            Interactions(
+            InteractionsDetail(
                 senderUser = it.senderUser.toDomain(),
                 count = it.count,
                 interactionType = it.interactionType
@@ -157,5 +176,24 @@ fun List<PromisesUsersStatusResponse>.toDomain(): PromisesUsersStatusList {
             )
         }
     )
+}
 
+@JvmName("PromisesUsersSeparatedListResponse")
+fun PromisesUsersSeparatedListResponse.toDomain(): PromisesUsersSeparatedList {
+    return PromisesUsersSeparatedList(
+        additionalProp1 = this.additionalProp1.toDomain(),
+        additionalProp2 = this.additionalProp2.toDomain()
+    )
+}
+
+@JvmName("PromisesUsersSeparatedResponse")
+fun List<PromisesUsersSeparatedResponse>?.toDomain(): List<PromisesUsersSeparated>? {
+    return this?.map {
+        PromisesUsersSeparated(
+            title = it.title,
+            address = it.address,
+            endTime = it.endTime,
+            users = it.users.toDomain()
+        )
+    }
 }

@@ -10,16 +10,22 @@ import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
 import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 
 interface PromisesRepository {
     suspend fun getLocation(location: String): Result<NcpMapInfo>
+
+    suspend fun getPromisesActive(promise_id: Int): Result<Boolean>
+
 
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList>
 
     suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusList>
 
     suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusList>
+
+    suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedList>
 
     suspend fun patchPromisesProgress(
         progressCode: String,

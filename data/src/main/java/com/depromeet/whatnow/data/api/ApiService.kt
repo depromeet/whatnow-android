@@ -94,6 +94,13 @@ interface ApiService {
         @Body body: PromiseRequest,
     ): BaseResponse<PromisesResponse>
 
+    // 현재 약속 활성화 여부 조회
+    @POST(API.PROMISE.postPromises)
+    suspend fun getPromisesActive(
+        @Path("promise-id") promise_id: Int
+    ): BaseResponse<Boolean>
+
+
     // 월 단위 약속 조회
     @GET(API.PROMISE.getPromisesMonthlyUsers)
     suspend fun getPromisesMonthlyUsers(

@@ -14,6 +14,7 @@ import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
 import com.depromeet.whatnow.data.model.response.toData
 import javax.inject.Inject
@@ -26,6 +27,11 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
             apiService.getLocation(location).data
         }
 
+    override suspend fun getPromisesActive(promise_id: Int): Result<Boolean> =
+        runCatching {
+            apiService.getPromisesActive(promise_id = promise_id).data
+        }
+
     override suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse> =
         runCatching {
             apiService.getPromisesMonthlyUsers(year_month = year_month).data
@@ -34,6 +40,11 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     override suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusListResponse> =
         runCatching {
             apiService.getPromisesUsersStatus(status = status).data
+        }
+
+    override suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedListResponse> =
+        runCatching {
+            apiService.getPromisesUsersSeparated().data
         }
 
     override suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusListResponse> =

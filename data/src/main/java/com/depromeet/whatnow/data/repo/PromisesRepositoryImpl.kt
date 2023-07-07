@@ -11,6 +11,7 @@ import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
 import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 import com.depromeet.whatnow.domain.repo.PromisesRepository
 import javax.inject.Inject
@@ -21,6 +22,10 @@ internal class PromisesRepositoryImpl @Inject constructor(
     override suspend fun getLocation(location: String): Result<NcpMapInfo> =
         promisesRemoteDataSource.getLocation(location)
             .mapCatching { it.toData() }
+
+    override suspend fun getPromisesActive(promise_id: Int): Result<Boolean> =
+        promisesRemoteDataSource.getPromisesActive(promise_id = promise_id)
+            .mapCatching { it }
 
     override suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList> =
         promisesRemoteDataSource.getPromisesMonthlyUsers(year_month = year_month)
@@ -36,6 +41,11 @@ internal class PromisesRepositoryImpl @Inject constructor(
     override suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusList> =
         promisesRemoteDataSource.getPromisesUsers(promise_id = promise_id).mapCatching {
             it.contest.toDomain()
+        }
+
+    override suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedList> =
+        promisesRemoteDataSource.getPromisesUsersSeparated().mapCatching {
+            it.toDomain()
         }
 
     override suspend fun patchPromisesProgress(
@@ -92,6 +102,6 @@ internal class PromisesRepositoryImpl @Inject constructor(
     ): Result<PromisesInteractionsDetail> = promisesRemoteDataSource.getPromisesInteractionsDetail(
         promiseId = promiseId, interactionType = interactionType
     ).mapCatching {
-        it.interactions.toDomain()
+        it.interactionsDetail.toDomain()
     }
 }

@@ -150,8 +150,8 @@ fun WhatNowNaverMap(
                     width = 56.dp,
                     height = 56.dp,
                     roundedCornerShape = RoundedCornerShape(20.dp),
-                    hour = 58,
-                    min = 33,
+                    hour = "58",
+                    min = "33",
                     style = WhatNowTheme.typography.headline3.copy(
                         fontSize = 28.sp, color = Color.White
                     )
