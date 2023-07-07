@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.data.api
 
+import android.util.Log
 import com.depromeet.whatnow.data.provider.AccessTokenProvider
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -11,7 +12,6 @@ class AccessTokenInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val accessToken = accessTokenProvider.value
-
         return if (accessToken.isBlank()) {
             chain.proceed(chain.request())
         } else {
@@ -21,11 +21,10 @@ class AccessTokenInterceptor(
     }
 
     companion object {
-        private const val X_AUTH_TOKEN = "X-AUTH-TOKEN"
-
+        private const val X_AUTH_TOKEN = "Authorization"
         fun from(request: Request, accessToken: String): Request = request.newBuilder()
             .removeHeader(X_AUTH_TOKEN)
-            .addHeader(X_AUTH_TOKEN, accessToken)
+            .addHeader(X_AUTH_TOKEN, "Bearer $accessToken")
             .build()
     }
 }

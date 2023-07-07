@@ -32,7 +32,7 @@ class SplashViewModel @Inject constructor(
     private var job: Job? = null
     private var profileImage: String = ""
     private var isDefaultImage: Boolean = false
-    private var nickName: String = ""
+    private var nickname: String = ""
     private var id_token: String = ""
 
     init {
@@ -62,7 +62,7 @@ class SplashViewModel @Inject constructor(
                                 .onSuccess { userInfo ->
                                     profileImage = userInfo.profileImage
                                     isDefaultImage = userInfo.isDefaultImage
-                                    nickName = userInfo.nickname
+                                    nickname = userInfo.nickname
                                     _registerAgreePopup.value = true
                                 }
                         }
@@ -87,13 +87,13 @@ class SplashViewModel @Inject constructor(
         Log.d("yw", "id_token = $id_token")
         Log.d("yw", "profileImage = $profileImage")
         Log.d("yw", "isDefaultImage = $isDefaultImage")
-        Log.d("yw", "nickName = $nickName")
+        Log.d("yw", "nickName = $nickname")
 
         job = launch {
             registerUseCase(id_token, request = Register(
                 profileImage = profileImage,
                 isDefaultImage = isDefaultImage,
-                nickName = nickName,
+                nickname = nickname,
                 fcmToken = "",
                 appAlarm = false
             )).onSuccess {

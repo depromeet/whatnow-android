@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.data.di
 
+import android.util.Log
 import com.depromeet.whatnow.data.api.*
 import com.depromeet.whatnow.data.provider.AccessTokenProvider
 import com.depromeet.whatnow.data.provider.RefreshTokenProvider
@@ -8,8 +9,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -32,7 +35,6 @@ internal object RemoteModule {
             refreshTokenProvider = refreshTokenProvider,
             authenticationListener = authenticationListener
         )
-
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(
