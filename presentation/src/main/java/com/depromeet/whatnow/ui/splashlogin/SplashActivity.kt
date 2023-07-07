@@ -27,13 +27,24 @@ class SplashActivity : BaseActivity() {
         setContent {
             WhatNowTheme {
                 val uiState by viewModel.uiState.collectAsState()
-
-                Splash(visible = uiState != SplashUiState.Onboarded)
+                Splash(visible = uiState == SplashUiState.AppLoading)
                 SplashPage(
+                    viewModel = viewModel,
                     visible = uiState == SplashUiState.Onboarded,
                     items = PageItems,
                     login = { requestKakaoLogin() },
                 )
+
+                uiState.let {
+                    if (it == SplashUiState.RegisterAgree) {
+
+                    } else if (it == SplashUiState.Signed) {
+                        startMainActivity()
+                    }
+
+                }
+
+
             }
         }
 
@@ -42,17 +53,13 @@ class SplashActivity : BaseActivity() {
     private fun requestKakaoLogin() = lifecycleScope.launch {
         kakaoLogin.login(this@SplashActivity)
             .onSuccess {
-                viewModel.login(it.value)
+                viewModel.login(it.accessToken, it.id_token)
             }
-            .onFailure {
-            }
+            .onFailure { }
     }
-
 
     private fun startMainActivity() {
         MainActivity.startActivity(this)
         finish()
     }
-
-
 }

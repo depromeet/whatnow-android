@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.dialog.RegisterAgreeDialog
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -24,11 +25,12 @@ import kotlinx.coroutines.flow.map
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun SplashPage(
+    viewModel: SplashViewModel,
     visible: Boolean,
     items: List<PageItem>,
     login: () -> Unit,
 ) {
-
+    val showDialog by viewModel.registerAgreePopup.collectAsState()
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
     var lastPage by remember { mutableStateOf(false) }
@@ -68,6 +70,11 @@ fun SplashPage(
             }
         }
     )
+
+    if (showDialog) {
+        RegisterAgreeDialog(onDismiss = { viewModel.shownRegisterAgree() })
+    }
+
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }
             .map { it == items.lastIndex }
@@ -88,16 +95,17 @@ fun KakaoLoginButton(onClick: () -> Unit) {
     Spacer(modifier = Modifier.height(32.dp))
 }
 
-@Preview(widthDp = 360, heightDp = 800)
-@Composable
-fun SplashPagePreview() {
-    WhatNowTheme() {
-        Surface() {
-            SplashPage(
-                visible = true,
-                items = PageItems,
-                login = { },
-            )
-        }
-    }
-}
+//@Preview(widthDp = 360, heightDp = 800)
+//@Composable
+//fun SplashPagePreview() {
+//    WhatNowTheme() {
+//        Surface() {
+//            SplashPage(
+//                viewModel = ,
+//                visible = true,
+//                items = PageItems,
+//                login = { },
+//            )
+//        }
+//    }
+//}

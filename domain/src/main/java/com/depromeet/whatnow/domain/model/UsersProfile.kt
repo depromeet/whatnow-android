@@ -5,6 +5,8 @@ data class UsersProfile(
     val profileImg: String,
     val nickname: String,
     val isDefaultImg: Boolean,
-    val oauthProvider: String,
+    val oauthProvider: OauthProvider,
     val fcmInfo: FcmInfo,
-)
+) {
+    enum class OauthProvider { KAKAO }
+}

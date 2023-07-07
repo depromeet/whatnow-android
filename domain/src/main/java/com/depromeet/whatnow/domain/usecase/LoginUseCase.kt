@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.domain.usecase
 
-import com.depromeet.whatnow.domain.model.LoginResult
+import com.depromeet.whatnow.domain.model.TokenAndUser
+import com.depromeet.whatnow.domain.model.UsersFcmToken
 import com.depromeet.whatnow.domain.repo.AuthRepository
 import javax.inject.Inject
 
@@ -10,9 +11,8 @@ class LoginUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         providerToken: String,
-    ): Result<LoginResult> = runCatching {
-        authRepository.postAuthOauthKakaoLogin(providerToken).getOrThrow()
-
-        LoginResult.Signed
+    ): Result<TokenAndUser> = runCatching {
+        val usersFcmToken = UsersFcmToken("")
+        authRepository.postAuthOauthKakaoLogin(providerToken, usersFcmToken).getOrThrow()
     }
 }

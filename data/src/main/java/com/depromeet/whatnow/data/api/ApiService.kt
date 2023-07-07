@@ -19,14 +19,14 @@ interface ApiService {
     @POST(API.AUTH.postAuthKakaoRegister)
     suspend fun postAuthKakaoRegister(
         @Query("id_token") id_token: String,
-        @Body request: RegisterRequest,
+        @Body body: RegisterRequest,
     ): BaseResponse<TokenAndUserResponse>
 
     // oauth user 정보 가져오기
     @POST(API.AUTH.postAuthKakaoInfo)
     suspend fun postAuthKakaoInfo(
         @Query("access_token") access_token: String,
-    ): BaseResponse<LocationResponse>
+    ): BaseResponse<OauthUserInfoResponse>
 
     // 로그아웃
     @POST(API.AUTH.postAuthLogout)
@@ -36,7 +36,7 @@ interface ApiService {
     @GET(API.AUTH.getAuthOauthKakaoRegisterValid)
     suspend fun getAuthOauthKakaoRegisterValid(
         @Query("id_token") id_token: String,
-    ): BaseResponse<LocationResponse>
+    ): BaseResponse<AbleRegisterResponse>
 
     // 회원 탈퇴
     @DELETE(API.AUTH.deleteAutoMe)
@@ -46,6 +46,7 @@ interface ApiService {
     @POST(API.AUTH.postAuthOauthKakaoLogin)
     suspend fun postAuthOauthKakaoLogin(
         @Query("id_token") id_token: String,
+        @Body body: UsersFcmTokenRequest,
     ): BaseResponse<TokenAndUserResponse>
 
     // 사용자 프로필 수정
@@ -84,7 +85,7 @@ interface ApiService {
     // 약속 시간 수정
     @PUT(API.PROMISE.putPromisesEndTimes)
     suspend fun putPromisesEndTimes(
-        @Path("promise-id") promise_id: String, @Body body: EndTimeRequest
+        @Path("promise-id") promise_id: String, @Body body: EndTimeRequest,
     ): BaseResponse<PromisesResponse>
 
     // 약속 생성
@@ -133,14 +134,14 @@ interface ApiService {
     // 약속 유저 생성
     @POST(API.PROMISE.postPromisesUsers)
     suspend fun postPromisesUsers(
-        @Path("promise-id") promise_id: String, @Path("user-id") user_id: Int, body: CoordinateVo
+        @Path("promise-id") promise_id: String, @Path("user-id") user_id: Int, body: CoordinateVo,
     ): BaseResponse<PromisesUsersStatusResponse>
 
 
     // 약속 유저 조회
     @GET(API.PROMISE.getPromisesUsers)
     suspend fun getPromisesUsers(
-        @Path("promise-id") promise_id: String
+        @Path("promise-id") promise_id: String,
     ): BaseResponse<PromisesUsersStatusListResponse>
 
     // 해당 약속 유저 진행 상태 변경
