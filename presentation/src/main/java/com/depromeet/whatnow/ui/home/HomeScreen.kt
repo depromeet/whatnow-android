@@ -1,8 +1,10 @@
 package com.depromeet.whatnow.ui.home
 
 import android.app.Activity
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,16 +13,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,11 +37,13 @@ import com.depromeet.whatnow.component.WhatNowHomeAppBar
 import com.depromeet.whatnow.component.WhatNowInactivityMap
 import com.depromeet.whatnow.component.WhatNowPromiseList
 import com.depromeet.whatnow.component.WhatNowTimeOverMap
+import com.depromeet.whatnow.component.WhatNowTimePickerPicker
 import com.depromeet.whatnow.ui.R
-import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateActivity
+import com.depromeet.whatnow.ui.promiseAdd.Calendar
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val context = LocalContext.current
@@ -50,7 +54,6 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         }
     }
     val uiState by viewModel.uiState.collectAsState()
-    val promise = listOf("test", "test", "test", "test", "test", "test", "test")
     val scrollState = rememberScrollState()
 
     // 스크롤을 위로 땡겼을 때 리로드 되면 좋을듯
@@ -60,6 +63,20 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             .background(WhatNowTheme.colors.gray50)
             .verticalScroll(scrollState)
     ) {
+
+        WhatNowTimePickerPicker(
+            modifier = Modifier,
+            width = 43.dp,
+            height = 40.dp,
+            roundedCornerShape = RoundedCornerShape(16.dp),
+            hour = 58,
+            min = 33,
+            style = WhatNowTheme.typography.headline3.copy(
+                fontSize = 20.sp,
+                color = Color.White
+            )
+        )
+
         Box {
             /**
              * 홈 활성화 여부와 타임오버에 따라서 맵 변경
@@ -68,12 +85,13 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             when (uiState.currentStatus) {
                 HomeActivateStatus.InActivity -> WhatNowInactivityMap(
                     modifier = Modifier,
-                    isPromise = promise.isNotEmpty()
+                    isPromise = uiState.promisesUsersStatus.isNotEmpty()
                 )
 
                 HomeActivateStatus.Activity -> WhatNowActivityMap(
                     modifier = Modifier,
-                    context = context
+                    context = context,
+                    promisesUsersStatus = uiState.promisesUsersStatus.first()
                 )
 
                 else -> WhatNowTimeOverMap(
@@ -90,47 +108,82 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
         ) {
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 17.dp)
-            ) {
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(R.string.upcoming_promise),
-                    style = WhatNowTheme.typography.headline3.copy(
-                        fontSize = 20.sp, color = WhatNowTheme.colors.whatNowBlack
-                    )
-                )
-                Icon(
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .clickable { },
-                    painter = painterResource(id = R.drawable.arrow_forward_ios_24),
-                    contentDescription = null,
-                    tint = if (promise.isEmpty()) WhatNowTheme.colors.gray400
-                    else WhatNowTheme.colors.whatNowBlack
 
-
-                )
-
-            }
-
-            if (promise.isEmpty()) {
+            if (uiState.promisesUsersStatus.isEmpty()) {
                 when (uiState.currentStatus) {
-                    HomeActivateStatus.Activity -> Image(
-                        painter = painterResource(id = R.drawable.home_promise_empty_icon),
-                        contentDescription = null
-                    )
+                    HomeActivateStatus.InActivity -> {
+                        val selectedDate = remember { mutableStateOf("") }
+
+                        // 달력
+                        Calendar(
+                            onDateChanged = {
+                                selectedDate.value = it
+                            }
+                        )
+                    }
 
                     else -> {
-                        // 달력
+
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 17.dp)
+                        ) {
+                            Text(
+                                modifier = Modifier,
+                                text = stringResource(R.string.upcoming_promise),
+                                style = WhatNowTheme.typography.headline3.copy(
+                                    fontSize = 20.sp, color = WhatNowTheme.colors.whatNowBlack
+                                )
+                            )
+                            Icon(
+                                modifier = Modifier
+                                    .align(Alignment.CenterEnd)
+                                    .clickable { },
+                                painter = painterResource(id = R.drawable.arrow_forward_ios_24),
+                                contentDescription = null,
+                                tint = if (uiState.promisesUsersStatus.isEmpty()) WhatNowTheme.colors.gray400
+                                else WhatNowTheme.colors.whatNowBlack
+
+
+                            )
+
+                        }
+
+                        Image(
+                            painter = painterResource(id = R.drawable.home_promise_empty_icon),
+                            contentDescription = null
+                        )
                     }
                 }
 
             } else {
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 17.dp)
+                ) {
+                    Text(
+                        modifier = Modifier,
+                        text = stringResource(R.string.upcoming_promise),
+                        style = WhatNowTheme.typography.headline3.copy(
+                            fontSize = 20.sp, color = WhatNowTheme.colors.whatNowBlack
+                        )
+                    )
+                    Icon(
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .clickable { },
+                        painter = painterResource(id = R.drawable.arrow_forward_ios_24),
+                        contentDescription = null,
+                        tint = if (uiState.promisesUsersStatus.isEmpty()) WhatNowTheme.colors.gray400
+                        else WhatNowTheme.colors.whatNowBlack
+                    )
+                }
                 WhatNowPromiseList(
-                    modifier = Modifier, promises = promise
+                    modifier = Modifier,
+                    promisesUsersStatus = uiState.promisesUsersStatus
                 )
             }
         }
