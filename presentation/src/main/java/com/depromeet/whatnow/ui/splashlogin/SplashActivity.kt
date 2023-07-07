@@ -7,17 +7,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.lifecycleScope
 import com.depromeet.whatnow.base.BaseActivity
+import com.depromeet.whatnow.kakao.KakaoLogin
 import com.depromeet.whatnow.ui.main.MainActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
     private val viewModel: SplashViewModel by viewModels()
 
-//    @Inject
-//    lateinit var kakaoLogin: KakaoLogin
+    @Inject
+    lateinit var kakaoLogin: KakaoLogin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +40,12 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun requestKakaoLogin() = lifecycleScope.launch {
-//        kakaoLogin.login(this)
-//            .onSuccess { viewModel.login(it.value) }
-//            .onFailure { }
+        kakaoLogin.login(this@SplashActivity)
+            .onSuccess {
+                viewModel.login(it.value)
+            }
+            .onFailure {
+            }
     }
 
 
