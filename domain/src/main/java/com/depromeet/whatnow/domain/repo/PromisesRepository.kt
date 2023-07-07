@@ -13,7 +13,7 @@ import com.depromeet.whatnow.domain.model.PromisesProgress
 import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 
 interface PromisesRepository {
-    suspend fun getLocation(request: Location): Result<NcpMapInfo>
+    suspend fun getLocation(location: String): Result<NcpMapInfo>
 
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList>
 

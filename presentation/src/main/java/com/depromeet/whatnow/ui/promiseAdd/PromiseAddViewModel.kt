@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PromiseAddViewModel @Inject constructor(
-    getLocationUseCase: GetLocationUseCase,
+    private val getLocationUseCase: GetLocationUseCase,
     private val getJwtTokenUseCase: GetJwtTokenUseCase
 ) : BaseViewModel() {
 
@@ -19,8 +19,7 @@ class PromiseAddViewModel @Inject constructor(
     init {
         launch {
             Log.d("yw","엑세스 토큰 저장되어있는것 : ${getJwtTokenUseCase().getOrThrow().accessToken}")
-            val asd = Location(location = "강남")
-            getLocationUseCase(asd)
+            getLocationUseCase("강남")
                 .onSuccess { Log.d("yw","it.items = ${it.items}") }
                 .onFailure { Log.d("yw","실패 $it") }
         }
