@@ -16,6 +16,9 @@ import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 interface PromisesRepository {
     suspend fun getLocation(request: Location): Result<NcpMapInfo>
 
+    suspend fun getPromisesActive(promise_id: Int): Result<Boolean>
+
+
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList>
 
     suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusList>

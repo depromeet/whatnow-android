@@ -14,6 +14,7 @@ import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
 
 interface PromisesRemoteDataSource {
     suspend fun getLocation(request: LocationEntity): Result<NcpMapInfoEntity>
+    suspend fun getPromisesActive(promise_id: Int): Result<Boolean>
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse>
     suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusListResponse>
 

@@ -24,6 +24,11 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
             apiService.getLocation(request.toData()).data.toData()
         }
 
+    override suspend fun getPromisesActive(promise_id: Int): Result<Boolean> =
+        runCatching {
+            apiService.getPromisesActive(promise_id = promise_id).data
+        }
+
     override suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse> =
         runCatching {
             apiService.getPromisesMonthlyUsers(year_month = year_month).data

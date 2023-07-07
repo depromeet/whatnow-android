@@ -25,6 +25,10 @@ internal class PromisesRepositoryImpl @Inject constructor(
         promisesRemoteDataSource.getLocation(request.toData())
             .mapCatching { location -> location.toDomain() }
 
+    override suspend fun getPromisesActive(promise_id: Int): Result<Boolean> =
+        promisesRemoteDataSource.getPromisesActive(promise_id = promise_id)
+            .mapCatching { it }
+
     override suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList> =
         promisesRemoteDataSource.getPromisesMonthlyUsers(year_month = year_month)
             .mapCatching { promisesMonthlyUsersResponse ->
