@@ -3,6 +3,7 @@ package com.depromeet.whatnow.data.model
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.InteractionDtoListResponse
+import com.depromeet.whatnow.data.model.response.InteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.InteractionsResponse
 import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
@@ -20,6 +21,7 @@ import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.InteractionDtoList
 import com.depromeet.whatnow.domain.model.Interactions
+import com.depromeet.whatnow.domain.model.InteractionsDetail
 import com.depromeet.whatnow.domain.model.PromiseUsers
 import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
@@ -77,7 +79,20 @@ fun List<PromiseUsersResponse>.toDomain(): List<PromiseUsers> {
             profileImg = it.profileImg,
             nickname = it.nickname,
             isDefaultImg = it.isDefaultImg,
-            promiseUserType = it.promiseUserType
+            promiseUserType = it.promiseUserType,
+            interactions = it.interactions.toDomain()
+        )
+    }
+}
+
+@JvmName("InteractionsResponse")
+fun List<InteractionsResponse>.toDomain(): List<Interactions> {
+    return map {
+        Interactions(
+            promiseId = it.promiseId,
+            userId = it.userId,
+            interactionType = it.interactionType,
+            count = it.count
         )
     }
 }
@@ -136,11 +151,11 @@ fun List<InteractionDtoListResponse>.toDomain(): GetPromisesInteractions {
     )
 }
 
-@JvmName("InteractionsResponse")
-fun List<InteractionsResponse>.toDomain(): PromisesInteractionsDetail {
+@JvmName("InteractionsDetailResponse")
+fun List<InteractionsDetailResponse>.toDomain(): PromisesInteractionsDetail {
     return PromisesInteractionsDetail(
         map {
-            Interactions(
+            InteractionsDetail(
                 senderUser = it.senderUser.toDomain(),
                 count = it.count,
                 interactionType = it.interactionType

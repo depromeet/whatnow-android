@@ -100,6 +100,6 @@ internal class PromisesRepositoryImpl @Inject constructor(
     ): Result<PromisesInteractionsDetail> = promisesRemoteDataSource.getPromisesInteractionsDetail(
         promiseId = promiseId, interactionType = interactionType
     ).mapCatching {
-        it.interactions.toDomain()
+        it.interactionsDetail.toDomain()
     }
 }

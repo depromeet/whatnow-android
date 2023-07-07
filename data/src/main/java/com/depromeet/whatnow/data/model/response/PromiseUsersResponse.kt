@@ -6,6 +6,8 @@ data class PromiseUsersResponse(
     @SerializedName("profileImg") val profileImg: String,
     @SerializedName("nickname") val nickname: String,
     @SerializedName("isDefaultImg") val isDefaultImg: Boolean,
-    @SerializedName("promiseUserType") val promiseUserType: String
+    @SerializedName("promiseUserType") val promiseUserType: String,
+    @SerializedName("interactions") val interactions: List<InteractionsResponse>
+
 )
 

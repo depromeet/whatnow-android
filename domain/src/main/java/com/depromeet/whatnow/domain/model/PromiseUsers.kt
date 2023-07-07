@@ -5,6 +5,7 @@ data class PromiseUsers(
     val profileImg: String,
     val nickname: String,
     val isDefaultImg: Boolean,
-    val promiseUserType: String
+    val promiseUserType: String,
+    val interactions: List<Interactions>
 )
 
