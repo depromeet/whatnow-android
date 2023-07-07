@@ -24,11 +24,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
+import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
-fun WhatNowPromise(modifier: Modifier) {
+fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem : GetPromisesUsersStatus) {
     Card(
         shape = RoundedCornerShape(
             topEnd = 16.dp,
@@ -89,7 +91,7 @@ fun WhatNowPromise(modifier: Modifier) {
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = "먹쨩이 되고싶은 모임",
+                        text = promisesUsersStatusItem.title,
                         style = WhatNowTheme.typography.body1.copy(
                             fontSize = 18.sp, color = WhatNowTheme.colors.whatNowBlack
                         )
@@ -117,14 +119,5 @@ fun WhatNowPromise(modifier: Modifier) {
 
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun WhatNowPromisePreview() {
-    WhatNowTheme {
-        WhatNowPromise(Modifier)
     }
 }
