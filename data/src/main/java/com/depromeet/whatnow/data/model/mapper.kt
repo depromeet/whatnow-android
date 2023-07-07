@@ -172,8 +172,8 @@ fun PromisesUsersSeparatedListResponse.toDomain(): PromisesUsersSeparatedList {
 }
 
 @JvmName("PromisesUsersSeparatedResponse")
-fun List<PromisesUsersSeparatedResponse>.toDomain(): List<PromisesUsersSeparated> {
-    return map {
+fun List<PromisesUsersSeparatedResponse>?.toDomain(): List<PromisesUsersSeparated>? {
+    return this?.map {
         PromisesUsersSeparated(
             title = it.title,
             address = it.address,
