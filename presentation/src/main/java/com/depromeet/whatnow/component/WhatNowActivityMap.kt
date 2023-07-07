@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
@@ -58,7 +59,8 @@ import com.naver.maps.map.overlay.OverlayImage
 @Composable
 fun WhatNowActivityMap(
     modifier: Modifier = Modifier,
-    context: Context
+    context: Context,
+    promisesUsersStatus: GetPromisesUsersStatus
 ) {
 
     var mapProperties by remember {
@@ -79,14 +81,12 @@ fun WhatNowActivityMap(
             )
         )
     }
-
-    val seoul = LatLng(37.532600, 127.024612)
-    // 카메라 위치에 경우 좌표에 위도에서 - 0.01한 값
-    val seoulCamera = LatLng(37.532600, 127.024612)
-
+    val latitude = promisesUsersStatus.timeOverLocations.first().coordinateVo.latitude
+    val longitude = promisesUsersStatus.timeOverLocations.first().coordinateVo.longitude
+    val timeOverLocations = LatLng(latitude, longitude)
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.
-        position = CameraPosition(seoulCamera, 11.0)
+        position = CameraPosition(timeOverLocations, 11.0)
     }
 
     Box() {
@@ -137,13 +137,13 @@ fun WhatNowActivityMap(
 
                         Marker(
                             icon = OverlayImage.fromResource(R.drawable.map_marker),
-                            state = MarkerState(position = seoul),
+                            state = MarkerState(position = timeOverLocations),
                             anchor = Offset(0.5f, 0.5f)
 
                         )
 
                         CircleOverlay(
-                            center = seoul,
+                            center = timeOverLocations,
                             color = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.2f),
                             outlineColor = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.2f),
                             radius = 3000.0
@@ -210,7 +210,7 @@ fun WhatNowActivityMap(
                     ) {
                         Column() {
                             Text(
-                                text = "먹쨩이 되고싶은 모임",
+                                text = promisesUsersStatus.title,
                                 style = WhatNowTheme.typography.body1.copy(
                                     fontSize = 18.sp,
                                     color = WhatNowTheme.colors.whatNowBlack
