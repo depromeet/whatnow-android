@@ -127,7 +127,7 @@ interface ApiService {
     // 약소 장소 검색
     @GET(API.LOCATION.getLocation)
     suspend fun getLocation(
-        @Query("location") locationRequest: LocationRequest,
+        @Query("location") location: String,
     ): BaseResponse<LocationResponse>
 
     // 유저가 약속을 취소

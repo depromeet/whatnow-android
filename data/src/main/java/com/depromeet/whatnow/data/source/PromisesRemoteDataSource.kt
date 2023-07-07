@@ -1,10 +1,9 @@
 package com.depromeet.whatnow.data.source
 
-import com.depromeet.whatnow.data.entity.LocationEntity
-import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
+import com.depromeet.whatnow.data.model.response.LocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
@@ -13,8 +12,8 @@ import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListRespo
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
 
 interface PromisesRemoteDataSource {
-    suspend fun getLocation(request: LocationEntity): Result<NcpMapInfoEntity>
     suspend fun getPromisesActive(promise_id: Int): Result<Boolean>
+    suspend fun getLocation(location: String): Result<LocationResponse>
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse>
     suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusListResponse>
 

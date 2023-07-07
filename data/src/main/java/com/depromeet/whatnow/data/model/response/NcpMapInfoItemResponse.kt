@@ -1,6 +1,6 @@
 package com.depromeet.whatnow.data.model.response
 
-import com.depromeet.whatnow.data.entity.NcpMapInfoItemEntity
+import com.depromeet.whatnow.domain.model.NcpMapInfoItem
 import com.google.gson.annotations.SerializedName
 
 data class NcpMapInfoItemResponse(
@@ -19,12 +19,12 @@ data class NcpMapInfoItemResponse(
     @SerializedName("road_address")
     val road_address: String,
     @SerializedName("mapx")
-    val mapx: String,
+    val mapx: Double,
     @SerializedName("mapy")
-    val mapy: String
+    val mapy: Double
 )
 
-fun NcpMapInfoItemResponse.toDomain(): NcpMapInfoItemEntity = NcpMapInfoItemEntity(
+fun NcpMapInfoItemResponse.toDomain() = NcpMapInfoItem(
     title = title,
     link = link,
     category = category,

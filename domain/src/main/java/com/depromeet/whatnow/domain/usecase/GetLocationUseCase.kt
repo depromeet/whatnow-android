@@ -8,5 +8,5 @@ import javax.inject.Inject
 class GetLocationUseCase @Inject constructor(
     private val promisesRepository: PromisesRepository
 ) {
-    suspend operator fun invoke(request : Location): Result<NcpMapInfo> = promisesRepository.getLocation(request)
+    suspend operator fun invoke(location : String): Result<NcpMapInfo> = promisesRepository.getLocation(location)
 }

@@ -8,6 +8,6 @@ data class NcpMapInfoItem(
     val telephone : String,
     val address : String,
     val road_address : String,
-    val mapx : String,
-    val mapy : String
+    val mapx : Double,
+    val mapy : Double
 )
