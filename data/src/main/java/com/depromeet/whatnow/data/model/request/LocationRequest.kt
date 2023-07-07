@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.data.model.request
 
 import com.depromeet.whatnow.data.entity.LocationEntity
+import com.depromeet.whatnow.domain.model.Location
 import com.google.gson.annotations.SerializedName
 
 data class LocationRequest(
@@ -8,6 +9,10 @@ data class LocationRequest(
     val location: String,
 )
 
-fun LocationEntity.toData(): LocationRequest = LocationRequest(
+fun LocationRequest.toDomain() = Location(
+    location = location
+)
+
+internal fun Location.toData() = LocationRequest(
     location = location
 )

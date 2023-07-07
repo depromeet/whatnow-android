@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.data.model.response
 
 import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
+import com.depromeet.whatnow.domain.model.NcpMapInfo
 import com.google.gson.annotations.SerializedName
 
 data class LocationResponse(
@@ -16,7 +17,7 @@ data class LocationResponse(
     val items: List<NcpMapInfoItemResponse>
 )
 
-fun LocationResponse.toData(): NcpMapInfoEntity = NcpMapInfoEntity(
+fun LocationResponse.toData() = NcpMapInfo (
     last_build_date = last_build_date,
     total = total,
     start = start,

@@ -1,12 +1,15 @@
 package com.depromeet.whatnow.data.source
 
+import android.util.Log
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.entity.LocationEntity
 import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
+import com.depromeet.whatnow.data.model.request.LocationRequest
 import com.depromeet.whatnow.data.model.request.toData
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
+import com.depromeet.whatnow.data.model.response.LocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
@@ -18,9 +21,9 @@ import javax.inject.Inject
 internal class PromisesRemoteDataSourceImpl @Inject constructor(
     private val apiService: ApiService,
 ) : PromisesRemoteDataSource {
-    override suspend fun getLocation(request: LocationEntity): Result<NcpMapInfoEntity> =
+    override suspend fun getLocation(location: String): Result<LocationResponse> =
         runCatching {
-            apiService.getLocation(request.toData()).data.toData()
+            apiService.getLocation(location).data
         }
 
     override suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse> =
