@@ -253,8 +253,8 @@ fun PictureScreen(
                         iconButtonRes = R.drawable.arrow_back_ios,
                         PaddingValues(start = 16.dp, top = 24.dp),
                         alignment = Alignment.TopStart,
-                        color = Color(0xFFF9F9F9),
-                        tint = Color.Black,
+                        color = Color.Black,
+                        tint = Color.White,
                         onClick = {
                             viewModel.bitmapInit()
 
