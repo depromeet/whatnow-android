@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class RegisterRequest(
     @SerializedName("profileImage") val profileImage: String,
     @SerializedName("isDefaultImage") val isDefaultImage: Boolean,
-    @SerializedName("nickName") val nickName: String,
+    @SerializedName("nickname") val nickname: String,
     @SerializedName("fcmToken") val fcmToken: String,
     @SerializedName("appAlarm") val appAlarm: Boolean,
 )
@@ -14,7 +14,7 @@ data class RegisterRequest(
 fun Register.toData() = RegisterRequest(
     profileImage = profileImage,
     isDefaultImage = isDefaultImage,
-    nickName = nickName,
+    nickname = nickname,
     fcmToken = fcmToken,
     appAlarm = appAlarm
 )
