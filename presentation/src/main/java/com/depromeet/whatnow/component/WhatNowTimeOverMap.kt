@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.home.HomeViewModel
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
@@ -54,8 +56,10 @@ import com.naver.maps.map.overlay.OverlayImage
 @Composable
 fun WhatNowTimeOverMap(
     modifier: Modifier = Modifier,
+    viewModel: HomeViewModel,
     isLate: Boolean
 ) {
+    val uiState by viewModel.uiState.collectAsState()
 
     var mapProperties by remember {
         mutableStateOf(
@@ -76,13 +80,14 @@ fun WhatNowTimeOverMap(
         )
     }
 
-    val seoul = LatLng(37.532600, 127.024612)
-    // 카메라 위치에 경우 좌표에 위도에서 - 0.01한 값
-    val seoulCamera = LatLng(37.532600, 127.024612)
-
+    val latitude =
+        uiState.promisesUsersStatus.first().timeOverLocations.first().coordinateVo.latitude
+    val longitude =
+        uiState.promisesUsersStatus.first().timeOverLocations.first().coordinateVo.longitude
+    val timeOverLocations = LatLng(latitude, longitude)
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.
-        position = CameraPosition(seoulCamera, 11.0)
+        position = CameraPosition(timeOverLocations, 11.0)
     }
 
     val themeColor =
@@ -139,12 +144,12 @@ fun WhatNowTimeOverMap(
 
                         if (isLate) MarkerAndCircleOverlay(
                             OverlayImage.fromResource(R.drawable.time_over_late_marker),
-                            seoul,
+                            timeOverLocations,
                             themeColor
                         )
                         else MarkerAndCircleOverlay(
                             OverlayImage.fromResource(R.drawable.map_marker),
-                            seoul,
+                            timeOverLocations,
                             themeColor
                         )
                     }
@@ -253,12 +258,3 @@ fun MarkerAndCircleOverlay(icon: OverlayImage, position: LatLng, color: Color) {
         radius = 3000.0
     )
 }
-
-@Preview(showBackground = true)
-@Composable
-fun WhatNowTimeOverMapPreview() {
-    WhatNowTheme {
-        WhatNowTimeOverMap(Modifier, true)
-    }
-}
-

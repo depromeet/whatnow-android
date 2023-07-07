@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -19,10 +20,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,11 +35,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.home.HomeViewModel
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.naver.maps.geometry.LatLng
@@ -55,13 +55,17 @@ import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.overlay.OverlayImage
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun WhatNowActivityMap(
     modifier: Modifier = Modifier,
     context: Context,
-    promisesUsersStatus: GetPromisesUsersStatus
+    viewModel: HomeViewModel
 ) {
+
+    val uiState by viewModel.uiState.collectAsState()
+    val timeOver by viewModel.uiState.value.timeOver.collectAsState()
 
     var mapProperties by remember {
         mutableStateOf(
@@ -81,8 +85,10 @@ fun WhatNowActivityMap(
             )
         )
     }
-    val latitude = promisesUsersStatus.timeOverLocations.first().coordinateVo.latitude
-    val longitude = promisesUsersStatus.timeOverLocations.first().coordinateVo.longitude
+    val latitude =
+        uiState.promisesUsersStatus.first().timeOverLocations.first().coordinateVo.latitude
+    val longitude =
+        uiState.promisesUsersStatus.first().timeOverLocations.first().coordinateVo.longitude
     val timeOverLocations = LatLng(latitude, longitude)
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.
@@ -188,8 +194,8 @@ fun WhatNowActivityMap(
                             width = 43.dp,
                             height = 40.dp,
                             roundedCornerShape = RoundedCornerShape(16.dp),
-                            hour = 58,
-                            min = 33,
+                            hour = timeOver.first,
+                            min = timeOver.second,
                             style = WhatNowTheme.typography.headline3.copy(
                                 fontSize = 20.sp,
                                 color = Color.White
@@ -210,7 +216,7 @@ fun WhatNowActivityMap(
                     ) {
                         Column() {
                             Text(
-                                text = promisesUsersStatus.title,
+                                text = uiState.promisesUsersStatus.first().title,
                                 style = WhatNowTheme.typography.body1.copy(
                                     fontSize = 18.sp,
                                     color = WhatNowTheme.colors.whatNowBlack

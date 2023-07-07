@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.text.SimpleDateFormat
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -28,7 +27,7 @@ class HomeViewModel @Inject constructor(
 
     init {
         getPromisesUsersStatus()
-        a()
+        timerStart("2023-07-07T14:57:18.474Z")
     }
 
     fun getPromisesUsersStatus() {
@@ -38,7 +37,10 @@ class HomeViewModel @Inject constructor(
                 _uiState.value.promisesUsersStatus = it.contest
                 when (it.contest.first().promiseUsers.first().promiseUserType) {
                     "READY" -> {
-                        checkedPromise(it.contest.first().promiseUsers.first().interactions.first().promiseId)
+                        checkedPromise(
+                            it.contest.first().promiseUsers.first().interactions.first().promiseId,
+                            it.contest.first().date
+                        )
                     }
 
                     "WAIT" -> _uiState.value.currentStatus = HomeActivateStatus.Wait
@@ -51,11 +53,14 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun checkedPromise(promise_id: Int) {
+    fun checkedPromise(promise_id: Int, date: String) {
         launch {
             getPromisesActiveUseCase(promise_id = promise_id).onSuccess {
-                if (it) _uiState.value.currentStatus = HomeActivateStatus.Activity
-                else _uiState.value.currentStatus = HomeActivateStatus.InActivity
+                if (it) {
+                    _uiState.value.currentStatus = HomeActivateStatus.Activity
+
+                    timerStart(date)
+                } else _uiState.value.currentStatus = HomeActivateStatus.InActivity
             }.onFailure { }
         }
     }
@@ -68,13 +73,12 @@ class HomeViewModel @Inject constructor(
         _isRefresh.value = false
     }
 
-    fun a() {
-        val deadLine = Calendar.getInstance()
-        deadLine.add(Calendar.DAY_OF_MONTH, 1)
-        deadLine.add(Calendar.HOUR, 9)
-        deadLine.add(Calendar.MINUTE, 28)
+    fun timerStart(date: String) {
 
-        val strDeadline = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(deadLine.time)
+        val deadLine = Calendar.getInstance()
+        deadLine.add(Calendar.HOUR, date.substring(11, 13).toInt())
+        deadLine.add(Calendar.MINUTE, date.substring(14, 16).toInt())
+
 //    mBinding.textDeadline.text = "$strDeadline 까지 남은 시간"
 
         val diffSec: Long = (deadLine.timeInMillis - Calendar.getInstance().timeInMillis)
@@ -82,7 +86,11 @@ class HomeViewModel @Inject constructor(
 
         mTimer = object : CountDownTimer(diffSec, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                _uiState.value.test = getTime(deadLine)
+                launch {
+                    _uiState.value.timeOver.value = getTime(deadLine)
+
+                }
+                Log.d("ttt", getTime(deadLine).toString())
             }
 
             override fun onFinish() {
@@ -95,7 +103,7 @@ class HomeViewModel @Inject constructor(
 }
 
 
-private fun getTime(deadLine: Calendar): List<String> {
+private fun getTime(deadLine: Calendar): Pair<String, String> {
 
     val diffSec: Long = (deadLine.timeInMillis - Calendar.getInstance().timeInMillis) / 1000
 
@@ -104,11 +112,11 @@ private fun getTime(deadLine: Calendar): List<String> {
     val secTime = Math.floor((diffSec - 3600 * hourTime - 60 * minTime).toDouble()).toInt()
 
     if (hourTime <= 0 && minTime <= 0 && secTime <= 0)
-        return listOf("0", "0")
+        return Pair("0", "0")
 
     val hour = String.format("%02d", hourTime)
     val min = String.format("%02d", minTime)
     val sec = String.format("%02d", secTime)
 
-    return listOf(hour, min)
+    return Pair(min, sec)
 }

@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.ui.home
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,12 +36,12 @@ import com.depromeet.whatnow.component.WhatNowHomeAppBar
 import com.depromeet.whatnow.component.WhatNowInactivityMap
 import com.depromeet.whatnow.component.WhatNowPromiseList
 import com.depromeet.whatnow.component.WhatNowTimeOverMap
-import com.depromeet.whatnow.component.WhatNowTimePickerPicker
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.promiseAdd.Calendar
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
@@ -54,6 +53,8 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         }
     }
     val uiState by viewModel.uiState.collectAsState()
+    val timeOver by viewModel.uiState.value.timeOver.collectAsState()
+
     val scrollState = rememberScrollState()
 
     // 스크롤을 위로 땡겼을 때 리로드 되면 좋을듯
@@ -64,19 +65,6 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             .verticalScroll(scrollState)
     ) {
 
-        WhatNowTimePickerPicker(
-            modifier = Modifier,
-            width = 43.dp,
-            height = 40.dp,
-            roundedCornerShape = RoundedCornerShape(16.dp),
-            hour = 58,
-            min = 33,
-            style = WhatNowTheme.typography.headline3.copy(
-                fontSize = 20.sp,
-                color = Color.White
-            )
-        )
-
         Box {
             /**
              * 홈 활성화 여부와 타임오버에 따라서 맵 변경
@@ -85,17 +73,18 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             when (uiState.currentStatus) {
                 HomeActivateStatus.InActivity -> WhatNowInactivityMap(
                     modifier = Modifier,
-                    isPromise = uiState.promisesUsersStatus.isNotEmpty()
+                    isPromise = uiState.promisesUsersStatus.isNotEmpty(),
                 )
 
                 HomeActivateStatus.Activity -> WhatNowActivityMap(
                     modifier = Modifier,
                     context = context,
-                    promisesUsersStatus = uiState.promisesUsersStatus.first()
+                    viewModel = viewModel
                 )
 
                 else -> WhatNowTimeOverMap(
                     modifier = Modifier,
+                    viewModel = viewModel,
                     isLate = uiState.currentStatus == HomeActivateStatus.Late
                 )
             }

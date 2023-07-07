@@ -31,8 +31,8 @@ fun WhatNowTimePickerPicker(
     width: Dp,
     height: Dp,
     roundedCornerShape: RoundedCornerShape,
-    hour: Int,
-    min: Int,
+    hour: String,
+    min: String,
     style: TextStyle
 ) {
     Row() {
@@ -54,7 +54,7 @@ fun WhatNowTimePickerPicker(
 
             ) {
                 Text(
-                    text = hour.toString(),
+                    text = hour,
                     style = style
                 )
             }
@@ -116,7 +116,7 @@ fun WhatNowTimePickerPicker(
 
             ) {
                 Text(
-                    text = min.toString(),
+                    text = min,
                     style = style
                 )
             }
@@ -134,8 +134,8 @@ fun WhatNowTimePickerPreview() {
             56.dp,
             56.dp,
             RoundedCornerShape(16.dp),
-            58,
-            33,
+            "58",
+            "33",
             WhatNowTheme.typography.headline3.copy(
                 fontSize = 20.sp,
                 color = Color.White
