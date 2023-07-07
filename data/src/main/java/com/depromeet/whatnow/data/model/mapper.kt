@@ -163,6 +163,7 @@ fun List<PromisesUsersStatusResponse>.toDomain(): PromisesUsersStatusList {
     )
 }
 
+@JvmName("PromisesUsersSeparatedListResponse")
 fun PromisesUsersSeparatedListResponse.toDomain(): PromisesUsersSeparatedList {
     return PromisesUsersSeparatedList(
         additionalProp1 = this.additionalProp1.toDomain(),
@@ -170,6 +171,7 @@ fun PromisesUsersSeparatedListResponse.toDomain(): PromisesUsersSeparatedList {
     )
 }
 
+@JvmName("PromisesUsersSeparatedResponse")
 fun List<PromisesUsersSeparatedResponse>.toDomain(): List<PromisesUsersSeparated> {
     return map {
         PromisesUsersSeparated(
