@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="button">버튼</string>
+    <string name="button_ok">확인</string>
+    <string name="button_cancel">취소</string>
+
     // Splash
     <string name="splash_item1_title">타임오버 기능으로\n누가누가 제시간에 도착했나!</string>
     <string name="splash_item1_description">느슨해진 친구 사이의 약속에\n긴장감을 줘봐!</string>
@@ -9,6 +13,10 @@
 
     <string name="splash_item3_title">달려가면서, 기다리면서\n사진으로 빠르게 소통!</string>
     <string name="splash_item3_description">친구가 혹시나 늦더라도\n기다리다 지친 셀카로 재촉해봐!</string>
+
+    <string name="register_agree_title">whatNow 정보이용 안내에 대한 동의를 해주세요</string>>
+    <string name="register_agree_msg">왓나 서비스 약관</string>>
+    <string name="register_agree_btn">약관 동의하고 시작하기</string>>
 
     // Promise
     <string name="promise_title">약속 만들기</string>

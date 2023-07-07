@@ -1,7 +1,6 @@
 package com.depromeet.whatnow.feature
 
 import android.content.Context
-import android.util.Log
 import com.depromeet.whatnow.kakao.KakaoAccessToken
 import com.depromeet.whatnow.kakao.KakaoLogin
 import com.kakao.sdk.auth.model.OAuthToken
@@ -23,8 +22,8 @@ internal class KakaoLoginImpl @Inject constructor() : KakaoLogin {
                 when {
                     throwable != null -> continuation.resumeWithException(throwable)
                     token != null && continuation.isActive -> {
-                        val accessToken = KakaoAccessToken(token.idToken!!)
-                        Log.d("yw", "엑세스토큰 : ${KakaoAccessToken(token.accessToken)}")
+                        val accessToken = KakaoAccessToken(accessToken = token.accessToken,
+                            id_token = token.idToken!!)
                         continuation.resume(accessToken)
                     }
                 }
