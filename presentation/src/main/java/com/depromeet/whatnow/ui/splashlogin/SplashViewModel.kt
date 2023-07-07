@@ -45,20 +45,19 @@ class SplashViewModel @Inject constructor(
 
     fun login(accessToken: String, id_token: String) {
         this.id_token = id_token
+        Log.d("yw","accessToken = $accessToken")
+        Log.d("yw","id_token = $id_token")
 
         if (job != null) {
             return
         }
         job = launch {
-//            deleteAutoMeUseCase()
-//                .onSuccess { Log.d("yw", "삭제 성공") }
-//                .onFailure { Log.d("yw", "삭제 실패") }
             getAuthOauthKakaoRegisterValidUseCase(id_token)
                 .onSuccess {
+                    Log.d("yw","회원가입이 가능하니? ${it.canRegister}")
                     when {
                         // 회원가입 가능할때 -> 엑세스토큰을 통해 회원정보를 가져와 자동회원가입 후 로그인
                         it.canRegister -> {
-                            registerAgreePopup
                             getOauthUserInfoUseCase(accessToken)
                                 .onSuccess { userInfo ->
                                     profileImage = userInfo.profileImage
@@ -106,7 +105,7 @@ class SplashViewModel @Inject constructor(
                     }
                     .onFailure { throwable -> handleException(throwable) }
             }.onFailure {
-                Log.d("yw", "실패")
+                Log.d("yw", "실패 $it")
             }
         }
 

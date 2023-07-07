@@ -30,7 +30,7 @@ internal class AuthRemoteDataSourceImpl @Inject constructor(
             val response =
                 apiService.postAuthKakaoRegister(id_token = id_token, body = request)
             response.data
-        }.onFailure { Log.d("yw", "여기서부터 실패") }
+        }.onFailure { Log.d("yw", "여기서부터 실패 $it") }
 
     override suspend fun postAuthKakaoInfo(access_token: String): Result<OauthUserInfoResponse> =
         runCatching {

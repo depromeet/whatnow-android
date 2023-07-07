@@ -8,25 +8,14 @@ data class UsersProfileResponse(
     @SerializedName("profileImg") val profileImg: String,
     @SerializedName("nickname") val nickname: String,
     @SerializedName("isDefaultImg") val isDefaultImg: Boolean,
-    @SerializedName("oauthProvider") val oauthProvider: OauthProvider,
+    @SerializedName("oauthProvider") val oauthProvider: String,
     @SerializedName("fcmInfo") val fcmInfo: FcmInfoResponse,
-) {
-    enum class OauthProvider {
-        KAKAO
-    }
-}
-
-internal fun UsersProfileResponse.OauthProvider.toData() =
-    when (this) {
-        UsersProfileResponse.OauthProvider.KAKAO -> UsersProfile.OauthProvider.KAKAO
-    }
-
-
+)
 internal fun UsersProfileResponse.toData() = UsersProfile(
     id = id,
     profileImg = profileImg,
     nickname = nickname,
     isDefaultImg = isDefaultImg,
-    oauthProvider = oauthProvider.toData(),
+    oauthProvider = oauthProvider,
     fcmInfo = fcmInfo.toData()
 )
