@@ -8,6 +8,8 @@ import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.TimeOverLocationsResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
@@ -24,6 +26,8 @@ import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUser
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersSeparated
+import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
 import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.TimeOverLocations
@@ -157,5 +161,22 @@ fun List<PromisesUsersStatusResponse>.toDomain(): PromisesUsersStatusList {
             )
         }
     )
+}
 
+fun PromisesUsersSeparatedListResponse.toDomain(): PromisesUsersSeparatedList {
+    return PromisesUsersSeparatedList(
+        additionalProp1 = this.additionalProp1.toDomain(),
+        additionalProp2 = this.additionalProp2.toDomain()
+    )
+}
+
+fun List<PromisesUsersSeparatedResponse>.toDomain(): List<PromisesUsersSeparated> {
+    return map {
+        PromisesUsersSeparated(
+            title = it.title,
+            address = it.address,
+            endTime = it.endTime,
+            users = it.users.toDomain()
+        )
+    }
 }
