@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,9 +28,40 @@ import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import java.text.SimpleDateFormat
+import java.util.Calendar
 
 @Composable
 fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsersStatus) {
+
+    var date = ""
+
+    var today = Calendar.getInstance()
+
+    val promiseMonth = promisesUsersStatusItem.endTime.substring(5, 7)
+    val promiseDay = promisesUsersStatusItem.endTime.substring(8, 10)
+    val promiseDate = promisesUsersStatusItem.endTime.substring(0, 10) + " 00:00:00"
+    var sf =
+        SimpleDateFormat("yyyy-MM-dd 00:00:00") //단순히 날짜만 확인하기위해 시간을 00:00:00으로 셋팅함.
+
+//    2023-07-07T14:57:18.474Z
+    Log.d("Ttt", sf.parse(promiseDate)!!.toString())
+    val calculationDate =
+        (today.time.time - sf.parse(promiseDate)!!.time) / (60 * 60 * 24 * 1000)
+
+    date = if (calculationDate > 7) {
+        "${promiseMonth.toInt()}/$promiseDay"
+
+    } else {
+
+        "D-${
+            calculationDate
+        }"
+    }
+    Log.d("ttt", date)
+
+    Log.d("ttt", promiseMonth)
+    Log.d("ttt", promiseDay)
+
     Card(
         shape = RoundedCornerShape(
             topEnd = 16.dp,
@@ -76,25 +108,6 @@ fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsers
                         contentAlignment = Alignment.Center
 
                     ) {
-                        var date = ""
-
-                        val currentTime: Long = System.currentTimeMillis() // ms로 반환
-                        val currentMonth = SimpleDateFormat("MM")
-                        val currentDay = SimpleDateFormat("dd")
-
-                        val promiseMonth = promisesUsersStatusItem.endTime.substring(5, 7)
-                        val promiseDay = promisesUsersStatusItem.endTime.substring(8, 10)
-
-                        if (currentMonth.format(currentTime) == promiseMonth) {
-                            if (currentDay.format(currentTime).toInt() >= promiseDay.toInt() + 2) {
-                                date = "D-${
-                                    promiseDay.toInt() - currentDay.format(currentTime).toInt()
-                                }"
-                            }
-                        } else {
-                            date = "${promiseMonth.toInt()}/$promiseDay"
-                        }
-
 
                         Text(
                             text = date,

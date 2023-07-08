@@ -3,8 +3,7 @@ package com.depromeet.whatnow.domain.repo
 
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgressList
-import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
-import com.depromeet.whatnow.domain.model.Location
+import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.domain.model.NcpMapInfo
 import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
@@ -21,7 +20,7 @@ interface PromisesRepository {
 
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList>
 
-    suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusList>
+    suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatus>>
 
     suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusList>
 

@@ -81,9 +81,9 @@ fun WhatNowTimeOverMap(
     }
 
     val latitude =
-        uiState.promisesUsersStatus.first().timeOverLocations.first().coordinateVo.latitude
+        uiState.promisesUsersStatus.first().coordinateVo.latitude
     val longitude =
-        uiState.promisesUsersStatus.first().timeOverLocations.first().coordinateVo.longitude
+        uiState.promisesUsersStatus.first().coordinateVo.longitude
     val timeOverLocations = LatLng(latitude, longitude)
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.

@@ -47,8 +47,8 @@ class MainViewModel @Inject constructor(
     fun getPromisesUsersStatus() {
         launch {
             getPromisesUsersStatusUseCase(status = "BEFORE").onSuccess {
-                Log.d("ttt onSuccess", "it.items = ${it.contest}")
-                _uiState.value.promisesUsersStatus = it.contest
+                Log.d("ttt onSuccess", "it.items = ${it}")
+                _uiState.value.promisesUsersStatus = it
             }.onFailure { Log.d("ttt onFailure", it.toString()) }
         }
 

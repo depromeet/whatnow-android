@@ -111,7 +111,7 @@ interface ApiService {
     @GET(API.PROMISE.getPromisesUsersStatus)
     suspend fun getPromisesUsersStatus(
         @Path("status") status: String,
-    ): BaseResponse<GetPromisesUsersStatusListResponse>
+    ): BaseResponse<List<GetPromisesUsersStatusResponse>>
 
     // 나의 약속 전부 조회
     @GET(API.PROMISE.getPromisesUsersSeparated)

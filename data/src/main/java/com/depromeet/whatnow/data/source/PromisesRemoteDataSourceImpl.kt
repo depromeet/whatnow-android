@@ -2,13 +2,9 @@ package com.depromeet.whatnow.data.source
 
 import android.util.Log
 import com.depromeet.whatnow.data.api.ApiService
-import com.depromeet.whatnow.data.entity.LocationEntity
-import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
-import com.depromeet.whatnow.data.model.request.LocationRequest
-import com.depromeet.whatnow.data.model.request.toData
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.LocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
@@ -16,7 +12,6 @@ import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListRespons
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
-import com.depromeet.whatnow.data.model.response.toData
 import javax.inject.Inject
 
 internal class PromisesRemoteDataSourceImpl @Inject constructor(
@@ -37,9 +32,11 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
             apiService.getPromisesMonthlyUsers(year_month = year_month).data
         }
 
-    override suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusListResponse> =
+    override suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatusResponse>> =
         runCatching {
             apiService.getPromisesUsersStatus(status = status).data
+        }.onFailure {
+            Log.d("ttt", it.toString())
         }
 
     override suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedListResponse> =
