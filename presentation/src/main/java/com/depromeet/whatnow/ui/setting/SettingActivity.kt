@@ -21,12 +21,11 @@ class SettingActivity : BaseActivity() {
             WhatNowTheme {
                 SettingScreen(
                     viewModel = viewModel,
+                    onBack = ::finish
                 )
             }
         }
     }
-
-    private fun navigateUp() = finish()
 
     companion object {
         fun startActivity(context: Context) {
