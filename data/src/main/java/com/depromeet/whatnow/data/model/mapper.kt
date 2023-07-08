@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.data.model
 
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.InteractionDtoListResponse
 import com.depromeet.whatnow.data.model.response.InteractionsDetailResponse
@@ -14,6 +15,7 @@ import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.TimeOverLocationsResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
+import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgress
 import com.depromeet.whatnow.domain.model.GetPromisesProgressList
@@ -201,4 +203,16 @@ fun List<PromisesUsersSeparatedResponse>?.toDomain(): List<PromisesUsersSeparate
             users = it.users.toDomain()
         )
     }
+}
+
+@JvmName("GetPromisesResponse")
+fun GetPromisesResponse.toDomain(): GetPromises {
+    return GetPromises(
+        promiseId = this.promiseId,
+        address = this.address,
+        coordinateVo = this.coordinateVo,
+        title = this.title,
+        endTime = this.endTime,
+        users = this.users.toDomain()
+    )
 }

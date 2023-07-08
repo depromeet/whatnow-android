@@ -4,6 +4,7 @@ import android.util.Log
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.LocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
@@ -31,6 +32,12 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
         runCatching {
             apiService.getPromisesMonthlyUsers(year_month = year_month).data
         }
+
+    override suspend fun getPromises(promise_id: Int): Result<GetPromisesResponse> =
+        runCatching {
+            apiService.getPromises(promise_id = promise_id).data
+        }
+
 
     override suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatusResponse>> =
         runCatching {

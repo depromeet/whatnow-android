@@ -3,6 +3,7 @@ package com.depromeet.whatnow.data.repo
 import com.depromeet.whatnow.data.model.response.toData
 import com.depromeet.whatnow.data.model.toDomain
 import com.depromeet.whatnow.data.source.PromisesRemoteDataSource
+import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
@@ -36,6 +37,11 @@ internal class PromisesRepositoryImpl @Inject constructor(
     override suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatus>> =
         promisesRemoteDataSource.getPromisesUsersStatus(status = status).mapCatching {
             it.toDomain().contest
+        }
+
+    override suspend fun getPromises(promise_id: Int): Result<GetPromises> =
+        promisesRemoteDataSource.getPromises(promise_id = promise_id).mapCatching {
+            it.toDomain()
         }
 
     override suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusList> =

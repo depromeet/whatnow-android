@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.domain.repo
 
 
+import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
@@ -21,6 +22,8 @@ interface PromisesRepository {
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList>
 
     suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatus>>
+
+    suspend fun getPromises(promise_id: Int): Result<GetPromises>
 
     suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusList>
 

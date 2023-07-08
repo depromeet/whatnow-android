@@ -2,6 +2,7 @@ package com.depromeet.whatnow.data.source
 
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.LocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
@@ -15,6 +16,8 @@ interface PromisesRemoteDataSource {
     suspend fun getPromisesActive(promise_id: Int): Result<Boolean>
     suspend fun getLocation(location: String): Result<LocationResponse>
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse>
+
+    suspend fun getPromises(promise_id: Int): Result<GetPromisesResponse>
     suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatusResponse>>
 
     suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedListResponse>
