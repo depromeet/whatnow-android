@@ -2,4 +2,9 @@
 <resources>
 
     <style name="Theme.Whatnow" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.ImageCropper" parent="Theme.AppCompat">
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/black</item>
+    </style>
 </resources>

@@ -51,7 +51,8 @@ dependencies {
     implementation(libs.compose.material3)
 
     implementation(libs.coil.compose)
-
+    implementation(libs.image.cropper)
+    
     implementation(libs.google.hilt.android)
 
     implementation("androidx.appcompat:appcompat:1.6.1")
