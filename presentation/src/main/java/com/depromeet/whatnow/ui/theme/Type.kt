@@ -11,7 +11,7 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
 
-private val NotoSansKR = FontFamily(
+val NotoSansKR = FontFamily(
     Font(R.font.noto_sans_kr_bold, FontWeight.Bold),
     Font(R.font.noto_sans_kr_medium, FontWeight.Medium),
     Font(R.font.noto_sans_kr_regular, FontWeight.Normal)
