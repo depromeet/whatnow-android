@@ -86,4 +86,17 @@
     <string name="arrived">도착</string>
     <string name="late">지각</string>
     <string name="unspecified">알 수 없음</string>
+
+    <string name="settings">설정</string>
+    <string name="login_with_kakao">Kakao 로그인</string>
+    <string name="app_notification">앱 알림</string>
+    <string name="version_info">버전 정보</string>
+    <string name="newest_version">최신 버전</string>
+    <string name="usage_term">이용 약관</string>
+    <string name="sign_out">로그아웃</string>
+    <string name="delete_user">Whatnow 탈퇴</string>
+    <string name="edit_profile">프로필 수정</string>
+    <string name="done">완료</string>
+    <string name="edit_profile_help">프로필 사진과 닉네임을 수정합니다.</string>
+    <string name="profile_textfield_placeholder">닉네임 입력</string>
 </resources>
