@@ -98,6 +98,10 @@
                     android:scheme="kakao4416983cab300794e7e97eef97768746" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Theme.ImageCropper" />
     </application>
 
 </manifest>
