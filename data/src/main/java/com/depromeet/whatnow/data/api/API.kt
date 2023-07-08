@@ -30,6 +30,7 @@ class API {
         const val putPromisesLocation = BASE + "{promise-id}/location"
         const val putPromisesEndTimes = BASE + "{promise-id}/end-times"
         const val postPromises = BASE + ""
+        const val getPromisesActive = BASE + "{promise-id}/active"
         const val getPromisesMonthlyUsers = BASE + "users"
         const val getPromisesUsersStatus = BASE + "users/status/{status}"
         const val getPromisesUsersSeparated = BASE + "users/separated"

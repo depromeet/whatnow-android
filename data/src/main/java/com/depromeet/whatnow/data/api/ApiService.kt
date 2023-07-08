@@ -95,7 +95,7 @@ interface ApiService {
     ): BaseResponse<PromisesResponse>
 
     // 현재 약속 활성화 여부 조회
-    @POST(API.PROMISE.postPromises)
+    @GET(API.PROMISE.getPromisesActive)
     suspend fun getPromisesActive(
         @Path("promise-id") promise_id: Int
     ): BaseResponse<Boolean>
