@@ -82,8 +82,8 @@ fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsers
                         val currentMonth = SimpleDateFormat("MM")
                         val currentDay = SimpleDateFormat("dd")
 
-                        val promiseMonth = promisesUsersStatusItem.date.substring(5, 7)
-                        val promiseDay = promisesUsersStatusItem.date.substring(8, 10)
+                        val promiseMonth = promisesUsersStatusItem.endTime.substring(5, 7)
+                        val promiseDay = promisesUsersStatusItem.endTime.substring(8, 10)
 
                         if (currentMonth.format(currentTime) == promiseMonth) {
                             if (currentDay.format(currentTime).toInt() >= promiseDay.toInt() + 2) {

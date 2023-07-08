@@ -63,8 +63,11 @@ fun List<GetPromisesUsersStatusResponse>.toDomain(): GetPromisesUsersStatusList 
     return GetPromisesUsersStatusList(
         map {
             GetPromisesUsersStatus(
+                promiseId = it.promiseId,
+                address = it.address,
+                coordinateVo = it.coordinateVo,
                 title = it.title,
-                date = it.date,
+                endTime = it.endTime,
                 promiseUsers = it.promiseUsers.toDomain(),
                 promiseImageUrls = it.promiseImageUrls,
                 timeOverLocations = it.timeOverLocations.toDomain()
@@ -190,8 +193,10 @@ fun PromisesUsersSeparatedListResponse.toDomain(): PromisesUsersSeparatedList {
 fun List<PromisesUsersSeparatedResponse>?.toDomain(): List<PromisesUsersSeparated>? {
     return this?.map {
         PromisesUsersSeparated(
+            promiseId = it.promiseId,
             title = it.title,
             address = it.address,
+            coordinateVo = it.coordinateVo,
             endTime = it.endTime,
             users = it.users.toDomain()
         )
