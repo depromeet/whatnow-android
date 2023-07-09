@@ -15,7 +15,7 @@ data class TokenAndUserResponse(
 internal fun TokenAndUserResponse.toDomain() = TokenAndUser(
     accessToken = accessToken,
     refreshToken = refreshToken,
-    user = user.toData(),
+    user = user.toDomain(),
     accessTokenExpireIn = accessTokenExpireIn,
     refreshTokenExpireIn = refreshTokenExpireIn
 )

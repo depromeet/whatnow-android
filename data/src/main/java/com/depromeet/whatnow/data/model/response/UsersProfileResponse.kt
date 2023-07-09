@@ -11,11 +11,11 @@ data class UsersProfileResponse(
     @SerializedName("oauthProvider") val oauthProvider: String,
     @SerializedName("fcmInfo") val fcmInfo: FcmInfoResponse,
 )
-internal fun UsersProfileResponse.toData() = UsersProfile(
+internal fun UsersProfileResponse.toDomain() = UsersProfile(
     id = id,
     profileImg = profileImg,
     nickname = nickname,
     isDefaultImg = isDefaultImg,
     oauthProvider = oauthProvider,
-    fcmInfo = fcmInfo.toData()
+    fcmInfo = fcmInfo.toDomain()
 )

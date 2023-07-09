@@ -1,11 +1,7 @@
 package com.depromeet.whatnow.data.source
 
-import android.util.Log
 import com.depromeet.whatnow.data.api.ApiService
-import com.depromeet.whatnow.data.entity.LocationEntity
-import com.depromeet.whatnow.data.entity.NcpMapInfoEntity
-import com.depromeet.whatnow.data.model.request.LocationRequest
-import com.depromeet.whatnow.data.model.request.toData
+import com.depromeet.whatnow.data.model.request.PromiseRequest
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusListResponse
@@ -14,9 +10,9 @@ import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
-import com.depromeet.whatnow.data.model.response.toData
 import javax.inject.Inject
 
 internal class PromisesRemoteDataSourceImpl @Inject constructor(
@@ -119,4 +115,11 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
             promiseId = promiseId, interactionType = interactionType
         ).data
     }
+
+    override suspend fun postPromises(request: PromiseRequest): Result<PromisesResponse> =
+        runCatching {
+            apiService.postPromises(request).data
+        }
+
+
 }

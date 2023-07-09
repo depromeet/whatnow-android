@@ -43,7 +43,10 @@
     <string name="promise_detail_title">약속 잡았다!</string>
     <string name="promise_detail_msg">친구들을 초대하고\n약속 당일 실시간으로 위치를 공유해봐</string>
 
-    <string name="promise_detail_btn_detail">약속 상세보기</string>>
+    <string name="promise_reset_title">약속 정보 재설정</string>
+    <string name="promise_reset_msg">기입된 약속 정보를 모두 삭제합니다.\n약속 정보를 재설정 하시겠습니까?</string>
+
+    <string name="promise_detail_btn_home">홈</string>>
     <string name="promise_detail_btn_invite">친구 초대하기</string>>
 
     <string name="activated_promise">활성화된 약속</string>

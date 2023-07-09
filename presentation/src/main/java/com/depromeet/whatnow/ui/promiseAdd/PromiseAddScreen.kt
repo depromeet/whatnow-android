@@ -30,14 +30,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.depromeet.whatnow.component.WhatNowPlaceMap
 import com.depromeet.whatnow.component.WhatNowSimpleTopBar
 import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.dialog.promiseResetDialog
 import com.depromeet.whatnow.ui.theme.MaterialColors
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import java.util.*
@@ -49,13 +52,26 @@ fun PromiseScreen(
     viewModel: PromiseAddViewModel = hiltViewModel(),
     onBack: () -> Unit,
 ) {
+    val context = LocalContext.current
+
+    val locationMapUi by viewModel.locationMap.collectAsState()
     val locationListUi by viewModel.locationListUi.collectAsState()
     val locationListData by viewModel.locationListData.collectAsState()
 
+    val showDialog by viewModel.promiseResetPopup.collectAsState()
+
     var screenState by remember { mutableStateOf(PromiseScreenState()) }
 
-    val selectedDate = remember { mutableStateOf("") }
-    val selectedClock = remember { mutableStateOf("") }
+    val selectedCalendar = remember { mutableStateOf("") }
+    val selectedTime = remember { mutableStateOf("") }
+    val selectedPlace = remember { mutableStateOf("") }
+    val selectedPlaceLatitude = remember { mutableStateOf(0.0) }
+    val selectedPlaceLongitude = remember { mutableStateOf(0.0) }
+
+    // 서버용 포맷 데이터
+    val calendarData = remember { mutableStateOf("") }
+    val timeData = remember { mutableStateOf("") }
+
     val buttonText = remember { mutableStateOf("다음") }
 
 
@@ -84,26 +100,27 @@ fun PromiseScreen(
                             isPlaceVisible = true,
                             isPlaceDataSet = true,
                         )
-                    } else if (screenState.isSetDateValue && screenState.isClockDataSet && screenState.isPlaceDataSet) {
-                        screenState = screenState.copy(
-                            isClockVisible = false,
-                            isPlaceVisible = false
-                        )
-                        buttonText.value = "만들기"
+                    } else if (screenState.isSetDateValue && screenState.isClockDataSet && screenState.isPlaceDataSet && selectedPlace.value == "") {
+//                        if (selectedPlace.value != "") {
+//                            screenState = screenState.copy(
+//                                isClockVisible = false,
+//                                isPlaceVisible = false
+//                            )
+//                            buttonText.value = "만들기"
+//                            viewModel.getLocationMap(selectedPlaceLatitude.value, selectedPlaceLongitude.value)
+//                        }
                     } else {
-                        //TODO 최종만들기 버튼
-                        Log.d("yw", "만들기 버튼 클릭")
+                        viewModel.getPromiseDetail(
+                            calendarData.value,
+                            timeData.value,
+                            selectedPlace.value,
+                            selectedPlaceLatitude.value,
+                            selectedPlaceLongitude.value
+                        )
                     }
                 },
                 resetOnClick = {
-                    screenState = screenState.copy(
-                        isSetDateValue = false,
-                        isPlaceVisible = false,
-                        isClockVisible = false,
-                        isClockDataSet = false,
-                        isPlaceDataSet = false
-                    )
-                    buttonText.value = "다음"
+                    viewModel.promiseReset(true)
                 },
                 buttonText = buttonText.value
             )
@@ -123,23 +140,31 @@ fun PromiseScreen(
                 if (screenState.isSetDateValue) {
                     setMakeBox(
                         onClick = {
+                            selectedTime.value = ""
                             screenState = screenState.copy(
                                 isSetDateValue = false,
                                 isPlaceVisible = false,
-                                isClockVisible = false
+                                isPlaceDataSet = false,
+                                isClockVisible = false,
+                                isClockDataSet = false,
                             )
                         },
                         R.string.promise_calendar,
                         null,
                         R.drawable.calendar,
                         true,
-                        selectedDate.value
+                        selectedCalendar.value
                     )
                     buttonText.value = "다음"
                 } else {
+                    viewModel.getTurnOffLocationMap()
+                    viewModel.turnOffLocationListUi()
                     Calendar(
                         onDateChanged = {
-                            selectedDate.value = it
+                            selectedCalendar.value = it
+                        },
+                        onDateData = {
+                            calendarData.value = it
                         }
                     )
                     screenState = screenState.copy(isClockDataSet = false)
@@ -150,6 +175,7 @@ fun PromiseScreen(
                 if (!screenState.isClockDataSet && !screenState.isClockVisible) {
                     setMakeBox(
                         onClick = {
+                            selectedPlace.value = ""
                             screenState = screenState.copy(
                                 isSetDateValue = true,
                                 isClockVisible = true,
@@ -158,30 +184,35 @@ fun PromiseScreen(
                         },
                         R.string.promise_time,
                         R.string.promise_time_msg,
-                        R.drawable.clock,
+                        R.drawable.clock2,
                         false, null
                     )
                     buttonText.value = "다음"
                 } else if (screenState.isClockDataSet && !screenState.isClockVisible) {
                     setMakeBox(
                         onClick = {
+                            viewModel.getTurnOffLocationMap()
+                            viewModel.turnOffLocationListUi()
                             screenState = screenState.copy(
                                 isSetDateValue = true,
                                 isClockVisible = true,
                                 isClockDataSet = true,
-                                isPlaceDataSet = true,
+                                isPlaceDataSet = false,
                                 isPlaceVisible = false
                             )
                         },
                         R.string.promise_time,
                         null,
-                        R.drawable.clock,
-                        true, selectedClock.value
+                        R.drawable.clock2,
+                        true, selectedTime.value
                     )
                 } else {
                     setClock(
                         onTimeChanged = {
-                            selectedClock.value = it
+                            selectedTime.value = it
+                        },
+                        onTimeData = {
+                            timeData.value = it
                         }
                     )
                     screenState = screenState.copy(isPlaceDataSet = false)
@@ -217,9 +248,9 @@ fun PromiseScreen(
                             )
                         },
                         R.string.promise_place,
-                        R.string.promise_place_msg,
+                        null,
                         R.drawable.map,
-                        true, null
+                        true, selectedPlace.value
                     )
                     buttonText.value = "만들기"
                 } else {
@@ -229,22 +260,64 @@ fun PromiseScreen(
 
             Spacer(modifier = Modifier.height(18.dp)) // 간격 설정
 
-            test(locationListUi, locationListData)
+            if (locationMapUi) {
+                WhatNowPlaceMap(modifier = Modifier, context = context, viewModel = viewModel)
+            }
 
+            PlaceList(locationListUi, locationListData, onClick = { place ->
+                selectedPlace.value = place.placeAddress
+                selectedPlaceLatitude.value = place.latitude
+                selectedPlaceLongitude.value = place.longitude
+
+                viewModel.turnOffLocationListUi()
+
+                screenState = screenState.copy(
+                    isClockVisible = false,
+                    isPlaceVisible = false
+                )
+                buttonText.value = "만들기"
+                viewModel.getLocationMap(selectedPlaceLatitude.value, selectedPlaceLongitude.value)
+            })
         }
+    }
+    if (showDialog) {
+        promiseResetDialog(onDismiss = {
+            viewModel.promiseReset(false)
+        }, okClick = {
+            viewModel.promiseReset(false)
+            viewModel.getTurnOffLocationMap()
+            viewModel.turnOffLocationListUi()
+
+            selectedCalendar.value = ""
+            selectedTime.value = ""
+            selectedPlace.value = ""
+            screenState = screenState.copy(
+                isSetDateValue = false,
+                isPlaceVisible = false,
+                isClockVisible = false,
+                isClockDataSet = false,
+                isPlaceDataSet = false
+            )
+            buttonText.value = "다음"
+        })
     }
 }
 
 @Composable
-fun test(a: Boolean, b: List<PromiseAddPlace>) {
-    if (a) {
+fun PlaceList(
+    locationListUi: Boolean,
+    locationListData: List<PromiseAddPlace>,
+    onClick: (PromiseAddPlace) -> Unit
+) {
+    if (locationListUi) {
         Column {
-            b.forEach { item ->
-                SearchPlaceList(place = item)
+            locationListData.forEach { item ->
+                SearchPlaceList(place = item, onClick = { onClick(item) })
             }
         }
     }
 }
+
 
 data class PromiseScreenState(
     val isSetDateValue: Boolean = false,
@@ -265,7 +338,7 @@ fun Greeting(resId: Int, textSize: Int, textColor: Color) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Calendar(onDateChanged: (String) -> Unit) {
+fun Calendar(onDateChanged: (String) -> Unit, onDateData: (String) -> Unit) {
     WhatNowTheme {
         Box(
             modifier = Modifier
@@ -295,8 +368,20 @@ fun Calendar(onDateChanged: (String) -> Unit) {
                     onDateChanged(selectedDateString)
 
                     datePicker.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
+                        Log.d("yw", "year = $year")
+                        Log.d("yw", "monthOfYear = $monthOfYear")
+                        Log.d("yw", "dayOfMonth = $dayOfMonth")
+
+                        val formattedMonth =
+                            if (monthOfYear >= 10) monthOfYear.toString() else "0$monthOfYear"
+                        val formattedDay =
+                            if (dayOfMonth >= 10) dayOfMonth.toString() else "0$dayOfMonth"
+                        val selectedDateData = "$year-$formattedMonth-$formattedDay"
+
                         val selectedDateString =
                             String.format("%d월 %d일 약속", monthOfYear, dayOfMonth)
+
+                        onDateData(selectedDateData)
                         onDateChanged(selectedDateString)
                     }
 
@@ -403,13 +488,15 @@ fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: I
 }
 
 @Composable
-fun SearchPlaceList(place: PromiseAddPlace) {
+fun SearchPlaceList(place: PromiseAddPlace, onClick: () -> Unit) {
+    val selectedText = remember { mutableStateOf("") }
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Card(
             modifier = Modifier
-                .height(72.dp),
+                .height(72.dp)
+                .clickable { onClick() },
             colors = CardDefaults.cardColors(containerColor = WhatNowTheme.colors.gray50)
         ) {
             Row(
@@ -429,11 +516,12 @@ fun SearchPlaceList(place: PromiseAddPlace) {
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         place.placeAddress.let {
-                            androidx.compose.material3.Text(
+                            Text(
                                 text = it,
                                 style = WhatNowTheme.typography.caption1,
                                 color = WhatNowTheme.colors.gray700,
-                                maxLines = 1
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
                     }
@@ -444,7 +532,7 @@ fun SearchPlaceList(place: PromiseAddPlace) {
 }
 
 @Composable
-fun setClock(onTimeChanged: (String) -> Unit) {
+fun setClock(onTimeChanged: (String) -> Unit, onTimeData: (String) -> Unit) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
@@ -461,6 +549,13 @@ fun setClock(onTimeChanged: (String) -> Unit) {
                 onTimeChanged(clockFormatting(timePicker.hour, timePicker.minute))
 
                 timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
+
+                    val hourString = if (hourOfDay >= 10) hourOfDay.toString() else "0$hourOfDay"
+                    val minuteString = if (minute >= 10) minute.toString() else "0$minute"
+                    val onTimeData = "$hourString:$minuteString"
+
+
+                    onTimeData(onTimeData)
                     onTimeChanged(clockFormatting(hourOfDay, minute))
                 }
                 view

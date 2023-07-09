@@ -8,7 +8,7 @@ data class FcmInfoResponse(
     @SerializedName("appAlarm") val appAlarm: Boolean,
 )
 
-internal fun FcmInfoResponse.toData() = FcmInfo(
+internal fun FcmInfoResponse.toDomain() = FcmInfo(
     fcmToken = fcmToken,
     appAlarm = appAlarm
 )

@@ -9,4 +9,5 @@ class GetUsersMeImagesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(fileExtension: String): Result<PromisesImages> =
         usersRepository.getUsersMeImages(fileExtension = fileExtension)
+
 }
