@@ -245,7 +245,10 @@ fun WhatNowActivityMap(
 
                         Icon(
                             modifier = modifier.clickable {
-                                PromiseActivateActivity.startActivity(context = context)
+                                PromiseActivateActivity.startActivity(
+                                    context = context,
+                                    uiState.promisesUsersStatus.first().promiseId
+                                )
                             },
                             painter = painterResource(id = R.drawable.arrow_forward_ios_24),
                             contentDescription = null,

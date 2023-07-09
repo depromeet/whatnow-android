@@ -144,6 +144,13 @@ interface ApiService {
         @Path("status") status: String,
     ): BaseResponse<PromisesUsersStatusListResponse>
 
+    // 내 위치 갱신
+    @PUT(API.PROMISE.putPromisesUsersLocation)
+    suspend fun putPromisesUsersLocation(
+        @Path("promise-id") promise_id: Int,
+        @Query("userLocation") userLocation: CoordinateVo,
+    ): BaseResponse<List<PromisesUsersLocationResponse>>
+
     // 약속 유저 생성
     @POST(API.PROMISE.postPromisesUsers)
     suspend fun postPromisesUsers(

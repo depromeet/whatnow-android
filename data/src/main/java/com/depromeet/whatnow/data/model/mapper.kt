@@ -10,6 +10,7 @@ import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
@@ -30,6 +31,7 @@ import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUser
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersLocation
 import com.depromeet.whatnow.domain.model.PromisesUsersSeparated
 import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
 import com.depromeet.whatnow.domain.model.PromisesUsersStatus
@@ -215,4 +217,14 @@ fun GetPromisesResponse.toDomain(): GetPromises {
         endTime = this.endTime,
         users = this.users.toDomain()
     )
+}
+
+fun List<PromisesUsersLocationResponse>.toDomain(): List<PromisesUsersLocation> {
+    return map {
+        PromisesUsersLocation(
+            userId = it.userId,
+            userLocation = it.userLocation,
+            promiseUserType = it.promiseUserType
+        )
+    }
 }

@@ -11,32 +11,39 @@ import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
+import com.depromeet.whatnow.domain.model.CoordinateVo
 import javax.inject.Inject
 
 internal class PromisesRemoteDataSourceImpl @Inject constructor(
     private val apiService: ApiService,
 ) : PromisesRemoteDataSource {
-    override suspend fun getLocation(location: String): Result<LocationResponse> =
-        runCatching {
-            apiService.getLocation(location).data
-        }
+    override suspend fun getLocation(location: String): Result<LocationResponse> = runCatching {
+        apiService.getLocation(location).data
+    }
 
-    override suspend fun getPromisesActive(promise_id: Int): Result<Boolean> =
-        runCatching {
-            apiService.getPromisesActive(promise_id = promise_id).data
-        }
+    override suspend fun putPromisesUsersLocation(
+        promise_id: Int, userLocation: CoordinateVo
+    ): Result<List<PromisesUsersLocationResponse>> = runCatching {
+        apiService.putPromisesUsersLocation(
+            promise_id = promise_id, userLocation = userLocation
+        ).data
+    }
+
+    override suspend fun getPromisesActive(promise_id: Int): Result<Boolean> = runCatching {
+        apiService.getPromisesActive(promise_id = promise_id).data
+    }
 
     override suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse> =
         runCatching {
             apiService.getPromisesMonthlyUsers(year_month = year_month).data
         }
 
-    override suspend fun getPromises(promise_id: Int): Result<GetPromisesResponse> =
-        runCatching {
-            apiService.getPromises(promise_id = promise_id).data
-        }
+    override suspend fun getPromises(promise_id: Int): Result<GetPromisesResponse> = runCatching {
+        apiService.getPromises(promise_id = promise_id).data
+    }
 
 
     override suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatusResponse>> =

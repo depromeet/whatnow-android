@@ -9,12 +9,21 @@ import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
+import com.depromeet.whatnow.domain.model.CoordinateVo
 
 interface PromisesRemoteDataSource {
     suspend fun getPromisesActive(promise_id: Int): Result<Boolean>
     suspend fun getLocation(location: String): Result<LocationResponse>
+
+    suspend fun putPromisesUsersLocation(
+        promise_id: Int,
+        userLocation: CoordinateVo
+    ): Result<List<PromisesUsersLocationResponse>>
+
+
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUsersListResponse>
 
     suspend fun getPromises(promise_id: Int): Result<GetPromisesResponse>

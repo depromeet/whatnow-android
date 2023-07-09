@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.domain.repo
 
 
+import com.depromeet.whatnow.domain.model.CoordinateVo
 import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgressList
@@ -10,6 +11,7 @@ import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersLocation
 import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
 import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 
@@ -18,6 +20,10 @@ interface PromisesRepository {
 
     suspend fun getPromisesActive(promise_id: Int): Result<Boolean>
 
+    suspend fun putPromisesUsersLocation(
+        promise_id: Int,
+        userLocation: CoordinateVo
+    ): Result<List<PromisesUsersLocation>>
 
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList>
 
