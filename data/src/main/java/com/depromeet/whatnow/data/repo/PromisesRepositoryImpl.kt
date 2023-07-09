@@ -4,7 +4,17 @@ import com.depromeet.whatnow.data.model.request.toData
 import com.depromeet.whatnow.data.model.response.toDomain
 import com.depromeet.whatnow.data.model.toDomain
 import com.depromeet.whatnow.data.source.PromisesRemoteDataSource
-import com.depromeet.whatnow.domain.model.*
+import com.depromeet.whatnow.domain.model.GetPromisesInteractions
+import com.depromeet.whatnow.domain.model.GetPromisesProgressList
+import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
+import com.depromeet.whatnow.domain.model.NcpMapInfo
+import com.depromeet.whatnow.domain.model.Promise
+import com.depromeet.whatnow.domain.model.PromisesImages
+import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
+import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
+import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
+import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 import com.depromeet.whatnow.domain.repo.PromisesRepository
 import javax.inject.Inject
 
@@ -13,12 +23,12 @@ internal class PromisesRepositoryImpl @Inject constructor(
 ) : PromisesRepository {
     override suspend fun postPromises(request: Promise): Result<Promise> =
         promisesRemoteDataSource.postPromises(request.toData())
-            .mapCatching { it.toData() }
+            .mapCatching { it.toDomain() }
 
 
     override suspend fun getLocation(location: String): Result<NcpMapInfo> =
         promisesRemoteDataSource.getLocation(location)
-            .mapCatching { it.toData() }
+            .mapCatching { it.toDomain() }
 
     override suspend fun getPromisesActive(promise_id: Int): Result<Boolean> =
         promisesRemoteDataSource.getPromisesActive(promise_id = promise_id)

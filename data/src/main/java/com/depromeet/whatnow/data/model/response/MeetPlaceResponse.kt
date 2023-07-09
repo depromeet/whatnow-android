@@ -8,7 +8,12 @@ data class MeetPlaceResponse(
     @SerializedName("address") val address: String
 )
 
-interface fun PlaceVo.toDomain() = MeetPlaceResponse(
+internal fun MeetPlaceResponse.toDomain() = PlaceVo(
     coordinate = coordinate.toDomain(),
+    address = address
+)
+
+internal fun PlaceVo.toData() = MeetPlaceResponse(
+    coordinate = coordinate.toData(),
     address = address
 )

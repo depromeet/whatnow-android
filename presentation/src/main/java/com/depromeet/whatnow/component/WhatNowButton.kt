@@ -41,7 +41,7 @@ fun WhatNowButton(
 
 object KnowllyButtonDefaults {
     val ButtonHeight = 56.dp
-    val ButtonShape = RoundedCornerShape(10.dp)
+    val ButtonShape = RoundedCornerShape(16.dp)
     val textStyle
         @Composable
         get() = WhatNowTheme.typography.body1

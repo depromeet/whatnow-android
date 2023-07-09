@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.depromeet.whatnow.base.BaseActivity
+import com.depromeet.whatnow.ui.main.MainActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,14 +26,27 @@ class PromiseAddActivity : BaseActivity() {
             WhatNowTheme {
                 val uiState by viewModel.uiState.collectAsState()
                 uiState.let {
-
+                    if (it == PromiseAddState.MakePromise) {
+                        PromiseScreen(
+                            viewModel = viewModel,
+                            onBack = ::finish,
+                        )
+                    } else {
+                        PromiseDetailScreen(
+                            viewModel = viewModel,
+                            goHomeClick = { startMainActivity() },
+                            inviteClick = {}
+                        )
+                    }
                 }
-                PromiseScreen(
-                    viewModel = viewModel,
-                    onBack = ::finish,
-                )
+
             }
         }
+    }
+
+    private fun startMainActivity() {
+        MainActivity.startActivity(this)
+        finish()
     }
 
     private fun navigateUp() = finish()
@@ -42,4 +57,6 @@ class PromiseAddActivity : BaseActivity() {
             context.startActivity(intent)
         }
     }
+
+
 }

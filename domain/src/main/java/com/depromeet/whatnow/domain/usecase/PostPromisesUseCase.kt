@@ -7,7 +7,6 @@ import javax.inject.Inject
 class PostPromisesUseCase @Inject constructor(
     private val promisesRepository: PromisesRepository
 ) {
-    suspend operator fun invoke(request: Promise) : Result<Promise>{
+    suspend operator fun invoke(request: Promise): Result<Promise> =
         promisesRepository.postPromises(request = request)
-    }
 }

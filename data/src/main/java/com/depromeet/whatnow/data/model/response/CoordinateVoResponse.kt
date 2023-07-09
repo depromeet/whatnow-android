@@ -4,11 +4,16 @@ import com.depromeet.whatnow.domain.model.CoordinateVo
 import com.google.gson.annotations.SerializedName
 
 data class CoordinateVoResponse(
-    @SerializedName("latitude") val latitude : Double,
-    @SerializedName("longitude") val longitude : Double
+    @SerializedName("latitude") val latitude: Double,
+    @SerializedName("longitude") val longitude: Double
 )
 
-interface fun CoordinateVo.toDomain() = CoordinateVoResponse(
+internal fun CoordinateVoResponse.toDomain() = CoordinateVo(
+    latitude = latitude,
+    longitude = longitude
+)
+
+internal fun CoordinateVo.toData() = CoordinateVoResponse(
     latitude = latitude,
     longitude = longitude
 )

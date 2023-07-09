@@ -4,17 +4,12 @@ data class PromiseAddPlace(
     val placeTitle: String,
     val placeAddress: String,
     // 위도 (mapx)
-    val latitude : Double,
+    val latitude: Double,
     // 경도 (mapy)
-    val longitude : Double,
+    val longitude: Double,
 )
 
-data class PromiseInfo(
-    val placeAddress : String,
-
+data class MapData(
+    val latitude: Double,
+    val longitude: Double
 )
-
-fun DUMMY_PLACE(
-    placeTitle: String = "장소 이름",
-    placeAddress: String = "장소 주소",
-) = PromiseAddPlace(placeTitle, placeAddress)

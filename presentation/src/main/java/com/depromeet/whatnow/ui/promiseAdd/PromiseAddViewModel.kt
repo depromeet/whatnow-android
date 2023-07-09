@@ -2,7 +2,9 @@ package com.depromeet.whatnow.ui.promiseAdd
 
 import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
+import com.depromeet.whatnow.domain.model.CoordinateVo
 import com.depromeet.whatnow.domain.model.NcpMapInfoItem
+import com.depromeet.whatnow.domain.model.PlaceVo
 import com.depromeet.whatnow.domain.model.Promise
 import com.depromeet.whatnow.domain.usecase.GetJwtTokenUseCase
 import com.depromeet.whatnow.domain.usecase.GetLocationUseCase
@@ -23,8 +25,14 @@ class PromiseAddViewModel @Inject constructor(
     private val getJwtTokenUseCase: GetJwtTokenUseCase
 ) : BaseViewModel() {
 
-    private val itemList = mutableListOf<PromiseAddPlace>()
     private var locationList: ArrayList<PromiseAddPlace> = ArrayList()
+    private var userId: Int = 0
+
+    private val _locationMap = MutableStateFlow(false)
+    val locationMap: StateFlow<Boolean> = _locationMap.asStateFlow()
+
+    private val _locationMapData = MutableStateFlow(MapData(337520.0, 561931.0))
+    val locationMapData: StateFlow<MapData> = _locationMapData.asStateFlow()
 
     private val _uiState = MutableStateFlow<PromiseAddState>(PromiseAddState.MakePromise)
     val uiState: StateFlow<PromiseAddState> = _uiState.asStateFlow()
@@ -32,10 +40,8 @@ class PromiseAddViewModel @Inject constructor(
     private val _locationListUi = MutableStateFlow(false)
     val locationListUi: StateFlow<Boolean> = _locationListUi.asStateFlow()
 
-    private val _locationListData = MutableStateFlow(listOf(PromiseAddPlace("", "",0.0,0.0)))
+    private val _locationListData = MutableStateFlow(listOf(PromiseAddPlace("", "", 0.0, 0.0)))
     val locationListData: StateFlow<List<PromiseAddPlace>> = _locationListData.asStateFlow()
-
-    private val _promiseData = MutableStateFlow()
 
     private val _selectedCalendar = MutableStateFlow("")
     val selectedCalendar: StateFlow<String> = _selectedCalendar.asStateFlow()
@@ -46,20 +52,54 @@ class PromiseAddViewModel @Inject constructor(
     private val _selectedPlace = MutableStateFlow("")
     val selectedPlace: StateFlow<String> = _selectedPlace.asStateFlow()
 
+    private val _promiseResetPopup = MutableStateFlow(false)
+    val promiseResetPopup: StateFlow<Boolean> = _promiseResetPopup.asStateFlow()
 
     init {
-
         launch {
+            getUsersMeUseCase().onSuccess {
+                userId = it.id
+            }
             Log.d("yw", "엑세스 토큰 저장되어있는것 : ${getJwtTokenUseCase().getOrThrow().accessToken}")
         }
 
 
     }
 
-    fun getPromiseDetail(calendar: String, time:String, place:String, latitude: Double, longitude: Double){
+    fun getTurnOffLocationMap() {
+        _locationMap.value = false
+    }
+
+    fun getLocationMap(latitude: Double, longitude: Double) {
+        val mapData = MapData(latitude, longitude)
+//        _locationMapData.update {
+//            mapData
+//        }
+        _locationMap.value = true
+    }
+
+    fun promiseReset(turnOnOff: Boolean) {
+        _promiseResetPopup.value = turnOnOff
+    }
+
+    fun getPromiseDetail(
+        calendar: String,
+        time: String,
+        place: String,
+        latitude: Double,
+        longitude: Double
+    ) {
         launch {
-            getUsersMeUseCase()
-            postPromisesUseCase(Promise(title = calendar, ))
+            val endTime = calendar + "T" + time
+
+            postPromisesUseCase(
+                Promise(
+                    title = calendar, mainUserId = userId, meetPlace = PlaceVo(
+                        CoordinateVo(latitude = latitude, longitude = longitude), address = place
+                    ), endTime = endTime
+                )
+            ).onSuccess { Log.d("yw", "약속 만들기 성공 $it") }
+                .onFailure { Log.d("yw", "약속 만들기 실패 $it") }
         }
         _uiState.value = PromiseAddState.DetailPromise
         _selectedCalendar.update { calendar }
@@ -67,30 +107,34 @@ class PromiseAddViewModel @Inject constructor(
         _selectedPlace.update { place }
     }
 
+    fun turnOffLocationListUi() {
+        _locationListUi.value = false
+    }
 
     fun getItemList(location: String) {
         launch {
             Log.d("yw", "getItemList 호출")
             val mapInfoItemList: List<NcpMapInfoItem>
-            getLocationUseCase(location)
-                .onSuccess {
-                    Log.d("yw", "장소 검색 성공 ${it.items}")
-                    mapInfoItemList = it.items
-                    locationList.clear()
-                    _locationListUi.value = false
+            if (location != "") {
+                getLocationUseCase(location)
+                    .onSuccess {
+                        mapInfoItemList = it.items
+                        locationList.clear()
 
-                    for (x in mapInfoItemList) {
-                        locationList.add(PromiseAddPlace(x.title, x.address,x.mapx,x.mapy))
+                        for (x in mapInfoItemList) {
+                            locationList.add(PromiseAddPlace(x.title, x.address, x.mapx, x.mapy))
+                        }
+
+                        _locationListData.update {
+                            locationList.toList()
+                        }
+
+                        _locationListUi.value = true
                     }
-
-                    _locationListData.update {
-                        locationList.toList()
-                    }
-                    _locationListUi.value = true
-
-                    Log.d("yw", "_locationListData = ${_locationListData.value}")
-                }
-                .onFailure { Log.d("yw", "실패 $it") }
+                    .onFailure { _locationListUi.value = false }
+            } else {
+                _locationListUi.value = false
+            }
         }
     }
 
