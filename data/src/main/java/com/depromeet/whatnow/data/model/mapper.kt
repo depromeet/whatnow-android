@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.data.model
 
+import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
@@ -15,6 +16,7 @@ import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListRespo
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.TimeOverLocationsResponse
+import com.depromeet.whatnow.data.model.response.UserProgressResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
 import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
@@ -37,6 +39,7 @@ import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
 import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.TimeOverLocations
+import com.depromeet.whatnow.domain.model.UserProgress
 import com.depromeet.whatnow.domain.model.Users
 
 @JvmName("PromisesMonthlyUsersResponse")
@@ -144,18 +147,35 @@ fun PromisesImagesResponse.toDomain(): PromisesImages {
     )
 }
 
-@JvmName("InteractionDtoListResponse")
-fun List<InteractionDtoListResponse>.toDomain(): GetPromisesInteractions {
+@JvmName("GetPromisesInteractionsResponse")
+fun GetPromisesInteractionsResponse.toDomain(): GetPromisesInteractions {
     return GetPromisesInteractions(
-        map {
-            InteractionDtoList(
-                promiseId = it.promiseId,
-                userId = it.userId,
-                interactionType = it.interactionType,
-                count = it.count
-            )
-        }
+        userProgress = this.userProgressResponse.toDomain(),
+        interactionDtoList = this.interactionDtoList.toDomain()
+
+
     )
+}
+
+@JvmName("UserProgressResponse")
+fun UserProgressResponse.toDomain(): UserProgress {
+    return UserProgress(
+        user = this.user.toDomain(),
+        currentProgress = this.currentProgress,
+        beforeProgress = this.beforeProgress
+    )
+}
+
+@JvmName("InteractionDtoListResponse")
+fun List<InteractionDtoListResponse>.toDomain(): List<InteractionDtoList> {
+    return map {
+        InteractionDtoList(
+            promiseId = it.promiseId,
+            userId = it.userId,
+            interactionType = it.interactionType,
+            count = it.count
+        )
+    }
 }
 
 @JvmName("InteractionsDetailResponse")
@@ -215,7 +235,7 @@ fun GetPromisesResponse.toDomain(): GetPromises {
         coordinateVo = this.coordinateVo,
         title = this.title,
         endTime = this.endTime,
-        users = this.users.toDomain()
+        users = this.users.map { it.toDomain() }
     )
 }
 

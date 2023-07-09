@@ -7,6 +7,6 @@ data class GetPromises(
     val coordinateVo: CoordinateVo,
     val title: String,
     val endTime: String,
-    val users: Users
+    val users: List<Users>
 
 )

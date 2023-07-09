@@ -9,6 +9,6 @@ data class GetPromisesResponse(
     @SerializedName("coordinateVo") val coordinateVo: CoordinateVo,
     @SerializedName("title") val title: String,
     @SerializedName("endTime") val endTime: String,
-    @SerializedName("users") val users: UsersResponse
+    @SerializedName("users") val users: List<UsersResponse>
 
 )
