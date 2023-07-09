@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.data.repo
 
+import com.depromeet.whatnow.data.model.response.toDomain
 import com.depromeet.whatnow.data.model.toDomain
 import com.depromeet.whatnow.data.source.UsersRemoteDataSource
 import com.depromeet.whatnow.domain.model.PromisesImages
