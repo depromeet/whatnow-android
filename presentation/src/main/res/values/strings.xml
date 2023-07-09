@@ -101,9 +101,31 @@
     <string name="newest_version">최신 버전</string>
     <string name="usage_term">이용 약관</string>
     <string name="sign_out">로그아웃</string>
-    <string name="delete_user">Whatnow 탈퇴</string>
+    <string name="withdraw_whatnow">Whatnow 탈퇴</string>
     <string name="edit_profile">프로필 수정</string>
     <string name="done">완료</string>
     <string name="edit_profile_help">프로필 사진과 닉네임을 수정합니다.</string>
     <string name="profile_textfield_placeholder">닉네임 입력</string>
+
+    <string name="withdrawal">회원 탈퇴</string>
+    <string name="withdrawal_question">탈퇴하는 이유가 무엇인가요?</string>
+    <string name="withdrawal_answer_01">사용하지 않는 앱입니다.</string>
+    <string name="withdrawal_answer_02">함께 사용할 유저가 없습니다.</string>
+    <string name="withdrawal_answer_03">개인 정보를 노출하고 싶지 않습니다.</string>
+    <string name="withdrawal_answer_04">중복 계정을 삭제하려고 합니다.</string>
+    <string name="withdrawal_answer_05">지속된 오류와 버그가 발생합니다.</string>
+    <string name="withdrawal_answer_06">기타</string>
+    <string name="withdrawal_checklist_title">탈퇴 전 꼭 확인해주세요</string>
+    <string name="withdrawal_checklist_subtitle">아래 사항을 확인하신 후에 신중히 결정해주세요.</string>
+    <string name="withdrawal_checklist_01">• 아카이빙 된 사진들이 모두 사라져요.</string>
+    <string name="withdrawal_checklist_02">• 아카이빙 된 약속들이 모두 사라져요.</string>
+    <string name="withdrawal_checklist_03">• 저장된 모든 개인정보를 다시 볼 수 없어요.</string>
+    <string name="withdrawal_checklist_04">• 다른 친구의 계정에 남겨진 내 정보는\n삭제되지 않으니 미리 확인해주세요.</string>
+    <string name="withdrawal_checklist_05">• 사용자 정보는 보관 없이 바로 파기돼요.</string>
+    <string name="withdrawal_checklist_06">• 탈퇴 시 모든 데이터는 복구가 불가능해요.</string>
+
+    <string name="close">닫기</string>
+    <string name="withdraw">탈퇴하기</string>
+    <string name="thanks_for_playing">이용해 주셔서 감사합니다!</string>
+    <string name="back_to_title">첫 화면으로 돌아가기</string>
 </resources>
