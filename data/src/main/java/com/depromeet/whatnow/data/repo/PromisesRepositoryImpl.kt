@@ -111,7 +111,7 @@ internal class PromisesRepositoryImpl @Inject constructor(
         promisesRemoteDataSource.getPromisesInteractions(
             promiseId = promiseId
         ).mapCatching {
-            it.interactionDtoList.toDomain()
+            it.toDomain()
         }
 
     override suspend fun getPromisesInteractionsDetail(
