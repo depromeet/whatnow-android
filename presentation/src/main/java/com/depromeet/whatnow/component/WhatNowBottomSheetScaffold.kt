@@ -59,7 +59,7 @@ fun WhatNowBottomSheetScaffold(
                 when (uiState.selectedTab) {
                     PromiseActivateTab.All -> {
                         WhatNowTabAllContent(modifier = modifier,
-                            promises = uiState.allProfile,
+                            viewModel = viewModel,
                             onCreate = {})
                     }
 
@@ -70,13 +70,15 @@ fun WhatNowBottomSheetScaffold(
                     }
 
                     PromiseActivateTab.Other -> {
-                        WhatNowTabOtherContent(promises = uiState.otherProfile, onCreate = {})
+                        WhatNowTabOtherContent(
+                            viewModel = viewModel,
+                            onCreate = {})
                     }
                 }
             }
         }) {
         // app UI
-        WhatNowNaverMap(modifier = Modifier, onBack = onBack)
+        WhatNowNaverMap(modifier = Modifier, onBack = onBack, viewModel = viewModel)
 
     }
 

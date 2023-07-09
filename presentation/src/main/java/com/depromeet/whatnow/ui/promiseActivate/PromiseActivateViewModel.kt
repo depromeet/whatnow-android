@@ -1,6 +1,13 @@
 package com.depromeet.whatnow.ui.promiseActivate
 
+import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
+import com.depromeet.whatnow.domain.model.CoordinateVo
+import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsDetailUseCase
+import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsUseCase
+import com.depromeet.whatnow.domain.usecase.GetPromisesUseCase
+import com.depromeet.whatnow.domain.usecase.GetPromisesUsersProgressUseCase
+import com.depromeet.whatnow.domain.usecase.PutPromisesUsersLocationUseCase
 import com.depromeet.whatnow.ui.model.DUMMY_PROMISE
 import com.depromeet.whatnow.ui.model.DUMMY_USER
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +18,14 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class PromiseActivateViewModel @Inject constructor() : BaseViewModel() {
+class PromiseActivateViewModel @Inject constructor(
+    private val getPromisesUseCase: GetPromisesUseCase,
+    private val putPromisesUsersLocationUseCase: PutPromisesUsersLocationUseCase,
+    private val getPromisesUsersProgressUseCase: GetPromisesUsersProgressUseCase,
+    private val getPromisesInteractionsDetailUseCase: GetPromisesInteractionsDetailUseCase,
+    private val getPromisesInteractionsUseCase: GetPromisesInteractionsUseCase
+
+) : BaseViewModel() {
 
     private val _isRefresh = MutableStateFlow(false)
     val isRefresh = _isRefresh.asStateFlow()
@@ -27,8 +41,10 @@ class PromiseActivateViewModel @Inject constructor() : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(PromiseActivateState())
     val uiState: StateFlow<PromiseActivateState> = _uiState.asStateFlow()
+    var promiseId = MutableStateFlow<Int>(-1)
 
     init {
+        getPromises()
         _uiState.update {
             it.copy(
                 allProfile = listOf(
@@ -63,6 +79,72 @@ class PromiseActivateViewModel @Inject constructor() : BaseViewModel() {
                     DUMMY_PROMISE(participants = List(1) { DUMMY_USER() })
                 )
             )
+        }
+    }
+
+    fun getPromises() {
+        launch {
+            getPromisesUseCase(promise_id = promiseId.value)
+                .onSuccess {
+                    _uiState.value.promise = it
+
+
+                }
+                .onFailure {
+                    Log.d("ttt getPromisesUseCase onFailure", it.toString())
+                }
+        }
+    }
+
+    fun putPromisesUsersLocation(userLocation: CoordinateVo) {
+        launch {
+            putPromisesUsersLocationUseCase(
+                promise_id = promiseId.value,
+                userLocation = userLocation
+            ).onSuccess { }
+                .onFailure { }
+        }
+
+    }
+
+    fun getPromisesUsersProgress(userId: Int) {
+        launch {
+            getPromisesUsersProgressUseCase(
+                promiseId = promiseId.value,
+                userId = userId
+            ).onSuccess {
+                _uiState.value.promisesProgress = it
+
+            }.onFailure { }
+        }
+    }
+
+    fun getPromisesInteractionsDetail(interactionType: String) {
+        launch {
+            getPromisesInteractionsDetailUseCase(
+                promiseId = promiseId.value,
+                interactionType = interactionType
+            ).onSuccess {
+                Log.d("ttt getPromisesInteractionsDetail onSuccess", it.toString())
+                _uiState.value.interactionsDetail = it.interactions
+            }
+                .onFailure {
+                    Log.d("ttt getPromisesInteractionsDetail onFailure", it.toString())
+
+                }
+        }
+    }
+
+    fun getPromisesInteractions() {
+        launch {
+            getPromisesInteractionsUseCase(promiseId = promiseId.value)
+                .onSuccess {
+                    _uiState.value.promisesInteractions = it
+                }
+                .onFailure {
+                    Log.d("ttt getPromisesInteractions onFailure", it.toString())
+
+                }
         }
     }
 

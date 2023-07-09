@@ -13,19 +13,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.depromeet.whatnow.domain.model.Users
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.model.Promise
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
 fun WhatNowProfile(
-    promise: Promise,
+    users: Users,
     profileImageSize: Dp,
     statusImageSize: Dp
 ) {
     Box(contentAlignment = Alignment.Center) {
         AsyncImage(
-            model = promise.participants[0].profileImageUrl,
+            model = users.profileImg,
             contentDescription = null,
             modifier = Modifier
                 .size(profileImageSize)

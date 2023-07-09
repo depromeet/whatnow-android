@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
@@ -35,7 +36,7 @@ import com.naver.maps.map.overlay.OverlayImage
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun WhatNowNaverMap(
-    modifier: Modifier, onBack: () -> Unit,
+    modifier: Modifier, onBack: () -> Unit, viewModel: PromiseActivateViewModel
 ) {
 
     var isPromiseInfo by rememberSaveable { mutableStateOf(true) }
@@ -109,7 +110,7 @@ fun WhatNowNaverMap(
             alignment = Alignment.TopStart,
             color = WhatNowTheme.colors.whatNowBlack,
             tint = Color.White,
-            onClick = {onBack()}
+            onClick = { onBack() }
 
         )
 

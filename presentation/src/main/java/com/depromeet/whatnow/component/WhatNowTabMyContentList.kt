@@ -19,16 +19,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.depromeet.whatnow.ui.model.Promise
+import com.depromeet.whatnow.domain.model.InteractionsDetail
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
 fun WhatNowTabMyContentList(
     modifier: Modifier,
-    promises: List<Promise>,
+    interactionsDetail: List<InteractionsDetail>,
 ) {
     Column() {
-        promises[0].participants.map {
+        interactionsDetail.map {
             Row(
                 modifier = modifier
                     .fillMaxWidth()
@@ -37,7 +37,7 @@ fun WhatNowTabMyContentList(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "+17", style = WhatNowTheme.typography.body1.copy(
+                    text = "+${it.count}", style = WhatNowTheme.typography.body1.copy(
                         fontSize = 18.sp, color = Color.White
                     )
                 )
@@ -50,13 +50,13 @@ fun WhatNowTabMyContentList(
                         modifier = modifier
                             .padding(end = 8.dp)
                             .height(21.dp),
-                        text = "침착맨",
+                        text = it.senderUser.nickname,
                         style = WhatNowTheme.typography.caption2.copy(
                             fontSize = 14.sp, color = Color.White
                         )
                     )
                     AsyncImage(
-                        model = it.profileImageUrl,
+                        model = it.senderUser.profileImg,
                         contentDescription = null,
                         modifier = Modifier
                             .size(36.dp)

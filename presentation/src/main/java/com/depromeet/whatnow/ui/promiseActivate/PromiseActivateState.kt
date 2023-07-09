@@ -1,5 +1,9 @@
 package com.depromeet.whatnow.ui.promiseActivate
 
+import com.depromeet.whatnow.domain.model.GetPromises
+import com.depromeet.whatnow.domain.model.GetPromisesInteractions
+import com.depromeet.whatnow.domain.model.InteractionsDetail
+import com.depromeet.whatnow.domain.model.PromisesProgress
 import com.depromeet.whatnow.ui.model.Promise
 
 data class PromiseActivateState(
@@ -16,4 +20,9 @@ data class PromiseActivateState(
     val heartEmoji: List<Promise> = emptyList(),
     val footPrintEmoji: List<Promise> = emptyList(),
 
-    )
+    var promise: GetPromises? = null,
+    var promisesProgress: PromisesProgress? = null,
+    var interactionsDetail: List<InteractionsDetail>? = null,
+    var promisesInteractions: GetPromisesInteractions? = null
+
+)
