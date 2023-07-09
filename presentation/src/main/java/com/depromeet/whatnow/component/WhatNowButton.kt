@@ -4,16 +4,20 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.depromeet.whatnow.component.KnowllyButtonDefaults.textGrayButtonColors
+import com.depromeet.whatnow.component.KnowllyButtonDefaults.textStyle
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
 fun WhatNowButton(
+    buttonColors: ButtonColors,
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -25,10 +29,13 @@ fun WhatNowButton(
         modifier = modifier.height(45.dp),
         enabled = enabled,
         shape = KnowllyButtonDefaults.ButtonShape,
-        colors = KnowllyButtonDefaults.containedButtonColors,
+        colors = buttonColors,
         contentPadding = contentPadding,
     ) {
-        Text(text = text)
+        Text(
+            style = textStyle,
+            text = text,
+        )
     }
 }
 
@@ -37,13 +44,21 @@ object KnowllyButtonDefaults {
     val ButtonShape = RoundedCornerShape(10.dp)
     val textStyle
         @Composable
-        get() = WhatNowTheme.typography.body3
+        get() = WhatNowTheme.typography.body1
 
-    val containedButtonColors
+    val textGrayButtonColors
         @Composable
         get() = ButtonDefaults.buttonColors(
             containerColor = WhatNowTheme.colors.whatNowPurple,
             contentColor = WhatNowTheme.colors.gray50,
+            disabledContainerColor = WhatNowTheme.colors.gray200,
+            disabledContentColor = WhatNowTheme.colors.gray900
+        )
+    val textPurpleButtonColors
+        @Composable
+        get() = ButtonDefaults.buttonColors(
+            containerColor = WhatNowTheme.colors.gray200,
+            contentColor = WhatNowTheme.colors.whatNowPurple,
             disabledContainerColor = WhatNowTheme.colors.gray200,
             disabledContentColor = WhatNowTheme.colors.gray900
         )
@@ -55,6 +70,7 @@ object KnowllyButtonDefaults {
 private fun KnowllyContainedButtonPreviewEnabled() {
     WhatNowTheme {
         WhatNowButton(
+            buttonColors = textGrayButtonColors,
             text = "버튼",
             onClick = { },
             enabled = true,
