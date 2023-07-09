@@ -20,9 +20,12 @@ class PromiseAddActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        var selectedTime by mutableStateOf(LocalTime.now())
-        Log.d("yw","PromiseAddActivity onCreate()")
         setContent {
             WhatNowTheme {
+                val uiState by viewModel.uiState.collectAsState()
+                uiState.let {
+
+                }
                 PromiseScreen(
                     viewModel = viewModel,
                     onBack = ::finish,

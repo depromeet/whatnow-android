@@ -3,8 +3,11 @@ package com.depromeet.whatnow.ui.promiseAdd
 import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.model.NcpMapInfoItem
+import com.depromeet.whatnow.domain.model.Promise
 import com.depromeet.whatnow.domain.usecase.GetJwtTokenUseCase
 import com.depromeet.whatnow.domain.usecase.GetLocationUseCase
+import com.depromeet.whatnow.domain.usecase.GetUsersMeUseCase
+import com.depromeet.whatnow.domain.usecase.PostPromisesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,6 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PromiseAddViewModel @Inject constructor(
+    private val getUsersMeUseCase: GetUsersMeUseCase,
+    private val postPromisesUseCase: PostPromisesUseCase,
     private val getLocationUseCase: GetLocationUseCase,
     private val getJwtTokenUseCase: GetJwtTokenUseCase
 ) : BaseViewModel() {
@@ -21,11 +26,26 @@ class PromiseAddViewModel @Inject constructor(
     private val itemList = mutableListOf<PromiseAddPlace>()
     private var locationList: ArrayList<PromiseAddPlace> = ArrayList()
 
+    private val _uiState = MutableStateFlow<PromiseAddState>(PromiseAddState.MakePromise)
+    val uiState: StateFlow<PromiseAddState> = _uiState.asStateFlow()
+
     private val _locationListUi = MutableStateFlow(false)
     val locationListUi: StateFlow<Boolean> = _locationListUi.asStateFlow()
 
-    private val _locationListData = MutableStateFlow(listOf(PromiseAddPlace("", "")))
+    private val _locationListData = MutableStateFlow(listOf(PromiseAddPlace("", "",0.0,0.0)))
     val locationListData: StateFlow<List<PromiseAddPlace>> = _locationListData.asStateFlow()
+
+    private val _promiseData = MutableStateFlow()
+
+    private val _selectedCalendar = MutableStateFlow("")
+    val selectedCalendar: StateFlow<String> = _selectedCalendar.asStateFlow()
+
+    private val _selectedTime = MutableStateFlow("")
+    val selectedTime: StateFlow<String> = _selectedTime.asStateFlow()
+
+    private val _selectedPlace = MutableStateFlow("")
+    val selectedPlace: StateFlow<String> = _selectedPlace.asStateFlow()
+
 
     init {
 
@@ -34,6 +54,17 @@ class PromiseAddViewModel @Inject constructor(
         }
 
 
+    }
+
+    fun getPromiseDetail(calendar: String, time:String, place:String, latitude: Double, longitude: Double){
+        launch {
+            getUsersMeUseCase()
+            postPromisesUseCase(Promise(title = calendar, ))
+        }
+        _uiState.value = PromiseAddState.DetailPromise
+        _selectedCalendar.update { calendar }
+        _selectedTime.update { time }
+        _selectedPlace.update { place }
     }
 
 
@@ -49,7 +80,7 @@ class PromiseAddViewModel @Inject constructor(
                     _locationListUi.value = false
 
                     for (x in mapInfoItemList) {
-                        locationList.add(PromiseAddPlace(x.title, x.address))
+                        locationList.add(PromiseAddPlace(x.title, x.address,x.mapx,x.mapy))
                     }
 
                     _locationListData.update {

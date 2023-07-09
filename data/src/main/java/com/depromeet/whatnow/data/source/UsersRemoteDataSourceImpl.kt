@@ -2,6 +2,7 @@ package com.depromeet.whatnow.data.source
 
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
+import com.depromeet.whatnow.data.model.response.UsersProfileResponse
 import javax.inject.Inject
 
 internal class UsersRemoteDataSourceImpl @Inject constructor(
@@ -16,5 +17,10 @@ internal class UsersRemoteDataSourceImpl @Inject constructor(
     override suspend fun getUsersMeImages(fileExtension: String): Result<PromisesImagesResponse> =
         runCatching {
             apiService.getUsersMeImages(fileExtension = fileExtension).data
+        }
+
+    override suspend fun getUsersMe(): Result<UsersProfileResponse> =
+        runCatching {
+            apiService.getUsersMe().data
         }
 }

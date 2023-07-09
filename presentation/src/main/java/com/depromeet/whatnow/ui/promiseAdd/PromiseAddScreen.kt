@@ -2,7 +2,6 @@ package com.depromeet.whatnow.ui.promiseAdd
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.widget.DatePicker
@@ -36,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.depromeet.whatnow.component.WhatNowSimpleTopBar
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.MaterialColors
@@ -54,8 +54,12 @@ fun PromiseScreen(
 
     var screenState by remember { mutableStateOf(PromiseScreenState()) }
 
-    val selectedDate = remember { mutableStateOf("") }
-    val selectedClock = remember { mutableStateOf("") }
+    val selectedCalendar = remember { mutableStateOf("") }
+    val selectedTime = remember { mutableStateOf("") }
+    val selectedPlace = remember { mutableStateOf("")}
+    val selectedPlaceLatitude = remember { mutableStateOf(0.0)}
+    val selectedPlaceLongitude = remember { mutableStateOf(0.0)}
+
     val buttonText = remember { mutableStateOf("다음") }
 
 
@@ -91,8 +95,7 @@ fun PromiseScreen(
                         )
                         buttonText.value = "만들기"
                     } else {
-                        //TODO 최종만들기 버튼
-                        Log.d("yw", "만들기 버튼 클릭")
+                        viewModel.getPromiseDetail(selectedCalendar.value,selectedTime.value,selectedPlace.value,selectedPlaceLatitude.value,selectedPlaceLongitude.value)
                     }
                 },
                 resetOnClick = {
@@ -133,13 +136,13 @@ fun PromiseScreen(
                         null,
                         R.drawable.calendar,
                         true,
-                        selectedDate.value
+                        selectedCalendar.value
                     )
                     buttonText.value = "다음"
                 } else {
                     Calendar(
                         onDateChanged = {
-                            selectedDate.value = it
+                            selectedCalendar.value = it
                         }
                     )
                     screenState = screenState.copy(isClockDataSet = false)
@@ -176,12 +179,12 @@ fun PromiseScreen(
                         R.string.promise_time,
                         null,
                         R.drawable.clock,
-                        true, selectedClock.value
+                        true, selectedTime.value
                     )
                 } else {
                     setClock(
                         onTimeChanged = {
-                            selectedClock.value = it
+                            selectedTime.value = it
                         }
                     )
                     screenState = screenState.copy(isPlaceDataSet = false)
@@ -219,7 +222,7 @@ fun PromiseScreen(
                         R.string.promise_place,
                         R.string.promise_place_msg,
                         R.drawable.map,
-                        true, null
+                        true, selectedPlace.value
                     )
                     buttonText.value = "만들기"
                 } else {
@@ -229,18 +232,27 @@ fun PromiseScreen(
 
             Spacer(modifier = Modifier.height(18.dp)) // 간격 설정
 
-            test(locationListUi, locationListData)
-
+            PlaceList(locationListUi, locationListData, onClick = { place ->
+                selectedPlace.value = place.placeAddress
+                selectedPlaceLatitude.value = place.latitude
+                selectedPlaceLongitude.value = place.longitude
+                screenState = screenState.copy(
+                    isClockVisible = false,
+                    isPlaceVisible = false
+                )
+                buttonText.value = "만들기"
+            })
         }
     }
 }
 
 @Composable
-fun test(a: Boolean, b: List<PromiseAddPlace>) {
-    if (a) {
+fun PlaceList(locationListUi: Boolean, locationListData: List<PromiseAddPlace>, onClick: (PromiseAddPlace) -> Unit) {
+    if (locationListUi) {
         Column {
-            b.forEach { item ->
-                SearchPlaceList(place = item)
+            locationListData.forEach { item ->
+                SearchPlaceList(place = item, onClick = { onClick(item)})
+                }
             }
         }
     }
@@ -403,13 +415,15 @@ fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: I
 }
 
 @Composable
-fun SearchPlaceList(place: PromiseAddPlace) {
+fun SearchPlaceList(place: PromiseAddPlace, onClick: () -> Unit) {
+    val selectedText = remember { mutableStateOf("") }
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Card(
             modifier = Modifier
-                .height(72.dp),
+                .height(72.dp)
+                .clickable { onClick() },
             colors = CardDefaults.cardColors(containerColor = WhatNowTheme.colors.gray50)
         ) {
             Row(
@@ -429,7 +443,7 @@ fun SearchPlaceList(place: PromiseAddPlace) {
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         place.placeAddress.let {
-                            androidx.compose.material3.Text(
+                            Text(
                                 text = it,
                                 style = WhatNowTheme.typography.caption1,
                                 color = WhatNowTheme.colors.gray700,

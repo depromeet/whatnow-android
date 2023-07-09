@@ -29,7 +29,15 @@ import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
-fun PromiseDetailScreen() {
+fun PromiseDetailScreen(
+    viewModel: PromiseAddViewModel,
+    promiseDetailClick : () -> Unit,
+    inviteClick : () -> Unit
+) {
+    val selectedCalendar by viewModel.selectedCalendar.collectAsState()
+    val selectedTime by viewModel.selectedCalendar.collectAsState()
+    val selectedPlace by viewModel.selectedCalendar.collectAsState()
+
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(81.dp))
@@ -75,11 +83,11 @@ fun PromiseDetailScreen() {
             textAlign = TextAlign.Start
         )
         Spacer(modifier = Modifier.height(16.dp))
-        makeBox(R.drawable.ic_calendar, R.string.promise_calendar, "2023년 7월 5일")
+        makeBox(R.drawable.ic_calendar, R.string.promise_calendar, selectedCalendar)
         Spacer(modifier = Modifier.height(24.dp))
-        makeBox(R.drawable.clock2, R.string.promise_time, "5시 30분")
+        makeBox(R.drawable.clock2, R.string.promise_time, selectedTime)
         Spacer(modifier = Modifier.height(24.dp))
-        makeBox(R.drawable.location, R.string.promise_place, "강남역")
+        makeBox(R.drawable.location, R.string.promise_place, selectedPlace)
         Spacer(modifier = Modifier.height(39.dp))
         Image(
             painter = painterResource(id = R.drawable.promise_detail_btn),
@@ -97,7 +105,7 @@ fun PromiseDetailScreen() {
                 WhatNowButton(
                     buttonColors = KnowllyButtonDefaults.textPurpleButtonColors,
                     text = stringResource(id = R.string.promise_detail_btn_detail),
-                    onClick = { },
+                    onClick = { promiseDetailClick },
                     modifier = Modifier
                         .width(160.dp)
                         .height(56.dp)
@@ -106,7 +114,7 @@ fun PromiseDetailScreen() {
                 WhatNowButton(
                     buttonColors = KnowllyButtonDefaults.textGrayButtonColors,
                     text = stringResource(id = R.string.promise_detail_btn_invite),
-                    onClick = { },
+                    onClick = { inviteClick },
                     modifier = Modifier
                         .width(160.dp)
                         .height(56.dp)
