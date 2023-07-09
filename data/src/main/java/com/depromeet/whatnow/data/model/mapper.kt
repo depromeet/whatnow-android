@@ -219,6 +219,7 @@ fun GetPromisesResponse.toDomain(): GetPromises {
     )
 }
 
+@JvmName("PromisesUsersLocationResponse")
 fun List<PromisesUsersLocationResponse>.toDomain(): List<PromisesUsersLocation> {
     return map {
         PromisesUsersLocation(
