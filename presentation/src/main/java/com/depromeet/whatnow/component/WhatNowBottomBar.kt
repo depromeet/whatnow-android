@@ -39,7 +39,10 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 @Composable
 fun WhatNowBottomBar(
     modifier: Modifier = Modifier,
-    onNavigate: (Destination) -> Unit,
+    startHistoryActivity: () -> Unit,
+    startAlarmActivity: () -> Unit,
+    startSettingActivity: () -> Unit,
+    startPromiseAddActivity: () -> Unit,
     isPromise: Boolean
 ) {
     val configuration = LocalConfiguration.current
@@ -51,7 +54,7 @@ fun WhatNowBottomBar(
     fun History() = IconButton(
         modifier = modifier
             .padding(start = 8.dp),
-        onClick = { onNavigate(Destination.History) }) {
+        onClick = { startHistoryActivity() }) {
         Icon(
             modifier = modifier.size(24.dp),
             painter = painterResource(id = R.drawable.history),
@@ -65,7 +68,7 @@ fun WhatNowBottomBar(
     fun Alarm() = IconButton(
         modifier = modifier
             .padding(start = 16.dp),
-        onClick = { onNavigate(Destination.Alarm) }) {
+        onClick = { startAlarmActivity() }) {
         Icon(
             modifier = modifier.size(24.dp),
             painter = painterResource(id = R.drawable.alarm),
@@ -78,7 +81,7 @@ fun WhatNowBottomBar(
     fun Setting() = IconButton(
         modifier = modifier
             .padding(start = 16.dp),
-        onClick = { onNavigate(Destination.Setting) }) {
+        onClick = { startSettingActivity() }) {
         Icon(
             modifier = modifier
                 .size(24.dp),
@@ -127,9 +130,7 @@ fun WhatNowBottomBar(
                             .clickable(
                                 interactionSource = MutableInteractionSource(),
                                 indication = null,
-                                onClick = {
-                                    onNavigate(Destination.PromiseAdd)
-                                }
+                                onClick = { startPromiseAddActivity() }
                             ),
                         shape = RoundedCornerShape(16.dp),
                     ) {

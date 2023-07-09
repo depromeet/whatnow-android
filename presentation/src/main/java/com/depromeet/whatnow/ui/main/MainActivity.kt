@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.depromeet.whatnow.ui.alarm.AlarmActivity
-import com.depromeet.whatnow.ui.history.HistoryActivity
+import com.depromeet.whatnow.ui.archive.ArchiveActivity
 import com.depromeet.whatnow.ui.promiseAdd.PromiseAddActivity
 import com.depromeet.whatnow.ui.setting.SettingActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun startHistoryActivity() {
-        val intent = Intent(this, HistoryActivity::class.java)
+        val intent = Intent(this, ArchiveActivity::class.java)
         startActivity(intent)
     }
 

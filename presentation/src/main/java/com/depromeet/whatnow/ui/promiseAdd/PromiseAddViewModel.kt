@@ -72,6 +72,7 @@ class PromiseAddViewModel @Inject constructor(
 
     fun getLocationMap(latitude: Double, longitude: Double) {
         val mapData = MapData(latitude, longitude)
+
 //        _locationMapData.update {
 //            mapData
 //        }
