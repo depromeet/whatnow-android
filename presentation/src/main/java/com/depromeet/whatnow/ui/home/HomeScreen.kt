@@ -107,7 +107,8 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                         Calendar(
                             onDateChanged = {
                                 selectedDate.value = it
-                            }
+                            },
+                            onDateData = {}
                         )
                     }
 
