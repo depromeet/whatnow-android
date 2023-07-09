@@ -59,10 +59,9 @@ class SplashActivity : BaseActivity() {
 
         kakaoLogin.login(this@SplashActivity)
             .onSuccess {
-                Log.d("yw","카카오로그인 성공")
                 viewModel.login(it.accessToken, it.id_token)
             }
-            .onFailure { Log.d("yw","카카오로그인 실패") }
+            .onFailure {  }
     }
 
     private fun startMainActivity() {

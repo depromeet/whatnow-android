@@ -34,29 +34,29 @@ fun SplashPageItem(
                 modifier = if (test) {
                     Modifier
                         .fillMaxWidth()
-                        .height(384.dp)
+                        .height(458.dp)
                 } else {
                     Modifier
                         .fillMaxWidth()
-                        .height(345.dp)
+                        .height(419.dp)
                 },
                 contentScale = ContentScale.FillBounds
             )
             Column(
                 modifier = Modifier
-                    .padding(top = 50.dp, bottom = 50.dp),
+                    .padding(top = 50.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = stringResource(id = pageItem.titleMsg),
-                    style = WhatNowTheme.typography.headline3,
+                    style = WhatNowTheme.typography.headline2,
                     color = WhatNowTheme.colors.gray900,
                     textAlign = TextAlign.Center
                 )
                 Text(
                     text = stringResource(id = pageItem.description),
                     modifier = Modifier.padding(top = 20.dp),
-                    style = WhatNowTheme.typography.body2,
+                    style = WhatNowTheme.typography.body3,
                     color = WhatNowTheme.colors.gray900,
                     textAlign = TextAlign.Center
                 )
