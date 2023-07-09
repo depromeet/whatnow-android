@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -18,14 +19,13 @@ class PromiseAddActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 //        var selectedTime by mutableStateOf(LocalTime.now())
-
+        Log.d("yw","PromiseAddActivity onCreate()")
         setContent {
             WhatNowTheme {
                 PromiseScreen(
                     viewModel = viewModel,
-                    onBack = {}
+                    onBack = ::finish,
                 )
             }
         }

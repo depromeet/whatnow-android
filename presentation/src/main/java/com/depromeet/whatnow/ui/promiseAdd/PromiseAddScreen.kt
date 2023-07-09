@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -48,14 +49,13 @@ fun PromiseScreen(
     viewModel: PromiseAddViewModel = hiltViewModel(),
     onBack: () -> Unit,
 ) {
-    val itemList = viewModel.getItemList()
+    val locationListUi by viewModel.locationListUi.collectAsState()
+    val locationListData by viewModel.locationListData.collectAsState()
 
     var screenState by remember { mutableStateOf(PromiseScreenState()) }
 
     val selectedDate = remember { mutableStateOf("") }
     val selectedClock = remember { mutableStateOf("") }
-    val inputPlaceName = remember { mutableStateOf("") }
-
     val buttonText = remember { mutableStateOf("다음") }
 
 
@@ -67,9 +67,10 @@ fun PromiseScreen(
             )
         },
         bottomBar = {
-            WhatNowPromiseAddBottomBar(modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp),
+            WhatNowPromiseAddBottomBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp),
                 buttonOnClick = {
                     if (!screenState.isSetDateValue && !screenState.isClockVisible && !screenState.isPlaceVisible) {
                         screenState = screenState.copy(
@@ -104,7 +105,8 @@ fun PromiseScreen(
                     )
                     buttonText.value = "다음"
                 },
-                buttonText = buttonText.value)
+                buttonText = buttonText.value
+            )
         }
     ) { innerPadding ->
         Column(
@@ -114,8 +116,9 @@ fun PromiseScreen(
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(modifier = Modifier
-                .verticalScroll(rememberScrollState())
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
             ) {
                 if (screenState.isSetDateValue) {
                     setMakeBox(
@@ -220,18 +223,24 @@ fun PromiseScreen(
                     )
                     buttonText.value = "만들기"
                 } else {
-                    PlaceList(viewModel = viewModel, onPlaceList = {
-                        Log.d("yw", "it $it")
-                    })
+                    PlaceList(viewModel = viewModel)
                 }
+            }
 
-                Spacer(modifier = Modifier.height(18.dp)) // 간격 설정
+            Spacer(modifier = Modifier.height(18.dp)) // 간격 설정
 
-//                Column {
-//                    for (item in itemList) {
-//                        SearchPlaceList(place = item)
-//                    }
-//                }
+            test(locationListUi, locationListData)
+
+        }
+    }
+}
+
+@Composable
+fun test(a: Boolean, b: List<PromiseAddPlace>) {
+    if (a) {
+        Column {
+            b.forEach { item ->
+                SearchPlaceList(place = item)
             }
         }
     }
@@ -244,14 +253,6 @@ data class PromiseScreenState(
     val isClockVisible: Boolean = false,
     val isPlaceVisible: Boolean = false,
 )
-
-//@Composable
-//fun PlaceList(placeList: ArrayList<PromiseAddPlace>) {
-//    for (x in placeList) {
-//        SearchPlaceList(x)
-//    }
-//}
-
 
 @Composable
 fun Greeting(resId: Int, textSize: Int, textColor: Color) {
@@ -307,14 +308,15 @@ fun Calendar(onDateChanged: (String) -> Unit) {
 }
 
 @Composable
-fun PlaceList(viewModel: PromiseAddViewModel, onPlaceList: (List<PromiseAddPlace>) -> Unit) {
-    var text by remember { mutableStateOf("") }
-    PlaceEdit(onPlaceChanged = {
-        text = it
-    },
+fun PlaceList(viewModel: PromiseAddViewModel) {
+    PlaceEdit(
+        onPlaceChanged = {
+            viewModel.getItemList(it)
+        },
         R.string.promise_place_select,
         R.string.promise_place_msg,
-        R.drawable.whitemap)
+        R.drawable.whitemap
+    )
 
 }
 
@@ -366,14 +368,12 @@ fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: I
                     Spacer(modifier = Modifier.width(8.dp))
 
                     BasicTextField(
-                        modifier = Modifier
-                            .height(30.dp)
-                            .width(238.dp),
                         value = text,
                         onValueChange = {
                             text = it
                             onPlaceChanged(text)
                         },
+
                         textStyle = TextStyle(
                             color = Color.White,
                             fontSize = 16.sp // 원하는 크기로 설정
@@ -385,13 +385,16 @@ fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: I
                                 if (text.isBlank()) {
                                     Text(
                                         text = LocalContext.current.getString(R.string.promise_place_msg),
-                                        style = TextStyle(color = Color.White,
-                                            fontSize = 16.sp)
+                                        style = TextStyle(
+                                            color = Color.White,
+                                            fontSize = 16.sp
+                                        )
                                     )
                                 }
                                 it()
                             }
-                        }
+                        },
+                        cursorBrush = SolidColor(Color.White)
                     )
                 }
             }
@@ -415,13 +418,8 @@ fun SearchPlaceList(place: PromiseAddPlace) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    place.placeTitle.let {
-                        androidx.compose.material3.Text(
-                            text = it,
-                            style = WhatNowTheme.typography.body1,
-                            color = WhatNowTheme.colors.whatNowBlack
-                        )
-                    }
+                    PromiseLocationList(place.placeTitle)
+
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_location),
@@ -434,7 +432,8 @@ fun SearchPlaceList(place: PromiseAddPlace) {
                             androidx.compose.material3.Text(
                                 text = it,
                                 style = WhatNowTheme.typography.caption1,
-                                color = WhatNowTheme.colors.gray700
+                                color = WhatNowTheme.colors.gray700,
+                                maxLines = 1
                             )
                         }
                     }
@@ -552,16 +551,6 @@ fun IncompleteContent(titleResId: Int) {
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview(device = Devices.PIXEL_2)
-@Composable
-fun DefaultPreview() {
-    WhatNowTheme {
-        PromiseScreen(onBack = {})
-    }
-}
-
 @Composable
 fun WhatNowPromiseAddBottomBar(
     resetOnClick: () -> Unit,
@@ -642,5 +631,16 @@ fun WhatNowPromiseAddBottomBar(
                 }
             }
         }
+    }
+}
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Preview(device = Devices.PIXEL_2)
+@Composable
+fun DefaultPreview() {
+    WhatNowTheme {
+        PromiseScreen(onBack = {})
     }
 }
