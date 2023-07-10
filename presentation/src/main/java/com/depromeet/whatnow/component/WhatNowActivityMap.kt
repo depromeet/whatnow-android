@@ -87,9 +87,9 @@ fun WhatNowActivityMap(
     }
 
     val latitude =
-        uiState.promisesUsersStatus.first().coordinateVo.latitude
+        uiState.promisesUsersStatus.value.first().coordinateVo.latitude
     val longitude =
-        uiState.promisesUsersStatus.first().coordinateVo.longitude
+        uiState.promisesUsersStatus.value.first().coordinateVo.longitude
     val timeOverLocations = LatLng(latitude, longitude)
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.
@@ -217,7 +217,7 @@ fun WhatNowActivityMap(
                     ) {
                         Column() {
                             Text(
-                                text = uiState.promisesUsersStatus.first().title,
+                                text = uiState.promisesUsersStatus.value.first().title,
                                 style = WhatNowTheme.typography.body1.copy(
                                     fontSize = 18.sp,
                                     color = WhatNowTheme.colors.whatNowBlack
@@ -248,7 +248,7 @@ fun WhatNowActivityMap(
                             modifier = modifier.clickable {
                                 PromiseActivateActivity.startActivity(
                                     context = context,
-                                    uiState.promisesUsersStatus.first().promiseId
+                                    uiState.promisesUsersStatus.value.first().promiseId
                                 )
                             },
                             painter = painterResource(id = R.drawable.arrow_forward_ios_24),

@@ -2,7 +2,20 @@ package com.depromeet.whatnow.data.source
 
 
 import com.depromeet.whatnow.data.model.request.PromiseRequest
-import com.depromeet.whatnow.data.model.response.*
+import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
+import com.depromeet.whatnow.data.model.response.LocationResponse
+import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
+import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
+import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
+import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
+import com.depromeet.whatnow.data.model.response.PromisesResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
+import com.depromeet.whatnow.domain.model.CoordinateVo
 
 interface PromisesRemoteDataSource {
     suspend fun getPromisesActive(promise_id: Int): Result<Boolean>
@@ -59,5 +72,5 @@ interface PromisesRemoteDataSource {
         interactionType: String
     ): Result<PromisesInteractionsDetailResponse>
 
-    suspend fun postPromises(request : PromiseRequest): Result<PromisesResponse>
+    suspend fun postPromises(request: PromiseRequest): Result<PromisesResponse>
 }
