@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
@@ -52,10 +53,13 @@ fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsers
         "${promiseMonth.toInt()}/$promiseDay"
 
     } else {
-
-        "D-${
-            calculationDate
-        }"
+        if(calculationDate == 0L){
+            "오늘"
+        }else{
+            "D-${
+                calculationDate
+            }"
+        }
     }
     Log.d("ttt", date)
 
@@ -142,7 +146,9 @@ fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsers
                             text = promisesUsersStatusItem.address,
                             style = WhatNowTheme.typography.caption2.copy(
                                 fontSize = 14.sp, color = WhatNowTheme.colors.gray700
-                            )
+                            ),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
