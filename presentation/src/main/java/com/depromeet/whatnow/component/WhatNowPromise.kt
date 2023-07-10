@@ -139,7 +139,7 @@ fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsers
                         )
                         Text(
                             modifier = Modifier.padding(start = 4.dp),
-                            text = "서울시 종로구",
+                            text = promisesUsersStatusItem.address,
                             style = WhatNowTheme.typography.caption2.copy(
                                 fontSize = 14.sp, color = WhatNowTheme.colors.gray700
                             )
