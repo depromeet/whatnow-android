@@ -1,6 +1,5 @@
 package com.depromeet.whatnow.ui.splashlogin
 
-import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.model.Register
 import com.depromeet.whatnow.domain.usecase.GetAuthOauthKakaoRegisterValidUseCase
@@ -33,7 +32,7 @@ class SplashViewModel @Inject constructor(
     private var profileImage: String = ""
     private var isDefaultImage: Boolean = false
     private var nickname: String = ""
-    private var id_token: String = ""
+    private var idToken: String = ""
 
     init {
         launch {
@@ -44,9 +43,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun login(accessToken: String, id_token: String) {
-        this.id_token = id_token
-        Log.d("yw","accessToken = $accessToken")
-        Log.d("yw","id_token = $id_token")
+        idToken = id_token
 
         if (job != null) {
             return
@@ -54,7 +51,6 @@ class SplashViewModel @Inject constructor(
         job = launch {
             getAuthOauthKakaoRegisterValidUseCase(id_token)
                 .onSuccess {
-                    Log.d("yw","회원가입이 가능하니? ${it.canRegister}")
                     when {
                         // 회원가입 가능할때 -> 엑세스토큰을 통해 회원정보를 가져와 자동회원가입 후 로그인
                         it.canRegister -> {
@@ -79,36 +75,29 @@ class SplashViewModel @Inject constructor(
 
     }
 
-
+// 회원가입 약관동의 팝업
     fun shownRegisterAgree() {
         if (!registerAgreePopup.value) {
             return
         }
-        Log.d("yw", "id_token = $id_token")
-        Log.d("yw", "profileImage = $profileImage")
-        Log.d("yw", "isDefaultImage = $isDefaultImage")
-        Log.d("yw", "nickName = $nickname")
-
         job = launch {
-            registerUseCase(id_token, request = Register(
+            registerUseCase(idToken, request = Register(
                 profileImage = profileImage,
                 isDefaultImage = isDefaultImage,
                 nickname = nickname,
                 fcmToken = "",
                 appAlarm = false
             )).onSuccess {
-                Log.d("yw", "성공")
-                loginUseCase(id_token)
+                loginUseCase(idToken)
                     .onSuccess {
                         _registerAgreePopup.value = false
                         _uiState.value = SplashUiState.Signed
                     }
                     .onFailure { throwable -> handleException(throwable) }
             }.onFailure {
-                Log.d("yw", "실패 $it")
+                 throwable -> handleException(throwable)
             }
         }
-
         job?.invokeOnCompletion { job = null }
     }
 

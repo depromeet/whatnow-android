@@ -17,7 +17,7 @@ data class LocationResponse(
     val items: List<NcpMapInfoItemResponse>
 )
 
-fun LocationResponse.toData() = NcpMapInfo (
+fun LocationResponse.toDomain() = NcpMapInfo (
     last_build_date = last_build_date,
     total = total,
     start = start,

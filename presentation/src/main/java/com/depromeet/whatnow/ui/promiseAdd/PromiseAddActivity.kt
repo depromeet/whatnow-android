@@ -7,7 +7,10 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.depromeet.whatnow.base.BaseActivity
+import com.depromeet.whatnow.ui.main.MainActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,17 +21,32 @@ class PromiseAddActivity : BaseActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 //        var selectedTime by mutableStateOf(LocalTime.now())
-
         setContent {
             WhatNowTheme {
-                PromiseScreen(
-                    viewModel = viewModel,
-                    onBack = {}
-                )
+                val uiState by viewModel.uiState.collectAsState()
+                uiState.let {
+                    if (it == PromiseAddState.MakePromise) {
+                        PromiseScreen(
+                            viewModel = viewModel,
+                            onBack = ::finish,
+                        )
+                    } else {
+                        PromiseDetailScreen(
+                            viewModel = viewModel,
+                            goHomeClick = { startMainActivity() },
+                            inviteClick = {}
+                        )
+                    }
+                }
+
             }
         }
+    }
+
+    private fun startMainActivity() {
+        MainActivity.startActivity(this)
+        finish()
     }
 
     private fun navigateUp() = finish()
@@ -39,4 +57,6 @@ class PromiseAddActivity : BaseActivity() {
             context.startActivity(intent)
         }
     }
+
+
 }

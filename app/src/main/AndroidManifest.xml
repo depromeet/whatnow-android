@@ -25,15 +25,18 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Whatnow">
+
+        </activity>
+
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.history.HistoryActivity"
             android:screenOrientation="portrait" />
@@ -60,7 +63,9 @@
 
         <activity
             android:name=".ui.archive.ArchiveActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <activity
             android:name=".ui.pictureView.PictureViewActivity"
@@ -98,6 +103,10 @@
                     android:scheme="kakao4416983cab300794e7e97eef97768746" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Theme.ImageCropper" />
     </application>
 
 </manifest>

@@ -85,6 +85,7 @@ fun WhatNowActivityMap(
             )
         )
     }
+
     val latitude =
         uiState.promisesUsersStatus.first().coordinateVo.latitude
     val longitude =

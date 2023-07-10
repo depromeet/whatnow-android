@@ -44,7 +44,10 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 @SuppressLint("StateFlowValueCalledInComposition")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
     val context = LocalContext.current
     val isRefresh by viewModel.isRefresh.collectAsState()
     val launcher = rememberLauncherForActivityResult(StartActivityForResult()) { result ->
@@ -59,10 +62,12 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 
     // 스크롤을 위로 땡겼을 때 리로드 되면 좋을듯
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(WhatNowTheme.colors.gray50)
-            .verticalScroll(scrollState)
+        modifier = modifier.then(
+            Modifier
+                .fillMaxSize()
+                .background(WhatNowTheme.colors.gray50)
+                .verticalScroll(scrollState)
+        )
     ) {
 
         Box {
@@ -107,7 +112,8 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                         Calendar(
                             onDateChanged = {
                                 selectedDate.value = it
-                            }
+                            },
+                            onDateData = {}
                         )
                     }
 

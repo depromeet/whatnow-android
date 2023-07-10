@@ -39,6 +39,16 @@
     <string name="promise_bottom_button_next">다음</string>
     <string name="promise_bottom_button_make">만들기</string>
 
+    <string name="promise_detail">상세 정보</string>
+    <string name="promise_detail_title">약속 잡았다!</string>
+    <string name="promise_detail_msg">친구들을 초대하고\n약속 당일 실시간으로 위치를 공유해봐</string>
+
+    <string name="promise_reset_title">약속 정보 재설정</string>
+    <string name="promise_reset_msg">기입된 약속 정보를 모두 삭제합니다.\n약속 정보를 재설정 하시겠습니까?</string>
+
+    <string name="promise_detail_btn_home">홈</string>>
+    <string name="promise_detail_btn_invite">친구 초대하기</string>>
+
     <string name="activated_promise">활성화된 약속</string>
     <string name="urge">재촉하기</string>
     <string name="apologize">사과하기</string>
@@ -86,4 +96,17 @@
     <string name="arrived">도착</string>
     <string name="late">지각</string>
     <string name="unspecified">알 수 없음</string>
+
+    <string name="settings">설정</string>
+    <string name="login_with_kakao">Kakao 로그인</string>
+    <string name="app_notification">앱 알림</string>
+    <string name="version_info">버전 정보</string>
+    <string name="newest_version">최신 버전</string>
+    <string name="usage_term">이용 약관</string>
+    <string name="sign_out">로그아웃</string>
+    <string name="delete_user">Whatnow 탈퇴</string>
+    <string name="edit_profile">프로필 수정</string>
+    <string name="done">완료</string>
+    <string name="edit_profile_help">프로필 사진과 닉네임을 수정합니다.</string>
+    <string name="profile_textfield_placeholder">닉네임 입력</string>
 </resources>
