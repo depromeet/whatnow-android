@@ -23,13 +23,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
+import com.depromeet.whatnow.ui.utils.toDate
 
 
 @Composable
 fun WhatNowNaverMapPromiseInfo(
-    modifier: Modifier, alignment: Alignment, padding: PaddingValues,
+    modifier: Modifier, promises: GetPromises, alignment: Alignment, padding: PaddingValues,
 ) {
 
     Box(
@@ -69,7 +71,7 @@ fun WhatNowNaverMapPromiseInfo(
                 )
                 Text(
                     modifier = Modifier.padding(start = 4.dp),
-                    text = "서울시 종로구",
+                    text = promises.title,
                     style = WhatNowTheme.typography.body3.copy(
                         fontSize = 14.sp, color = WhatNowTheme.colors.whatNowBlack
                     )
@@ -85,7 +87,7 @@ fun WhatNowNaverMapPromiseInfo(
                 )
                 Text(
                     modifier = Modifier.padding(start = 4.dp, end = 8.dp),
-                    text = "오후 4시 30분",
+                    text = promises.endTime.toDate(),
                     style = WhatNowTheme.typography.body3.copy(
                         fontSize = 14.sp, color = WhatNowTheme.colors.whatNowBlack
                     )

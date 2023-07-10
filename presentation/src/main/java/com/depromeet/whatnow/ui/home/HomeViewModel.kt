@@ -3,11 +3,6 @@ package com.depromeet.whatnow.ui.home
 import android.os.CountDownTimer
 import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
-import com.depromeet.whatnow.domain.model.CoordinateVo
-import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
-import com.depromeet.whatnow.domain.model.Interactions
-import com.depromeet.whatnow.domain.model.PromiseUsers
-import com.depromeet.whatnow.domain.model.TimeOverLocations
 import com.depromeet.whatnow.domain.usecase.GetPromisesActiveUseCase
 import com.depromeet.whatnow.domain.usecase.GetPromisesUsersStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,32 +31,32 @@ class HomeViewModel @Inject constructor(
 
     fun getPromisesUsersStatus() {
         launch {
-            _uiState.value.currentStatus = HomeActivateStatus.Activity
-            _uiState.value.promisesUsersStatus = listOf(
-                GetPromisesUsersStatus(
-                    promiseId = 0,
-                    address = "string",
-                    coordinateVo = CoordinateVo(37.566535, 126.9779692),
-                    title = "string",
-                    endTime = "2023-07-07T14:57:18.474Z",
-                    promiseUsers = listOf(
-                        PromiseUsers(
-                            profileImg = "string",
-                            nickname = "string",
-                            isDefaultImg = true,
-                            promiseUserType = "READY",
-                            interactions = listOf(Interactions(0, 0, "Music", 0))
-                        )
-                    ),
-                    promiseImageUrls = listOf("string"),
-                    timeOverLocations = listOf(
-                        TimeOverLocations(
-                            0,
-                            CoordinateVo(37.566535, 126.9779692)
-                        )
-                    )
-                )
-            )
+//            _uiState.value.currentStatus = HomeActivateStatus.Activity
+//            _uiState.value.promisesUsersStatus = listOf(
+//                GetPromisesUsersStatus(
+//                    promiseId = 0,
+//                    address = "string",
+//                    coordinateVo = CoordinateVo(37.566535, 126.9779692),
+//                    title = "string",
+//                    endTime = "2023-07-07T14:57:18.474Z",
+//                    promiseUsers = listOf(
+//                        PromiseUsers(
+//                            profileImg = "string",
+//                            nickname = "string",
+//                            isDefaultImg = true,
+//                            promiseUserType = "READY",
+//                            interactions = listOf(Interactions(0, 0, "Music", 0))
+//                        )
+//                    ),
+//                    promiseImageUrls = listOf("string"),
+//                    timeOverLocations = listOf(
+//                        TimeOverLocations(
+//                            0,
+//                            CoordinateVo(37.566535, 126.9779692)
+//                        )
+//                    )
+//                )
+//            )
             timerStart("2023-07-07T14:57:18.474Z")
 
             getPromisesUsersStatusUseCase(status = "BEFORE").onSuccess {
@@ -137,7 +132,7 @@ class HomeViewModel @Inject constructor(
 }
 
 
-private fun getTime(deadLine: Calendar): Pair<String, String> {
+fun getTime(deadLine: Calendar): Pair<String, String> {
 
     val diffSec: Long = (deadLine.timeInMillis - Calendar.getInstance().timeInMillis) / 1000
 
