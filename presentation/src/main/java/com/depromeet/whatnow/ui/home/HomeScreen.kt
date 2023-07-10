@@ -3,6 +3,7 @@ package com.depromeet.whatnow.ui.home
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.RequiresApi
@@ -58,6 +59,8 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
     val timeOver by viewModel.uiState.value.timeOver.collectAsState()
 
+    val promisesUsersStatus by viewModel.uiState.value.promisesUsersStatus.collectAsState()
+
     val scrollState = rememberScrollState()
 
     // 스크롤을 위로 땡겼을 때 리로드 되면 좋을듯
@@ -78,7 +81,7 @@ fun HomeScreen(
             when (uiState.currentStatus) {
                 HomeActivateStatus.InActivity -> WhatNowInactivityMap(
                     modifier = Modifier,
-                    isPromise = uiState.promisesUsersStatus.isNotEmpty(),
+                    isPromise = promisesUsersStatus.isNotEmpty(),
                 )
 
                 HomeActivateStatus.Activity -> WhatNowActivityMap(
@@ -102,8 +105,9 @@ fun HomeScreen(
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
         ) {
 
+            Log.d("ttttteset", promisesUsersStatus.isEmpty().toString())
 
-            if (uiState.promisesUsersStatus.isEmpty()) {
+            if (promisesUsersStatus.isEmpty()) {
                 when (uiState.currentStatus) {
                     HomeActivateStatus.InActivity -> {
                         val selectedDate = remember { mutableStateOf("") }
@@ -137,7 +141,7 @@ fun HomeScreen(
                                     .clickable { },
                                 painter = painterResource(id = R.drawable.arrow_forward_ios_24),
                                 contentDescription = null,
-                                tint = if (uiState.promisesUsersStatus.isEmpty()) WhatNowTheme.colors.gray400
+                                tint = if (promisesUsersStatus.isEmpty()) WhatNowTheme.colors.gray400
                                 else WhatNowTheme.colors.whatNowBlack
 
 
@@ -172,13 +176,13 @@ fun HomeScreen(
                             .clickable { },
                         painter = painterResource(id = R.drawable.arrow_forward_ios_24),
                         contentDescription = null,
-                        tint = if (uiState.promisesUsersStatus.isEmpty()) WhatNowTheme.colors.gray400
+                        tint = if (promisesUsersStatus.isEmpty()) WhatNowTheme.colors.gray400
                         else WhatNowTheme.colors.whatNowBlack
                     )
                 }
                 WhatNowPromiseList(
                     modifier = Modifier,
-                    promisesUsersStatus = uiState.promisesUsersStatus
+                    promisesUsersStatus = promisesUsersStatus
                 )
             }
         }

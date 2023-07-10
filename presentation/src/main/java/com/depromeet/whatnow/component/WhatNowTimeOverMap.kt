@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -52,6 +53,7 @@ import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.overlay.OverlayImage
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun WhatNowTimeOverMap(
@@ -81,9 +83,9 @@ fun WhatNowTimeOverMap(
     }
 
     val latitude =
-        uiState.promisesUsersStatus.first().coordinateVo.latitude
+        uiState.promisesUsersStatus.value.first().coordinateVo.latitude
     val longitude =
-        uiState.promisesUsersStatus.first().coordinateVo.longitude
+        uiState.promisesUsersStatus.value.first().coordinateVo.longitude
     val timeOverLocations = LatLng(latitude, longitude)
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.

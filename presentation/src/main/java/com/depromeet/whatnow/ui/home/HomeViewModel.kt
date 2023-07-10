@@ -61,14 +61,15 @@ class HomeViewModel @Inject constructor(
 
             getPromisesUsersStatusUseCase(status = "BEFORE").onSuccess {
                 Log.d("ttt onSuccess", "it.items = ${it}")
-//                _uiState.value.promisesUsersStatus = it
+                _uiState.value.promisesUsersStatus.value = it
                 if (it.isEmpty()) {
                     _uiState.value.currentStatus = HomeActivateStatus.InActivity
                 } else {
+                    Log.d("ttttt", it.first().promiseUsers.first().promiseUserType)
                     when (it.first().promiseUsers.first().promiseUserType) {
                         "READY" -> {
                             checkedPromise(
-                                it.first().promiseUsers.first().interactions.first().promiseId,
+                                it.first().promiseId,
                                 it.first().endTime
                             )
                         }
@@ -93,7 +94,9 @@ class HomeViewModel @Inject constructor(
 
                     timerStart(date)
                 } else _uiState.value.currentStatus = HomeActivateStatus.InActivity
-            }.onFailure { }
+            }.onFailure {
+                Log.d("ttasdt", it.toString())
+            }
         }
     }
 

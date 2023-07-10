@@ -7,7 +7,9 @@ data class HomeState(
     val showTooltip: Boolean = false,
     val isAudioPlaying: Boolean = false,
     var currentStatus: HomeActivateStatus = HomeActivateStatus.InActivity,
-    var promisesUsersStatus: List<GetPromisesUsersStatus> = emptyList(),
+    var promisesUsersStatus: MutableStateFlow<List<GetPromisesUsersStatus>> = MutableStateFlow(
+        emptyList()
+    ),
     var timeOver: MutableStateFlow<Pair<String, String>> = MutableStateFlow<Pair<String, String>>(
         Pair(
             "0",
