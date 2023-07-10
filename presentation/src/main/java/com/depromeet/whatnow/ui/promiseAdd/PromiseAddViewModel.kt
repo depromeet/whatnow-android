@@ -94,12 +94,13 @@ class PromiseAddViewModel @Inject constructor(
     ) {
         launch {
             val endTime = calendar + "T" + time
+            val title = "$calendar $time 약속"
             val latLng = Tm128(latitude, longitude).toLatLng()
             val mapData = MapData(latitude = latLng.latitude, longitude = latLng.longitude)
 
             postPromisesUseCase(
                 Promise(
-                    title = calendar, mainUserId = userId, meetPlace = PlaceVo(
+                    title = title, mainUserId = userId, meetPlace = PlaceVo(
                         CoordinateVo(latitude = mapData.latitude, longitude = mapData.longitude),
                         address = place
                     ), endTime = endTime

@@ -368,18 +368,19 @@ fun Calendar(onDateChanged: (String) -> Unit, onDateData: (String) -> Unit) {
                     onDateChanged(selectedDateString)
 
                     datePicker.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
-                        Log.d("yw", "year = $year")
-                        Log.d("yw", "monthOfYear = $monthOfYear")
-                        Log.d("yw", "dayOfMonth = $dayOfMonth")
+                        val month = monthOfYear + 1
 
+                        Log.d("yw", "year = $year")
+                        Log.d("yw", "month = $month")
+                        Log.d("yw", "dayOfMonth = $dayOfMonth")
                         val formattedMonth =
-                            if (monthOfYear >= 10) monthOfYear.toString() else "0$monthOfYear"
+                            if (month >= 10) (month + 1).toString() else "0$month"
                         val formattedDay =
                             if (dayOfMonth >= 10) dayOfMonth.toString() else "0$dayOfMonth"
                         val selectedDateData = "$year-$formattedMonth-$formattedDay"
 
                         val selectedDateString =
-                            String.format("%d월 %d일 약속", monthOfYear, dayOfMonth)
+                            String.format("%d월 %d일 약속", month, dayOfMonth)
 
                         onDateData(selectedDateData)
                         onDateChanged(selectedDateString)
