@@ -94,8 +94,14 @@ interface ApiService {
         @Body body: PromiseRequest,
     ): BaseResponse<PromisesResponse>
 
+    // 약속 조회
+    @GET(API.PROMISE.getPromises)
+    suspend fun getPromises(
+        @Path("promise-id") promise_id: Int
+    ): BaseResponse<GetPromisesResponse>
+
     // 현재 약속 활성화 여부 조회
-    @POST(API.PROMISE.postPromises)
+    @GET(API.PROMISE.getPromisesActive)
     suspend fun getPromisesActive(
         @Path("promise-id") promise_id: Int
     ): BaseResponse<Boolean>
@@ -111,7 +117,7 @@ interface ApiService {
     @GET(API.PROMISE.getPromisesUsersStatus)
     suspend fun getPromisesUsersStatus(
         @Path("status") status: String,
-    ): BaseResponse<GetPromisesUsersStatusListResponse>
+    ): BaseResponse<List<GetPromisesUsersStatusResponse>>
 
     // 나의 약속 전부 조회
     @GET(API.PROMISE.getPromisesUsersSeparated)
@@ -137,6 +143,13 @@ interface ApiService {
         @Path("user-id") user_id: Int,
         @Path("status") status: String,
     ): BaseResponse<PromisesUsersStatusListResponse>
+
+    // 내 위치 갱신
+    @PUT(API.PROMISE.putPromisesUsersLocation)
+    suspend fun putPromisesUsersLocation(
+        @Path("promise-id") promise_id: Int,
+        @Query("userLocation") userLocation: CoordinateVo,
+    ): BaseResponse<List<PromisesUsersLocationResponse>>
 
     // 약속 유저 생성
     @POST(API.PROMISE.postPromisesUsers)

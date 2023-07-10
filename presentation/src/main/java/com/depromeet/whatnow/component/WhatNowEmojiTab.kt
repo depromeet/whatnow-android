@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.promiseActivate.PromiseEmojiTab
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
@@ -31,6 +32,7 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 @Composable
 fun WhatNowEmojiTab(
     modifier: Modifier = Modifier,
+    promisesInteractions: GetPromisesInteractions,
     selected: PromiseEmojiTab,
     onMusicEmojiClicked: () -> Unit,
     onPoopEmojiClicked: () -> Unit,
@@ -48,28 +50,28 @@ fun WhatNowEmojiTab(
             modifier = modifier,
             enabled = selected == PromiseEmojiTab.Music,
             emojiIconRes = R.drawable.emoji_music,
-            count = 31,
+            count = promisesInteractions.interactionDtoList[0].count,
             onClick = onMusicEmojiClicked
         )
         WhatNowEmojiTabItem(
             modifier = modifier,
             enabled = selected == PromiseEmojiTab.Poop,
             emojiIconRes = R.drawable.emoji_poop,
-            count = 1,
+            count = promisesInteractions.interactionDtoList[1].count,
             onClick = onPoopEmojiClicked
         )
         WhatNowEmojiTabItem(
             modifier = modifier,
             enabled = selected == PromiseEmojiTab.Heart,
             emojiIconRes = R.drawable.emoji_heart,
-            count = 130,
+            count = promisesInteractions.interactionDtoList[2].count,
             onClick = onHeartEmojiClicked
         )
         WhatNowEmojiTabItem(
             modifier = modifier,
             enabled = selected == PromiseEmojiTab.FootPrint,
             emojiIconRes = R.drawable.emoji_footprint,
-            count = 0,
+            count = promisesInteractions.interactionDtoList[3].count,
             onClick = onFootprintEmojiClicked
         )
     }

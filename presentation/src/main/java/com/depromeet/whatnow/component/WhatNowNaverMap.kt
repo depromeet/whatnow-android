@@ -1,11 +1,13 @@
 package com.depromeet.whatnow.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.depromeet.whatnow.ui.R
+import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
@@ -32,11 +35,14 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.overlay.OverlayImage
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun WhatNowNaverMap(
-    modifier: Modifier, onBack: () -> Unit,
+    modifier: Modifier, onBack: () -> Unit, viewModel: PromiseActivateViewModel
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    val timeOver by viewModel.uiState.value.timeOver.collectAsState()
 
     var isPromiseInfo by rememberSaveable { mutableStateOf(true) }
 
@@ -59,9 +65,11 @@ fun WhatNowNaverMap(
         )
     }
 
-    val seoul = LatLng(37.532600, 127.024612)
+    val seoul =
+        LatLng(uiState.promise!!.coordinateVo.latitude, uiState.promise!!.coordinateVo.longitude)
     // 카메라 위치에 경우 좌표에 위도에서 - 0.01한 값
-    val seoulCamera = LatLng(37.532600, 127.024612)
+    val seoulCamera =
+        LatLng(uiState.promise!!.coordinateVo.latitude, uiState.promise!!.coordinateVo.longitude)
 
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.
@@ -95,9 +103,11 @@ fun WhatNowNaverMap(
                 radius = 3000.0
             )
 
+//            uiS
             WhatNowMarkerIcon(
                 "https://media.licdn.com/dms/image/C5603AQHcoKPU9alW9w/profile-displayphoto-shrink_800_800/0/1644498344282?e=1692230400&v=beta&t=aK3Qau7_xpiie2xqI5hulE4H8iEbAcVZPnUXBe7-t6E",
-                LatLng(37.516152086, 127.019497385)
+                LatLng(37.516152086, 127.019497385),
+                uiState.promise!!,
             )
 
         }
@@ -109,7 +119,7 @@ fun WhatNowNaverMap(
             alignment = Alignment.TopStart,
             color = WhatNowTheme.colors.whatNowBlack,
             tint = Color.White,
-            onClick = {onBack()}
+            onClick = { onBack() }
 
         )
 
@@ -127,6 +137,7 @@ fun WhatNowNaverMap(
 
             WhatNowNaverMapPromiseInfo(
                 modifier = modifier,
+                promises = uiState.promise!!,
                 padding = PaddingValues(top = 24.dp),
                 alignment = Alignment.TopCenter
             )
@@ -150,8 +161,8 @@ fun WhatNowNaverMap(
                     width = 56.dp,
                     height = 56.dp,
                     roundedCornerShape = RoundedCornerShape(20.dp),
-                    hour = "58",
-                    min = "33",
+                    hour = timeOver.first,
+                    min = timeOver.second,
                     style = WhatNowTheme.typography.headline3.copy(
                         fontSize = 28.sp, color = Color.White
                     )

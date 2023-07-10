@@ -10,46 +10,46 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.depromeet.whatnow.ui.model.Promise
+import com.depromeet.whatnow.domain.model.Users
 
 @Composable
 fun WhatNowTabAllContentGrid(
-    promise: Promise,
+    users: Users,
     modifier: Modifier
 ) {
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceAround,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 6.dp)
-    ) {
+//    Row(
+//        verticalAlignment = Alignment.CenterVertically,
+//        horizontalArrangement = Arrangement.SpaceAround,
+//        modifier = modifier
+//            .fillMaxWidth()
+//            .padding(bottom = 6.dp)
+//    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            WhatNowProfile(promise = promise, profileImageSize = 72.dp, statusImageSize = 104.dp)
-            Text(text = promise.participants[0].name, modifier = modifier.padding())
+            WhatNowProfile(users = users, profileImageSize = 72.dp, statusImageSize = 104.dp)
+            Text(text = users.nickname, modifier = modifier.padding())
         }
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ) {
-            WhatNowProfile(promise = promise,profileImageSize = 72.dp, statusImageSize = 104.dp)
-            Text(text = promise.participants[0].name, modifier = modifier.padding())
-
-        }
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            WhatNowProfile(promise = promise,profileImageSize = 72.dp, statusImageSize = 104.dp)
-            Text(text = promise.participants[0].name, modifier = modifier.padding())
-
-        }
-
-
-    }
+//        Column(
+//            horizontalAlignment = Alignment.CenterHorizontally
+//
+//        ) {
+//            WhatNowProfile(users = users, profileImageSize = 72.dp, statusImageSize = 104.dp)
+//            Text(text = users.nickname, modifier = modifier.padding())
+//
+//        }
+//
+//        Column(
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//            WhatNowProfile(users = users, profileImageSize = 72.dp, statusImageSize = 104.dp)
+//            Text(text = users.nickname, modifier = modifier.padding())
+//
+//        }
+//
+//
+//    }
 
 }

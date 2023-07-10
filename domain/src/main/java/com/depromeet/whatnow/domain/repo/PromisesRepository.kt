@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.domain.repo
 
 
+
 import com.depromeet.whatnow.domain.model.*
 
 interface PromisesRepository {
@@ -8,10 +9,16 @@ interface PromisesRepository {
 
     suspend fun getPromisesActive(promise_id: Int): Result<Boolean>
 
+    suspend fun putPromisesUsersLocation(
+        promise_id: Int,
+        userLocation: CoordinateVo
+    ): Result<List<PromisesUsersLocation>>
 
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList>
 
-    suspend fun getPromisesUsersStatus(status: String): Result<GetPromisesUsersStatusList>
+    suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatus>>
+
+    suspend fun getPromises(promise_id: Int): Result<GetPromises>
 
     suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusList>
 

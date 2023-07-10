@@ -15,9 +15,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getPromisesUsersStatusUseCase: GetPromisesUsersStatusUseCase,
-    private val getPromisesActiveUseCase: GetPromisesActiveUseCase
+    private val getPromisesActiveUseCase: GetPromisesActiveUseCase,
 
-) : BaseViewModel() {
+    ) : BaseViewModel() {
 
     private val _isRefresh = MutableStateFlow(false)
     val isRefresh = _isRefresh.asStateFlow()
@@ -27,26 +27,58 @@ class HomeViewModel @Inject constructor(
 
     init {
         getPromisesUsersStatus()
-        timerStart("2023-07-07T14:57:18.474Z")
     }
 
     fun getPromisesUsersStatus() {
         launch {
-            getPromisesUsersStatusUseCase(status = "BEFORE").onSuccess {
-                Log.d("ttt onSuccess", "it.items = ${it.contest}")
-                _uiState.value.promisesUsersStatus = it.contest
-                when (it.contest.first().promiseUsers.first().promiseUserType) {
-                    "READY" -> {
-                        checkedPromise(
-                            it.contest.first().promiseUsers.first().interactions.first().promiseId,
-                            it.contest.first().date
-                        )
-                    }
+//            _uiState.value.currentStatus = HomeActivateStatus.Activity
+//            _uiState.value.promisesUsersStatus = listOf(
+//                GetPromisesUsersStatus(
+//                    promiseId = 0,
+//                    address = "string",
+//                    coordinateVo = CoordinateVo(37.566535, 126.9779692),
+//                    title = "string",
+//                    endTime = "2023-07-07T14:57:18.474Z",
+//                    promiseUsers = listOf(
+//                        PromiseUsers(
+//                            profileImg = "string",
+//                            nickname = "string",
+//                            isDefaultImg = true,
+//                            promiseUserType = "READY",
+//                            interactions = listOf(Interactions(0, 0, "Music", 0))
+//                        )
+//                    ),
+//                    promiseImageUrls = listOf("string"),
+//                    timeOverLocations = listOf(
+//                        TimeOverLocations(
+//                            0,
+//                            CoordinateVo(37.566535, 126.9779692)
+//                        )
+//                    )
+//                )
+//            )
+            timerStart("2023-07-07T14:57:18.474Z")
 
-                    "WAIT" -> _uiState.value.currentStatus = HomeActivateStatus.Wait
-                    "LATE" -> _uiState.value.currentStatus = HomeActivateStatus.Late
-                    "CANCEL" -> {}
+            getPromisesUsersStatusUseCase(status = "BEFORE").onSuccess {
+                Log.d("ttt onSuccess", "it.items = ${it}")
+//                _uiState.value.promisesUsersStatus = it
+                if (it.isEmpty()) {
+                    _uiState.value.currentStatus = HomeActivateStatus.InActivity
+                } else {
+                    when (it.first().promiseUsers.first().promiseUserType) {
+                        "READY" -> {
+                            checkedPromise(
+                                it.first().promiseUsers.first().interactions.first().promiseId,
+                                it.first().endTime
+                            )
+                        }
+
+                        "WAIT" -> _uiState.value.currentStatus = HomeActivateStatus.Wait
+                        "LATE" -> _uiState.value.currentStatus = HomeActivateStatus.Late
+                        "CANCEL" -> {}
+                    }
                 }
+
             }.onFailure { Log.d("ttt onFailure", it.toString()) }
         }
 
@@ -79,8 +111,6 @@ class HomeViewModel @Inject constructor(
         deadLine.add(Calendar.HOUR, date.substring(11, 13).toInt())
         deadLine.add(Calendar.MINUTE, date.substring(14, 16).toInt())
 
-//    mBinding.textDeadline.text = "$strDeadline 까지 남은 시간"
-
         val diffSec: Long = (deadLine.timeInMillis - Calendar.getInstance().timeInMillis)
         lateinit var mTimer: CountDownTimer
 
@@ -90,7 +120,6 @@ class HomeViewModel @Inject constructor(
                     _uiState.value.timeOver.value = getTime(deadLine)
 
                 }
-                Log.d("ttt", getTime(deadLine).toString())
             }
 
             override fun onFinish() {
@@ -103,7 +132,7 @@ class HomeViewModel @Inject constructor(
 }
 
 
-private fun getTime(deadLine: Calendar): Pair<String, String> {
+fun getTime(deadLine: Calendar): Pair<String, String> {
 
     val diffSec: Long = (deadLine.timeInMillis - Calendar.getInstance().timeInMillis) / 1000
 
@@ -111,8 +140,7 @@ private fun getTime(deadLine: Calendar): Pair<String, String> {
     val minTime = Math.floor(((diffSec - 3600 * hourTime) / 60).toDouble()).toInt()
     val secTime = Math.floor((diffSec - 3600 * hourTime - 60 * minTime).toDouble()).toInt()
 
-    if (hourTime <= 0 && minTime <= 0 && secTime <= 0)
-        return Pair("0", "0")
+    if (hourTime <= 0 && minTime <= 0 && secTime <= 0) return Pair("0", "0")
 
     val hour = String.format("%02d", hourTime)
     val min = String.format("%02d", minTime)

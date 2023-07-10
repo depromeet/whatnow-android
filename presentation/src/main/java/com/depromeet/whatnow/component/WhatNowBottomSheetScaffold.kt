@@ -34,6 +34,8 @@ fun WhatNowBottomSheetScaffold(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
+    viewModel.timerStart(uiState.promise!!.endTime)
+
     BottomSheetScaffold(modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         sheetPeekHeight = 300.dp,
@@ -59,7 +61,7 @@ fun WhatNowBottomSheetScaffold(
                 when (uiState.selectedTab) {
                     PromiseActivateTab.All -> {
                         WhatNowTabAllContent(modifier = modifier,
-                            promises = uiState.allProfile,
+                            viewModel = viewModel,
                             onCreate = {})
                     }
 
@@ -70,13 +72,15 @@ fun WhatNowBottomSheetScaffold(
                     }
 
                     PromiseActivateTab.Other -> {
-                        WhatNowTabOtherContent(promises = uiState.otherProfile, onCreate = {})
+                        WhatNowTabOtherContent(
+                            viewModel = viewModel,
+                            onCreate = {})
                     }
                 }
             }
         }) {
         // app UI
-        WhatNowNaverMap(modifier = Modifier, onBack = onBack)
+        WhatNowNaverMap(modifier = Modifier, onBack = onBack, viewModel = viewModel)
 
     }
 

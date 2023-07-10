@@ -15,6 +15,7 @@ class PromiseActivateActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.promiseId.value = intent.getIntExtra("promiseId", -1)
 
         setContent {
             WhatNowTheme {
@@ -29,8 +30,9 @@ class PromiseActivateActivity : BaseActivity() {
     private fun navigateUp() = finish()
 
     companion object {
-        fun startActivity(context: Context) {
+        fun startActivity(context: Context, promiseId: Int?) {
             val intent = Intent(context, PromiseActivateActivity::class.java)
+            intent.putExtra("promiseId", promiseId)
             context.startActivity(intent)
         }
     }

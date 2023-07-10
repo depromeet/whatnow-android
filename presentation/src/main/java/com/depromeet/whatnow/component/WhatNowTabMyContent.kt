@@ -26,6 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.depromeet.whatnow.domain.model.GetPromisesInteractions
+import com.depromeet.whatnow.domain.model.InteractionDtoList
+import com.depromeet.whatnow.domain.model.InteractionsDetail
+import com.depromeet.whatnow.domain.model.UserProgress
+import com.depromeet.whatnow.domain.model.Users
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.model.Promise
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
@@ -39,6 +44,50 @@ fun WhatNowTabMyContent(
 
     val uiState by viewModel.uiState.collectAsState()
     val isClickedMyStatus by viewModel.isClickedMyStatus.collectAsState()
+
+//    viewModel.getPromisesInteractions()
+//    viewModel.getPromisesUsersProgress(uiState.promise!!.users[0].id)
+
+    val promisesInteractionsTest = GetPromisesInteractions(
+        UserProgress(
+            user = Users(0, "", "string", true),
+            currentProgress = "string", beforeProgress = "string"
+        ), listOf(
+            InteractionDtoList(
+                promiseId = 0,
+                userId = 0,
+                interactionType = "string",
+                count = 13
+            ),
+            InteractionDtoList(
+                promiseId = 0,
+                userId = 0,
+                interactionType = "string",
+                count = 13
+            ),
+            InteractionDtoList(
+                promiseId = 0,
+                userId = 0,
+                interactionType = "string",
+                count = 13
+            ),
+            InteractionDtoList(
+                promiseId = 0,
+                userId = 0,
+                interactionType = "string",
+                count = 13
+            )
+        )
+    )
+
+    val test: List<Users> = listOf(
+        Users(0, "", "string", true),
+        Users(0, "", "string", true),
+        Users(0, "", "string", true),
+        Users(0, "", "string", true),
+        Users(0, "", "string", true),
+        Users(0, "", "string", true)
+    )
 
     Column(
         modifier = Modifier
@@ -54,7 +103,8 @@ fun WhatNowTabMyContent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 WhatNowProfile(
-                    promise = promises[0], profileImageSize = 56.dp, statusImageSize = 88.dp
+//                    users = uiState.promise!!.users[0],
+                    users = test[0], profileImageSize = 56.dp, statusImageSize = 88.dp
                 )
                 Column(modifier = modifier.padding(start = 22.dp)) {
                     Text(
@@ -73,7 +123,7 @@ fun WhatNowTabMyContent(
                             tint = WhatNowTheme.colors.gray400
                         )
                         Text(
-                            text = "씻는중",
+                            text = "uiState.promisesProgress!!.currentProgress",
                             modifier = modifier
                                 .padding(start = 2.dp)
                                 .height(22.dp),
@@ -110,27 +160,99 @@ fun WhatNowTabMyContent(
             }
         }
 
-        WhatNowEmojiTab(selected = uiState.selectedEmojiTab,
+        val test_interaction = uiState.interactionsDetail
+
+        WhatNowEmojiTab(
+            promisesInteractions = promisesInteractionsTest,
+            selected = uiState.selectedEmojiTab,
             onMusicEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.Music) },
             onPoopEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.Poop) },
             onHeartEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.Heart) },
             onFootprintEmojiClicked = { viewModel.selectEmojiTab(PromiseEmojiTab.FootPrint) })
 
+        val test = listOf(
+            InteractionsDetail(
+                senderUser = Users(
+                    id = 0,
+                    profileImg = "string",
+                    nickname = "string",
+                    isDefaultImg = true
+                ), count = 18, interactionType = "String"
+            ),
+            InteractionsDetail(
+                senderUser = Users(
+                    id = 0,
+                    profileImg = "string",
+                    nickname = "string",
+                    isDefaultImg = true
+                ), count = 18, interactionType = "String"
+            ), InteractionsDetail(
+                senderUser = Users(
+                    id = 0,
+                    profileImg = "string",
+                    nickname = "string",
+                    isDefaultImg = true
+                ), count = 18, interactionType = "String"
+            )
+        )
+
+        val test1 = listOf(
+            InteractionsDetail(
+                senderUser = Users(
+                    id = 0,
+                    profileImg = "string",
+                    nickname = "string",
+                    isDefaultImg = true
+                ), count = 14, interactionType = "String"
+            ),
+            InteractionsDetail(
+                senderUser = Users(
+                    id = 0,
+                    profileImg = "string",
+                    nickname = "string",
+                    isDefaultImg = true
+                ), count = 16, interactionType = "String"
+            ), InteractionsDetail(
+                senderUser = Users(
+                    id = 0,
+                    profileImg = "string",
+                    nickname = "string",
+                    isDefaultImg = true
+                ), count = 18, interactionType = "String"
+            )
+        )
+
         when (uiState.selectedEmojiTab) {
             PromiseEmojiTab.Music -> {
-                WhatNowTabMyContentList(modifier = modifier, promises = uiState.musicEmoji)
+                viewModel.getPromisesInteractionsDetail(interactionType = "MUSIC")
+                WhatNowTabMyContentList(
+                    modifier = modifier,
+                    interactionsDetail = test
+                )
             }
 
             PromiseEmojiTab.Poop -> {
-                WhatNowTabMyContentList(modifier = modifier, promises = uiState.poopEmoji)
+                viewModel.getPromisesInteractionsDetail(interactionType = "POOP")
+                WhatNowTabMyContentList(
+                    modifier = modifier,
+                    interactionsDetail = test1
+                )
             }
 
             PromiseEmojiTab.Heart -> {
-                WhatNowTabMyContentList(modifier = modifier, promises = uiState.heartEmoji)
+                viewModel.getPromisesInteractionsDetail(interactionType = "HEART")
+                WhatNowTabMyContentList(
+                    modifier = modifier,
+                    interactionsDetail = test
+                )
             }
 
             PromiseEmojiTab.FootPrint -> {
-                WhatNowTabMyContentList(modifier = modifier, promises = uiState.footPrintEmoji)
+                viewModel.getPromisesInteractionsDetail(interactionType = "STEP")
+                WhatNowTabMyContentList(
+                    modifier = modifier,
+                    interactionsDetail = test
+                )
             }
         }
     }

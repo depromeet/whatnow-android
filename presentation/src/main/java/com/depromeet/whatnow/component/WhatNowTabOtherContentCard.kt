@@ -27,13 +27,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.depromeet.whatnow.domain.model.Users
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.model.Promise
+import com.depromeet.whatnow.ui.model.User
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
 @Composable
 fun WhatNowTabOtherContentCard(
-    modifier: Modifier, promises: List<Promise>
+    modifier: Modifier, users: Users
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -50,10 +52,10 @@ fun WhatNowTabOtherContentCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
-            WhatNowProfile(promise = promises[0], profileImageSize = 56.dp, statusImageSize = 88.dp)
+            WhatNowProfile(users = users, profileImageSize = 56.dp, statusImageSize = 88.dp)
             Column(modifier = modifier.padding(start = 20.dp)) {
                 Text(
-                    text = promises[0].participants[0].name,
+                    text = users.nickname,
                     style = WhatNowTheme.typography.body2.copy(
                         fontSize = 16.sp, color = WhatNowTheme.colors.gray50
                     )
