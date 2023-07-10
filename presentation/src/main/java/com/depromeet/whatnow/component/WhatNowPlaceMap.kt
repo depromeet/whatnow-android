@@ -2,24 +2,12 @@ package com.depromeet.whatnow.component
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -30,15 +18,7 @@ import com.depromeet.whatnow.ui.promiseAdd.PromiseAddViewModel
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
-import com.naver.maps.map.compose.CameraPositionState
-import com.naver.maps.map.compose.CircleOverlay
-import com.naver.maps.map.compose.ExperimentalNaverMapApi
-import com.naver.maps.map.compose.MapProperties
-import com.naver.maps.map.compose.MapUiSettings
-import com.naver.maps.map.compose.Marker
-import com.naver.maps.map.compose.MarkerState
-import com.naver.maps.map.compose.NaverMap
-import com.naver.maps.map.compose.rememberCameraPositionState
+import com.naver.maps.map.compose.*
 import com.naver.maps.map.overlay.OverlayImage
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -47,7 +27,7 @@ import com.naver.maps.map.overlay.OverlayImage
 fun WhatNowPlaceMap(
     modifier: Modifier = Modifier,
     context: Context,
-    viewModel: PromiseAddViewModel
+    viewModel: PromiseAddViewModel,
 ) {
 
     val mapData by viewModel.locationMapData.collectAsState()
@@ -72,9 +52,7 @@ fun WhatNowPlaceMap(
     }
     val latitude = mapData.latitude
     val longitude = mapData.longitude
-    val timeOverLocations = LatLng(37.49797, 127.02763)
-    Log.d("yw", "latitude = ${timeOverLocations.latitude}")
-    Log.d("yw", "latitude = ${timeOverLocations.longitude}")
+    val timeOverLocations = LatLng(latitude, longitude)
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.
         position = CameraPosition(timeOverLocations, 6.0)
@@ -94,7 +72,7 @@ fun WhatNowPlaceMap(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(194.dp)
+                    .height(240.dp)
             ) {
                 Box(
                     Modifier
@@ -102,7 +80,7 @@ fun WhatNowPlaceMap(
                         .fillMaxHeight()
                 ) {
                     NaverMap(
-                        modifier = Modifier.height(194.dp),
+                        modifier = Modifier.height(240.dp),
                         cameraPositionState = cameraPositionState,
                         properties = mapProperties,
                         uiSettings = mapUiSettings,

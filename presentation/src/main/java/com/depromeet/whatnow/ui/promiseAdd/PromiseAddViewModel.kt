@@ -10,6 +10,7 @@ import com.depromeet.whatnow.domain.usecase.GetJwtTokenUseCase
 import com.depromeet.whatnow.domain.usecase.GetLocationUseCase
 import com.depromeet.whatnow.domain.usecase.GetUsersMeUseCase
 import com.depromeet.whatnow.domain.usecase.PostPromisesUseCase
+import com.naver.maps.geometry.Tm128
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +23,7 @@ class PromiseAddViewModel @Inject constructor(
     private val getUsersMeUseCase: GetUsersMeUseCase,
     private val postPromisesUseCase: PostPromisesUseCase,
     private val getLocationUseCase: GetLocationUseCase,
-    private val getJwtTokenUseCase: GetJwtTokenUseCase
+    private val getJwtTokenUseCase: GetJwtTokenUseCase,
 ) : BaseViewModel() {
 
     private var locationList: ArrayList<PromiseAddPlace> = ArrayList()
@@ -71,11 +72,12 @@ class PromiseAddViewModel @Inject constructor(
     }
 
     fun getLocationMap(latitude: Double, longitude: Double) {
-        val mapData = MapData(latitude, longitude)
+        val latLng = Tm128(latitude, longitude).toLatLng()
+        val mapData = MapData(latitude = latLng.latitude, longitude = latLng.longitude)
 
-//        _locationMapData.update {
-//            mapData
-//        }
+        _locationMapData.update {
+            mapData
+        }
         _locationMap.value = true
     }
 
@@ -88,7 +90,7 @@ class PromiseAddViewModel @Inject constructor(
         time: String,
         place: String,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
     ) {
         launch {
             val endTime = calendar + "T" + time
