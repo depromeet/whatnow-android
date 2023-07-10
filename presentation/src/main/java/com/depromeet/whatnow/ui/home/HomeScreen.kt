@@ -60,6 +60,7 @@ fun HomeScreen(
     val timeOver by viewModel.uiState.value.timeOver.collectAsState()
 
     val promisesUsersStatus by viewModel.uiState.value.promisesUsersStatus.collectAsState()
+    val currentStatus by viewModel.uiState.value.currentStatus.collectAsState()
 
     val scrollState = rememberScrollState()
 
@@ -78,7 +79,7 @@ fun HomeScreen(
              * 홈 활성화 여부와 타임오버에 따라서 맵 변경
              * */
 
-            when (uiState.currentStatus) {
+            when (currentStatus) {
                 HomeActivateStatus.InActivity -> WhatNowInactivityMap(
                     modifier = Modifier,
                     isPromise = promisesUsersStatus.isNotEmpty(),
@@ -93,7 +94,7 @@ fun HomeScreen(
                 else -> WhatNowTimeOverMap(
                     modifier = Modifier,
                     viewModel = viewModel,
-                    isLate = uiState.currentStatus == HomeActivateStatus.Late
+                    isLate = currentStatus == HomeActivateStatus.Late
                 )
             }
 
@@ -108,7 +109,7 @@ fun HomeScreen(
             Log.d("ttttteset", promisesUsersStatus.isEmpty().toString())
 
             if (promisesUsersStatus.isEmpty()) {
-                when (uiState.currentStatus) {
+                when (currentStatus) {
                     HomeActivateStatus.InActivity -> {
                         val selectedDate = remember { mutableStateOf("") }
 

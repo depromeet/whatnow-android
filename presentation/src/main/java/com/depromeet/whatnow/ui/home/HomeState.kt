@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 data class HomeState(
     val showTooltip: Boolean = false,
     val isAudioPlaying: Boolean = false,
-    var currentStatus: HomeActivateStatus = HomeActivateStatus.InActivity,
+    var currentStatus: MutableStateFlow<HomeActivateStatus> = MutableStateFlow(HomeActivateStatus.InActivity),
     var promisesUsersStatus: MutableStateFlow<List<GetPromisesUsersStatus>> = MutableStateFlow(
         emptyList()
     ),
