@@ -11,6 +11,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.depromeet.whatnow.domain.model.GetPromises
+import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.naver.maps.geometry.LatLng
@@ -22,7 +23,7 @@ import com.naver.maps.map.overlay.OverlayImage
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
-fun WhatNowMarkerIcon(url: String, position: LatLng, promises: GetPromises) {
+fun WhatNowMarkerIcon(promisesUsersStatus: PromisesUsersStatus, promises: GetPromises) {
 
     promises.users.map {
         val overlayPainter = rememberAsyncImagePainter(
@@ -44,7 +45,12 @@ fun WhatNowMarkerIcon(url: String, position: LatLng, promises: GetPromises) {
                 icon = OverlayImage.fromBitmap(overlayImageBitmap),
                 width = 56.dp,
                 height = 56.dp,
-                state = MarkerState(position = position),
+                state = MarkerState(
+                    position = LatLng(
+                        promisesUsersStatus.userLocation.latitude,
+                        promisesUsersStatus.userLocation.longitude
+                    )
+                ),
                 anchor = Offset(0.5f, 0.5f),
             )
 
@@ -52,7 +58,12 @@ fun WhatNowMarkerIcon(url: String, position: LatLng, promises: GetPromises) {
                 icon = OverlayImage.fromResource(R.drawable.status_change_washing_img),
                 width = 88.dp,
                 height = 88.dp,
-                state = MarkerState(position = position),
+                state = MarkerState(
+                    position = LatLng(
+                        promisesUsersStatus.userLocation.latitude,
+                        promisesUsersStatus.userLocation.longitude
+                    )
+                ),
                 anchor = Offset(0.5f, 0.5f),
                 captionText = it.nickname,
                 captionTextSize = 14.sp,

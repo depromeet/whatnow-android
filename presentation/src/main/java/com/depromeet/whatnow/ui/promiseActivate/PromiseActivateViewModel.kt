@@ -4,10 +4,12 @@ import android.os.CountDownTimer
 import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.model.CoordinateVo
+import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsDetailUseCase
 import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsUseCase
 import com.depromeet.whatnow.domain.usecase.GetPromisesUseCase
 import com.depromeet.whatnow.domain.usecase.GetPromisesUsersProgressUseCase
+import com.depromeet.whatnow.domain.usecase.GetPromisesUsersUseCase
 import com.depromeet.whatnow.domain.usecase.PutPromisesUsersLocationUseCase
 import com.depromeet.whatnow.ui.home.getTime
 import com.depromeet.whatnow.ui.model.DUMMY_PROMISE
@@ -26,9 +28,10 @@ class PromiseActivateViewModel @Inject constructor(
     private val putPromisesUsersLocationUseCase: PutPromisesUsersLocationUseCase,
     private val getPromisesUsersProgressUseCase: GetPromisesUsersProgressUseCase,
     private val getPromisesInteractionsDetailUseCase: GetPromisesInteractionsDetailUseCase,
-    private val getPromisesInteractionsUseCase: GetPromisesInteractionsUseCase
+    private val getPromisesInteractionsUseCase: GetPromisesInteractionsUseCase,
+    private val getPromisesUsersUseCase: GetPromisesUsersUseCase,
 
-) : BaseViewModel() {
+    ) : BaseViewModel() {
 
     private val _isRefresh = MutableStateFlow(false)
     val isRefresh = _isRefresh.asStateFlow()
@@ -87,46 +90,51 @@ class PromiseActivateViewModel @Inject constructor(
 
     fun getPromises() {
         Log.d("ttt promiseId:", promiseId.value.toString())
-//        val userListTest: List<Users> = listOf(
-//            Users(0, "", "string", true),
-//            Users(0, "", "string", true),
-//            Users(0, "", "string", true),
-//            Users(0, "", "string", true),
-//            Users(0, "", "string", true),
-//            Users(0, "", "string", true)
-//        )
-//
-//        _uiState.value.promise = GetPromises(
-//            promiseId = 0,
-//            address = "string",
-//            coordinateVo = CoordinateVo(37.566535, 126.9779692),
-//            title = "string",
-//            endTime = "2023-07-09T12:30:49.945Z",
-//            users = userListTest
-//        )
 
         launch {
-            getPromisesUseCase(promise_id = promiseId.value)
-                .onSuccess {
-                    Log.d("ttt getPromisesUseCase onSuccess", it.toString())
-                    _uiState.value.promise.value = it
-                    Log.d("ttt", _uiState.value.promise?.value.toString())
+            getPromisesUseCase(promise_id = promiseId.value).onSuccess {
+                Log.d("ttt getPromisesUseCase onSuccess", it.toString())
+                _uiState.value.promise.value = it
+                Log.d("ttt", _uiState.value.promise.value.toString())
 
 
-                }
-                .onFailure {
-                    Log.d("ttt getPromisesUseCase onFailure", it.toString())
-                }
+            }.onFailure {
+                Log.d("ttt getPromisesUseCase onFailure", it.toString())
+            }
         }
+    }
+
+    fun getPromisesUsers() {
+        _uiState.value.promisesUsersStatusList.value = listOf(
+            PromisesUsersStatus(
+                promiseId = 1,
+                mainUserId = 2,
+                userLocation = CoordinateVo(37.516152086, 127.019497385),
+                promiseUserType = "READY",
+                promiseProgress = "SHOWER"
+            )
+        )
+
+        launch {
+            getPromisesUsersUseCase(promise_id = promiseId.value).onSuccess {
+                Log.d("ttt onSuccess", it.toString())
+                _uiState.value.promisesUsersStatusList.value = it
+            }.onFailure {
+                Log.d("ttt onFailure", it.toString())
+
+            }
+        }
+
     }
 
     fun putPromisesUsersLocation(userLocation: CoordinateVo) {
         launch {
             putPromisesUsersLocationUseCase(
-                promise_id = promiseId.value,
-                userLocation = userLocation
-            ).onSuccess { }
-                .onFailure { }
+                promise_id = promiseId.value, userLocation = userLocation
+            ).onSuccess {}.onFailure {
+                Log.d("ttt", it.toString())
+
+            }
         }
 
     }
@@ -134,8 +142,7 @@ class PromiseActivateViewModel @Inject constructor(
     fun getPromisesUsersProgress(userId: Int) {
         launch {
             getPromisesUsersProgressUseCase(
-                promiseId = promiseId.value,
-                userId = userId
+                promiseId = promiseId.value, userId = userId
             ).onSuccess {
                 _uiState.value.promisesProgress = it
 
@@ -146,29 +153,25 @@ class PromiseActivateViewModel @Inject constructor(
     fun getPromisesInteractionsDetail(interactionType: String) {
         launch {
             getPromisesInteractionsDetailUseCase(
-                promiseId = promiseId.value,
-                interactionType = interactionType
+                promiseId = promiseId.value, interactionType = interactionType
             ).onSuccess {
                 Log.d("ttt getPromisesInteractionsDetail onSuccess", it.toString())
                 _uiState.value.interactionsDetail = it.interactions
-            }
-                .onFailure {
-                    Log.d("ttt getPromisesInteractionsDetail onFailure", it.toString())
+            }.onFailure {
+                Log.d("ttt getPromisesInteractionsDetail onFailure", it.toString())
 
-                }
+            }
         }
     }
 
     fun getPromisesInteractions() {
         launch {
-            getPromisesInteractionsUseCase(promiseId = promiseId.value)
-                .onSuccess {
-                    _uiState.value.promisesInteractions = it
-                }
-                .onFailure {
-                    Log.d("ttt getPromisesInteractions onFailure", it.toString())
+            getPromisesInteractionsUseCase(promiseId = promiseId.value).onSuccess {
+                _uiState.value.promisesInteractions = it
+            }.onFailure {
+                Log.d("ttt getPromisesInteractions onFailure", it.toString())
 
-                }
+            }
         }
     }
 
@@ -213,13 +216,15 @@ class PromiseActivateViewModel @Inject constructor(
         mTimer = object : CountDownTimer(diffSec, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 launch {
-                    _uiState.value.timeOver.value = getTime(deadLine)
+                    _uiState.value.time.value = getTime(deadLine)
 
                 }
             }
 
             override fun onFinish() {
                 // CountDown가 종료될 때
+                _uiState.value.isTimeOver.value = true
+                mTimer.cancel()
             }
         }
 

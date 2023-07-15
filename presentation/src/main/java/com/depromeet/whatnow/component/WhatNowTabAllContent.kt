@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,6 +37,7 @@ import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid as LazyVerticalGrid1
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun WhatNowTabAllContent(
     modifier: Modifier,
@@ -44,61 +46,67 @@ fun WhatNowTabAllContent(
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+    val promise by viewModel.uiState.value.promise.collectAsState()
+    val isTimeOver by viewModel.uiState.value.isTimeOver.collectAsState()
+
 
     Column {
+        if (isTimeOver) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = stringResource(R.string.arrived_other),
-                style = WhatNowTheme.typography.headline3.copy(
-                    fontSize = 20.sp, color = WhatNowTheme.colors.gray50
-                )
-            )
-
-            Surface(
+            Row(
                 modifier = Modifier
-                    .width(116.dp)
-                    .height(40.dp),
-                shape = RoundedCornerShape(16.dp),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.1f)
-                ),
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.background(WhatNowTheme.colors.whatNowPurple)
+                Text(
+                    text = stringResource(R.string.arrived_other),
+                    style = WhatNowTheme.typography.headline3.copy(
+                        fontSize = 20.sp, color = WhatNowTheme.colors.gray50
+                    )
+                )
+
+
+                Surface(
+                    modifier = Modifier
+                        .width(116.dp)
+                        .height(40.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = WhatNowTheme.colors.whatNowPurple.copy(alpha = 0.1f)
+                    ),
                 ) {
-                    Row(
-                        modifier = modifier.clickable {
-                            PictureActivity.startActivity(context = context)
-                        },
-                        verticalAlignment = Alignment.CenterVertically,
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.background(WhatNowTheme.colors.whatNowPurple)
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.camera),
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier
-                                .padding(end = 5.33.dp)
-                        )
+                        Row(
+                            modifier = modifier.clickable {
+                                PictureActivity.startActivity(context = context)
+                            },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.camera),
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .padding(end = 5.33.dp)
+                            )
 
-                        Text(
-                            text = stringResource(R.string.send_photo),
-                            style = WhatNowTheme.typography.body3.copy(
-                                fontSize = 14.sp,
-                                color = Color.White,
-                            ),
-                            textAlign = TextAlign.Center
-                        )
+                            Text(
+                                text = stringResource(R.string.send_photo),
+                                style = WhatNowTheme.typography.body3.copy(
+                                    fontSize = 14.sp,
+                                    color = Color.White,
+                                ),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+
                     }
-
                 }
             }
         }
@@ -112,17 +120,17 @@ fun WhatNowTabAllContent(
         ) {
 
 
-            val test: List<Users> = listOf(
-                Users(0, "", "string", true),
-                Users(0, "", "string", true),
-                Users(0, "", "string", true),
-                Users(0, "", "string", true),
-                Users(0, "", "string", true),
-                Users(0, "", "string", true)
-            )
+//            val test: List<Users> = listOf(
+//                Users(0, "", "string", true),
+//                Users(0, "", "string", true),
+//                Users(0, "", "string", true),
+//                Users(0, "", "string", true),
+//                Users(0, "", "string", true),
+//                Users(0, "", "string", true)
+//            )
 
-            items(test.size) {
-                WhatNowTabAllContentGrid(users = test[it], modifier = modifier)
+            items(promise!!.users.size) {
+                WhatNowTabAllContentGrid(users = promise!!.users[it], modifier = modifier)
             }
 
         }

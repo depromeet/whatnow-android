@@ -4,6 +4,7 @@ import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.InteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.ui.model.Promise
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -22,14 +23,18 @@ data class PromiseActivateState(
     val footPrintEmoji: List<Promise> = emptyList(),
 
     var promise: MutableStateFlow<GetPromises?> = MutableStateFlow(null),
+    var promisesUsersStatusList: MutableStateFlow<List<PromisesUsersStatus>?> = MutableStateFlow(
+        null
+    ),
     var promisesProgress: PromisesProgress? = null,
     var interactionsDetail: List<InteractionsDetail>? = null,
     var promisesInteractions: GetPromisesInteractions? = null,
-    var timeOver: MutableStateFlow<Pair<String, String>> = MutableStateFlow<Pair<String, String>>(
+    var time: MutableStateFlow<Pair<String, String>> = MutableStateFlow<Pair<String, String>>(
         Pair(
             "0",
             "0"
         )
-    )
+    ),
+    var isTimeOver: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
 )

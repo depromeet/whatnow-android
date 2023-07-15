@@ -41,7 +41,7 @@ fun WhatNowMyStatusChange(
             HorizontalPager(
                 state = pagerState,
                 verticalAlignment = Alignment.CenterVertically,
-                contentPadding = PaddingValues(horizontal = 116.34.dp),
+                contentPadding = PaddingValues(horizontal = 100.dp),
             ) {
                 Box(
                     contentAlignment = Alignment.Center
@@ -50,13 +50,9 @@ fun WhatNowMyStatusChange(
                         model = DUMMY_PROMISE().participants[pagerState.currentPage].profileImageUrl,
                         contentDescription = null,
                         modifier = Modifier
-                            .size(128.dp)
-                            .clip(RoundedCornerShape(24.dp))
-                            .border(
-                                width = 2.dp,
-                                color = WhatNowTheme.colors.gray50,
-                                shape = RoundedCornerShape(24.dp)
-                            )
+                            .size(127.dp)
+                            .clip(RoundedCornerShape(40.dp))
+
                     )
 
                     Image(

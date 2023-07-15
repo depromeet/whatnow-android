@@ -39,12 +39,18 @@ import com.naver.maps.map.overlay.OverlayImage
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun WhatNowNaverMap(
-    modifier: Modifier, onBack: () -> Unit, viewModel: PromiseActivateViewModel
+    modifier: Modifier,
+    onBack: () -> Unit,
+    viewModel: PromiseActivateViewModel,
+    setUpdateLocationListner: () -> Unit
+
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val promise by viewModel.uiState.value.promise.collectAsState()
+    val promisesUsersStatusList by viewModel.uiState.value.promisesUsersStatusList.collectAsState()
 
-    val timeOver by viewModel.uiState.value.timeOver.collectAsState()
+    val time by viewModel.uiState.value.time.collectAsState()
+    val isTimeOver by viewModel.uiState.value.isTimeOver.collectAsState()
 
     var isPromiseInfo by rememberSaveable { mutableStateOf(true) }
 
@@ -67,11 +73,9 @@ fun WhatNowNaverMap(
         )
     }
 
-    val seoul =
-        LatLng(promise!!.coordinateVo.latitude, promise!!.coordinateVo.longitude)
+    val seoul = LatLng(promise!!.coordinateVo.latitude, promise!!.coordinateVo.longitude)
     // 카메라 위치에 경우 좌표에 위도에서 - 0.01한 값
-    val seoulCamera =
-        LatLng(promise!!.coordinateVo.latitude, promise!!.coordinateVo.longitude)
+    val seoulCamera = LatLng(promise!!.coordinateVo.latitude, promise!!.coordinateVo.longitude)
 
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.
@@ -105,13 +109,12 @@ fun WhatNowNaverMap(
                 radius = 3000.0
             )
 
-//            uiS
-            WhatNowMarkerIcon(
-                "https://media.licdn.com/dms/image/C5603AQHcoKPU9alW9w/profile-displayphoto-shrink_800_800/0/1644498344282?e=1692230400&v=beta&t=aK3Qau7_xpiie2xqI5hulE4H8iEbAcVZPnUXBe7-t6E",
-                LatLng(37.516152086, 127.019497385),
-                promise!!,
-            )
-
+            promisesUsersStatusList!!.map {
+                WhatNowMarkerIcon(
+                    promisesUsersStatus = it,
+                    promises = promise!!,
+                )
+            }
         }
 
 
@@ -132,25 +135,33 @@ fun WhatNowNaverMap(
             alignment = Alignment.BottomEnd,
             color = WhatNowTheme.colors.whatNowBlack,
             tint = Color.White,
-            onClick = {})
+            onClick = {
+                setUpdateLocationListner()
+            })
 
 
         if (isPromiseInfo) {
+            if (isTimeOver) {
+                WhatNowTimeOverBar(modifier = modifier)
 
-            WhatNowNaverMapPromiseInfo(
-                modifier = modifier,
-                promises = promise!!,
-                padding = PaddingValues(top = 24.dp),
-                alignment = Alignment.TopCenter
-            )
+            } else {
+                WhatNowNaverMapPromiseInfo(
+                    modifier = modifier,
+                    promises = promise!!,
+                    padding = PaddingValues(top = 24.dp),
+                    alignment = Alignment.TopCenter
+                )
 
-            WhatNowNaverMapIconButton(modifier = modifier,
-                iconButtonRes = R.drawable.arrow_forward_ios,
-                PaddingValues(end = 16.dp, top = 24.dp),
-                alignment = Alignment.TopEnd,
-                color = WhatNowTheme.colors.whatNowBlack,
-                tint = Color.White,
-                onClick = { isPromiseInfo = false })
+                WhatNowNaverMapIconButton(modifier = modifier,
+                    iconButtonRes = R.drawable.arrow_forward_ios,
+                    PaddingValues(end = 16.dp, top = 24.dp),
+                    alignment = Alignment.TopEnd,
+                    color = WhatNowTheme.colors.whatNowBlack,
+                    tint = Color.White,
+                    onClick = { isPromiseInfo = false })
+            }
+
+
         } else {
 
             Box(
@@ -163,8 +174,8 @@ fun WhatNowNaverMap(
                     width = 56.dp,
                     height = 56.dp,
                     roundedCornerShape = RoundedCornerShape(20.dp),
-                    hour = timeOver.first,
-                    min = timeOver.second,
+                    hour = time.first,
+                    min = time.second,
                     style = WhatNowTheme.typography.headline3.copy(
                         fontSize = 28.sp, color = Color.White
                     )
@@ -180,4 +191,5 @@ fun WhatNowNaverMap(
                 onClick = { isPromiseInfo = true })
         }
     }
+
 }
