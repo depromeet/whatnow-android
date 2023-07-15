@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.ui.archive.detail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +19,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.depromeet.whatnow.component.WhatNowHighlightTile
 import com.depromeet.whatnow.component.WhatNowIconButton
@@ -88,13 +91,37 @@ fun DetailScreen(
                 .padding(innerPadding)
                 .verticalScroll(scrollState),
         ) {
-            WhatNowImageCarousel(
-                imageUrls = promise.imageUrls
-            )
+            if (promise.imageUrls.isEmpty()) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(148.dp)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.empty_image),
+                        style = WhatNowTheme.typography.body1,
+                        color = WhatNowTheme.colors.gray600,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.img_empty_promise_image),
+                        contentDescription = null,
+                        modifier = Modifier.height(100.dp)
+                    )
+                }
+            } else {
+                WhatNowImageCarousel(
+                    imageUrls = promise.imageUrls
+                )
+            }
             Spacer(modifier = Modifier.height(24.dp))
             WhatNowTimeOverCapture(
                 location = promise.location,
-                imageUrl = promise.timeOverImageUrl
+                lat = promise.lat,
+                lng = promise.lng
             )
             Spacer(modifier = Modifier.height(24.dp))
             Divider(thickness = 10.dp, color = WhatNowTheme.colors.gray100)

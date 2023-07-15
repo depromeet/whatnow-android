@@ -41,6 +41,7 @@ fun ArchiveScreen(
     viewModel: ArchiveViewModel,
     onBack: () -> Unit,
     navigateToDetail: (List<Promise>, Int) -> Unit,
+    navigateToPromiseAdd: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var isCalendarView by remember { mutableStateOf(false) }
@@ -78,13 +79,15 @@ fun ArchiveScreen(
                 )
                 when (uiState.selectedTab) {
                     ArchiveTab.Future -> {
-                        FuturePromiseContent(promises = uiState.futurePromises, onCreate = {})
+                        FuturePromiseContent(
+                            promises = uiState.futurePromises,
+                            onCreate = { navigateToPromiseAdd() })
                     }
 
                     ArchiveTab.Past -> {
                         PastPromiseContent(
                             promises = uiState.pastPromises,
-                            onCreate = {},
+                            onCreate = { navigateToPromiseAdd() },
                             onClickItem = navigateToDetail
                         )
                     }

@@ -38,6 +38,8 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
+import org.apache.commons.lang3.ObjectUtils.max
+import org.apache.commons.lang3.ObjectUtils.min
 import java.time.DayOfWeek
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -50,8 +52,20 @@ fun CalendarScreen(
     onClickItem: (List<Promise>, Int) -> Unit
 ) {
     val currentMonth = remember { YearMonth.now() }
-    val startMonth = remember { YearMonth.from(promises.minOf { it.datetime }) }
-    val endMonth = remember { YearMonth.from(promises.maxOf { it.datetime }) }
+    val startMonth = remember {
+        if (promises.isNotEmpty()) min(
+            YearMonth.from(promises.minOf { it.datetime }),
+            currentMonth.minusMonths(2)
+        )
+        else currentMonth.minusMonths(2)
+    }
+    val endMonth = remember {
+        if (promises.isNotEmpty()) max(
+            YearMonth.from(promises.maxOf { it.datetime }),
+            currentMonth.plusMonths(2)
+        )
+        else currentMonth.plusMonths(2)
+    }
     val daysOfWeek = remember { daysOfWeek() }
 
     val state = rememberCalendarState(
@@ -143,7 +157,7 @@ fun Day(
     ) {
         if (day.position == DayPosition.MonthDate) promise?.let {
             AsyncImage(
-                model = it.imageUrls.first(),
+                model = if (it.imageUrls.isEmpty()) "" else it.imageUrls.first(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

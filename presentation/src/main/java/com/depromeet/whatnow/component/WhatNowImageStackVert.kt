@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -14,8 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.depromeet.whatnow.ui.theme.White
 import kotlin.math.min
@@ -58,18 +61,33 @@ fun WhatNowImageStackVert(
                         )
                     }
                 } else {
-                    AsyncImage(
-                        model = url,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(RoundedCornerShape(14.dp))
-                            .border(
-                                width = (1.5).dp,
-                                color = MaterialTheme.colorScheme.background,
-                                shape = RoundedCornerShape(14.dp)
-                            )
-                    )
+                    if (url.isBlank()) {
+                        Image(
+                            painter = painterResource(id = R.drawable.img_default_profile),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(RoundedCornerShape(14.dp))
+                                .border(
+                                    width = (1.5).dp,
+                                    color = MaterialTheme.colorScheme.background,
+                                    shape = RoundedCornerShape(14.dp)
+                                )
+                        )
+                    } else {
+                        AsyncImage(
+                            model = url,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(RoundedCornerShape(14.dp))
+                                .border(
+                                    width = (1.5).dp,
+                                    color = MaterialTheme.colorScheme.background,
+                                    shape = RoundedCornerShape(14.dp)
+                                )
+                        )
+                    }
                 }
             }
         }

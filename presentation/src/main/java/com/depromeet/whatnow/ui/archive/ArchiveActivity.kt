@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import com.depromeet.whatnow.base.BaseActivity
 import com.depromeet.whatnow.ui.archive.detail.DetailActivity
 import com.depromeet.whatnow.ui.model.Promise
+import com.depromeet.whatnow.ui.promiseAdd.PromiseAddActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,10 +25,16 @@ class ArchiveActivity : BaseActivity() {
                 ArchiveScreen(
                     viewModel = viewModel,
                     onBack = ::finish,
-                    navigateToDetail = ::startDetailActivity
+                    navigateToDetail = ::startDetailActivity,
+                    navigateToPromiseAdd = ::startPromiseAddActivity
                 )
             }
         }
+    }
+
+    private fun startPromiseAddActivity() {
+        val intent = Intent(this, PromiseAddActivity::class.java)
+        startActivity(intent)
     }
 
     private fun startDetailActivity(promises: List<Promise>, selectedIndex: Int) =

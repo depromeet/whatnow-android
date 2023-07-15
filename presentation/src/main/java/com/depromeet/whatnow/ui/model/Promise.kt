@@ -1,10 +1,8 @@
 package com.depromeet.whatnow.ui.model
 
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
-import com.naver.maps.geometry.LatLng
 import java.io.Serializable
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
 data class Promise(
@@ -15,19 +13,18 @@ data class Promise(
     val imageUrls: List<String>,
     val highlights: List<Highlight>,
     val timeOverImageUrl: String,
-    val latLng: LatLng = LatLng(0.0, 0.0)
+    val lat: Double = 0.0,
+    val lng: Double = 0.0
 ) : Serializable
 
 fun GetPromisesUsersStatus.toUiModel() = Promise(
     title = title,
     location = address,
-    datetime = LocalDateTime.parse(
-        endTime,
-        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    ),
+    datetime = LocalDateTime.parse(endTime),
     participants = promiseUsers.map { it.toUiModel() },
     imageUrls = promiseImageUrls,
-    latLng = LatLng(coordinateVo.latitude, coordinateVo.longitude),
+    lat = coordinateVo.latitude,
+    lng = coordinateVo.longitude,
     timeOverImageUrl = "",
     highlights = emptyList()
 )
@@ -39,8 +36,8 @@ fun DUMMY_PROMISE(
     participants: List<User> = listOf(
         DUMMY_USER(),
         DUMMY_USER(),
-        DUMMY_USER(arrivalState = ArrivalState.Late),
-        DUMMY_USER(arrivalState = ArrivalState.Late)
+        DUMMY_USER(arrivalState = ArrivalState.LATE),
+        DUMMY_USER(arrivalState = ArrivalState.LATE)
     ),
     imageUrls: List<String> = DUMMY_IMAGES.shuffled().take(Random.nextInt(3, 6)),
     highlights: List<Highlight> = listOf(

@@ -56,6 +56,8 @@ import com.depromeet.whatnow.ui.theme.White
 @Composable
 fun SettingScreen(
     viewModel: SettingViewModel,
+    navigateToWithdrawal: () -> Unit,
+    navigateToSplash: () -> Unit,
     onBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -267,11 +269,14 @@ fun SettingScreen(
                     )
                     WhatNowButtonBar(
                         textRes = R.string.sign_out,
-                        onClick = { viewModel.logout() }
+                        onClick = {
+                            viewModel.logout()
+                            navigateToSplash()
+                        }
                     )
                     WhatNowButtonBar(
-                        textRes = R.string.delete_user,
-                        onClick = {}
+                        textRes = R.string.withdraw_whatnow,
+                        onClick = { navigateToWithdrawal() }
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))

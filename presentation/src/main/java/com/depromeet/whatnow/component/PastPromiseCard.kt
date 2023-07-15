@@ -1,7 +1,10 @@
 package com.depromeet.whatnow.component
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -65,15 +68,32 @@ fun PastPromiseCard(
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = White)
         ) {
-            AsyncImage(
-                model = promise.imageUrls.first(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(142.dp)
-                    .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
-            )
+            if (promise.imageUrls.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(142.dp)
+                        .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                        .background(color = WhatNowTheme.colors.gray200),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_empty_promise_image),
+                        contentDescription = null,
+                        modifier = Modifier.height(100.dp)
+                    )
+                }
+            } else {
+                AsyncImage(
+                    model = promise.imageUrls.first(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(142.dp)
+                        .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                )
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
