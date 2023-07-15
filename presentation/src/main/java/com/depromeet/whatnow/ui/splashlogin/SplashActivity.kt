@@ -1,7 +1,6 @@
 package com.depromeet.whatnow.ui.splashlogin
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
@@ -28,13 +27,14 @@ class SplashActivity : BaseActivity() {
 
         setContent {
             WhatNowTheme {
+
                 val uiState by viewModel.uiState.collectAsState()
                 Splash(visible = uiState == SplashUiState.AppLoading)
                 SplashPage(
                     viewModel = viewModel,
                     visible = uiState == SplashUiState.Onboarded,
                     items = PageItems,
-                    login = { requestKakaoLogin() },
+                    login = { requestKakaoLogin() }
                 )
 
                 uiState.let {
@@ -61,7 +61,7 @@ class SplashActivity : BaseActivity() {
             .onSuccess {
                 viewModel.login(it.accessToken, it.id_token)
             }
-            .onFailure {  }
+            .onFailure { }
     }
 
     private fun startMainActivity() {
