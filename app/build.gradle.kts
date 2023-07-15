@@ -13,6 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.depromeet.whatnow"
         minSdk = Versions.MIN_SDK
+        targetSdk = Versions.COMPILE_SDK
         versionCode = Versions.VERSION_CODE
         versionName = Versions.VERSION_NAME
 
