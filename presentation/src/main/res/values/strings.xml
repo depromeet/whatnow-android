@@ -131,4 +131,6 @@
     <string name="withdraw">탈퇴하기</string>
     <string name="thanks_for_playing">이용해 주셔서 감사합니다!</string>
     <string name="back_to_title">첫 화면으로 돌아가기</string>
+
+    <string name="empty_image">등록된 사진이 없다!</string>
 </resources>
