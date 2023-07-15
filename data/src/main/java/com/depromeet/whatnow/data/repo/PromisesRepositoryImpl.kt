@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.data.repo
 
 import com.depromeet.whatnow.data.model.request.toData
+import com.depromeet.whatnow.data.model.response.toData
 import com.depromeet.whatnow.data.model.response.toDomain
 import com.depromeet.whatnow.data.model.toDomain
 import com.depromeet.whatnow.data.source.PromisesRemoteDataSource
@@ -15,6 +16,7 @@ import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersCreate
 import com.depromeet.whatnow.domain.model.PromisesUsersLocation
 import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
 import com.depromeet.whatnow.domain.model.PromisesUsersStatus
@@ -26,6 +28,18 @@ internal class PromisesRepositoryImpl @Inject constructor(
 ) : PromisesRepository {
     override suspend fun postPromises(request: Promise): Result<Promise> =
         promisesRemoteDataSource.postPromises(request.toData())
+            .mapCatching { it.toDomain() }
+
+    override suspend fun postPromisesUsers(
+        promise_id: String,
+        userId: Int,
+        userLocation: CoordinateVo
+    ): Result<PromisesUsersCreate> =
+        promisesRemoteDataSource.postPromisesUsers(
+            promise_id = promise_id,
+            userId = userId,
+            userLocation = userLocation.toData()
+        )
             .mapCatching { it.toDomain() }
 
 

@@ -2,6 +2,7 @@ package com.depromeet.whatnow.data.source
 
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.model.request.PromiseRequest
+import com.depromeet.whatnow.data.model.response.CoordinateVoResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesResponse
@@ -12,6 +13,7 @@ import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailRespo
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.PromisesResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersCreateResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
@@ -133,6 +135,19 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     override suspend fun postPromises(request: PromiseRequest): Result<PromisesResponse> =
         runCatching {
             apiService.postPromises(request).data
+        }
+
+    override suspend fun postPromisesUsers(
+        promise_id: String,
+        userId: Int,
+        userLocation: CoordinateVoResponse
+    ): Result<PromisesUsersCreateResponse> =
+        runCatching {
+            apiService.postPromisesUsers(
+                promise_id = promise_id,
+                userId = userId,
+                userLocation = userLocation
+            ).data
         }
 
 

@@ -1,17 +1,18 @@
 package com.depromeet.whatnow.ui.splashlogin
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.dialog.RegisterAgreeDialog
@@ -30,10 +31,15 @@ fun SplashPage(
     items: List<PageItem>,
     login: () -> Unit,
 ) {
+    val context = LocalContext.current
     val showDialog by viewModel.registerAgreePopup.collectAsState()
     val pagerState = rememberPagerState()
-    val coroutineScope = rememberCoroutineScope()
     var lastPage by remember { mutableStateOf(false) }
+    // 약관 팝업 노션 URL
+    val intent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse("https://kdomo.notion.site/cdb0189ba5f14cf5837e7667e1529e2e")
+    )
 
     AnimatedVisibility(
         visible = visible,
@@ -65,14 +71,20 @@ fun SplashPage(
                     activeColor = WhatNowTheme.colors.gray900,
                     inactiveColor = WhatNowTheme.colors.gray200,
                 )
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(360 / 20f)
+                )
                 KakaoLoginButton(login)
             }
         }
     )
 
     if (showDialog) {
-        RegisterAgreeDialog(onDismiss = { viewModel.shownRegisterAgree() })
+        RegisterAgreeDialog(
+            onDismiss = { viewModel.shownRegisterAgree() },
+            okClick = { context.startActivity(intent) })
     }
 
     LaunchedEffect(pagerState) {
@@ -94,18 +106,3 @@ fun KakaoLoginButton(onClick: () -> Unit) {
     )
     Spacer(modifier = Modifier.height(32.dp))
 }
-
-//@Preview(widthDp = 360, heightDp = 800)
-//@Composable
-//fun SplashPagePreview() {
-//    WhatNowTheme() {
-//        Surface() {
-//            SplashPage(
-//                viewModel = ,
-//                visible = true,
-//                items = PageItems,
-//                login = { },
-//            )
-//        }
-//    }
-//}

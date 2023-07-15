@@ -9,6 +9,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.depromeet.whatnow.component.KnowllyButtonDefaults.textGrayButtonColors
@@ -23,10 +24,11 @@ fun WhatNowButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(horizontal = 20.dp),
+    buttonSize: Int = 45
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.height(45.dp),
+        modifier = modifier.height(buttonSize.dp),
         enabled = enabled,
         shape = KnowllyButtonDefaults.ButtonShape,
         colors = buttonColors,
@@ -59,6 +61,14 @@ object KnowllyButtonDefaults {
         get() = ButtonDefaults.buttonColors(
             containerColor = WhatNowTheme.colors.gray200,
             contentColor = WhatNowTheme.colors.whatNowPurple,
+            disabledContainerColor = WhatNowTheme.colors.gray200,
+            disabledContentColor = WhatNowTheme.colors.gray900
+        )
+    val backBlackButtonColors
+        @Composable
+        get() = ButtonDefaults.buttonColors(
+            containerColor = WhatNowTheme.colors.whatNowBlack,
+            contentColor = Color.White,
             disabledContainerColor = WhatNowTheme.colors.gray200,
             disabledContentColor = WhatNowTheme.colors.gray900
         )

@@ -14,8 +14,8 @@
     <string name="splash_item3_title">달려가면서, 기다리면서\n사진으로 빠르게 소통!</string>
     <string name="splash_item3_description">친구가 혹시나 늦더라도\n기다리다 지친 셀카로 재촉해봐!</string>
 
-    <string name="register_agree_title">whatNow 정보이용 안내에 대한 동의를 해주세요</string>>
-    <string name="register_agree_msg">왓나 서비스 약관</string>>
+    <string name="register_agree_title">WhatNow 정보 이용 안내 동의</string>>
+    <string name="register_agree_msg">왔나 서비스 약관</string>>
     <string name="register_agree_btn">약관 동의하고 시작하기</string>>
 
     // Promise
