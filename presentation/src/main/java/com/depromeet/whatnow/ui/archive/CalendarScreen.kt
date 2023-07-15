@@ -50,8 +50,14 @@ fun CalendarScreen(
     onClickItem: (List<Promise>, Int) -> Unit
 ) {
     val currentMonth = remember { YearMonth.now() }
-    val startMonth = remember { YearMonth.from(promises.minOf { it.datetime }) }
-    val endMonth = remember { YearMonth.from(promises.maxOf { it.datetime }) }
+    val startMonth = remember {
+        if (promises.isNotEmpty()) YearMonth.from(promises.minOf { it.datetime })
+        else currentMonth.minusMonths(2)
+    }
+    val endMonth = remember {
+        if (promises.isNotEmpty()) YearMonth.from(promises.maxOf { it.datetime })
+        else currentMonth.plusMonths(2)
+    }
     val daysOfWeek = remember { daysOfWeek() }
 
     val state = rememberCalendarState(
