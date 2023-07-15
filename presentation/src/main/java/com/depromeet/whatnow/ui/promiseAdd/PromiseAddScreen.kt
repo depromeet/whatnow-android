@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.widget.CalendarView
 import android.widget.TextView
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -43,6 +44,8 @@ import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.dialog.promiseResetDialog
 import com.depromeet.whatnow.ui.theme.MaterialColors
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -74,6 +77,7 @@ fun PromiseScreen(
 
     val buttonText = remember { mutableStateOf("다음") }
 
+    val timeCompare = remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -110,13 +114,22 @@ fun PromiseScreen(
 //                            viewModel.getLocationMap(selectedPlaceLatitude.value, selectedPlaceLongitude.value)
 //                        }
                     } else {
-                        viewModel.getPromiseDetail(
-                            calendarData.value,
-                            timeData.value,
-                            selectedPlace.value,
-                            selectedPlaceLatitude.value,
-                            selectedPlaceLongitude.value
-                        )
+                        if (!isTimeBeforeCurrentTime(calendarData.value + "T" + timeData.value)) {
+                            viewModel.getPromiseDetail(
+                                calendarData.value,
+                                timeData.value,
+                                selectedPlace.value,
+                                selectedPlaceLatitude.value,
+                                selectedPlaceLongitude.value
+                            )
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "날짜와 시간을 다시 입력해주세요",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
                     }
                 },
                 resetOnClick = {
@@ -334,6 +347,13 @@ fun Greeting(resId: Int, textSize: Int, textColor: Color) {
         fontSize = textSize.sp,
         color = textColor
     )
+}
+
+fun isTimeBeforeCurrentTime(isoTime: String): Boolean {
+    val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+    val time = LocalDateTime.parse(isoTime, formatter)
+    val currentTime = LocalDateTime.now()
+    return time.isBefore(currentTime)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
