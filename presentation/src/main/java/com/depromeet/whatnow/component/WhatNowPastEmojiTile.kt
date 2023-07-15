@@ -80,6 +80,8 @@ fun WhatNowPastEmojiTile(
                         color = WhatNowTheme.colors.whatNowError
                     )
                 }
+
+                else -> {}
             }
         }
         Spacer(modifier = Modifier.height(8.dp))

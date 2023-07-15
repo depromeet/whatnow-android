@@ -1,5 +1,7 @@
 package com.depromeet.whatnow.ui.splashlogin
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -67,5 +69,12 @@ class SplashActivity : BaseActivity() {
     private fun startMainActivity() {
         MainActivity.startActivity(this)
         finish()
+    }
+
+    companion object {
+        fun startActivity(context: Context) {
+            val intent = Intent(context, SplashActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }

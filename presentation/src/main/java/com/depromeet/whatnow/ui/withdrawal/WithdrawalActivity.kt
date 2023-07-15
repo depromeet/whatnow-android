@@ -1,4 +1,4 @@
-package com.depromeet.whatnow.ui.setting
+package com.depromeet.whatnow.ui.withdrawal
 
 import android.content.Context
 import android.content.Intent
@@ -8,30 +8,26 @@ import androidx.activity.viewModels
 import com.depromeet.whatnow.base.BaseActivity
 import com.depromeet.whatnow.ui.splashlogin.SplashActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
-import com.depromeet.whatnow.ui.withdrawal.WithdrawalActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingActivity : BaseActivity() {
+class WithdrawalActivity : BaseActivity() {
 
-    private val viewModel: SettingViewModel by viewModels()
+    private val viewModel: WithdrawViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             WhatNowTheme {
-                SettingScreen(
+                WithdrawalScreen(
                     viewModel = viewModel,
-                    navigateToWithdrawal = ::navigateToWithdrawal,
-                    navigateToSplash = ::navigateToSplash,
+                    gotoTitle = ::navigateToSplash,
                     onBack = ::finish
                 )
             }
         }
     }
-
-    private fun navigateToWithdrawal() = WithdrawalActivity.startActivity(this)
 
     private fun navigateToSplash() {
         SplashActivity.startActivity(this)
@@ -40,7 +36,7 @@ class SettingActivity : BaseActivity() {
 
     companion object {
         fun startActivity(context: Context) {
-            val intent = Intent(context, SettingActivity::class.java)
+            val intent = Intent(context, WithdrawalActivity::class.java)
             context.startActivity(intent)
         }
     }
