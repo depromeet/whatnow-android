@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="CustomTimePicker">
         <item name="android:colorControlNormal">@android:color/black</item><!-- divider color -->
         <item name="android:numbersBackgroundColor">@color/color_gray_1300</item>
@@ -22,7 +23,7 @@
         <!--Calender Background color -->
         <item name="android:colorBackground">@color/white</item>
         <!-- Week TextColor-->
-        <item name="android:textColorSecondary">@color/base_gray_400</item>
+        <item name="android:textColorSecondary">@color/black</item>
         <!-- Calender Number color arrow color (< >) -->
         <item name="android:textColorPrimary">@color/black</item>
         <!--day , month TextColor-->
