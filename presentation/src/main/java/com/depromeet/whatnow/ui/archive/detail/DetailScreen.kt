@@ -120,7 +120,8 @@ fun DetailScreen(
             Spacer(modifier = Modifier.height(24.dp))
             WhatNowTimeOverCapture(
                 location = promise.location,
-                imageUrl = promise.timeOverImageUrl
+                lat = promise.lat,
+                lng = promise.lng
             )
             Spacer(modifier = Modifier.height(24.dp))
             Divider(thickness = 10.dp, color = WhatNowTheme.colors.gray100)

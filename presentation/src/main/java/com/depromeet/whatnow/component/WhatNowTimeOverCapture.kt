@@ -20,20 +20,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.compose.ExperimentalNaverMapApi
+import com.naver.maps.map.compose.NaverMap
+import com.naver.maps.map.compose.rememberCameraPositionState
 
+@OptIn(ExperimentalNaverMapApi::class)
 @Composable
 fun WhatNowTimeOverCapture(
     modifier: Modifier = Modifier,
     location: String,
-    imageUrl: String
+    lat: Double,
+    lng: Double
 ) {
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition(LatLng(lat, lng), 15.0)
+    }
+
     Box(modifier = modifier) {
         Column(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -66,15 +75,20 @@ fun WhatNowTimeOverCapture(
                     .fillMaxWidth()
                     .aspectRatio(328 / 220f)
             ) {
-                AsyncImage(
-                    model = imageUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(328 / 220f)
-                        .clip(RoundedCornerShape(20.dp))
-                )
+                Box(contentAlignment = Alignment.Center) {
+                    NaverMap(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(328 / 220f)
+                            .clip(RoundedCornerShape(20.dp)),
+                        cameraPositionState = cameraPositionState
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.img_timeover_pin),
+                        contentDescription = null,
+                        modifier = Modifier.size(150.dp)
+                    )
+                }
             }
         }
         Image(
