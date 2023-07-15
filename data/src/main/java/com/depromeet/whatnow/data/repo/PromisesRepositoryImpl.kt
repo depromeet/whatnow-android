@@ -17,7 +17,7 @@ import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
 import com.depromeet.whatnow.domain.model.PromisesUsersLocation
 import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
-import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
+import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.domain.repo.PromisesRepository
 import javax.inject.Inject
 
@@ -62,9 +62,9 @@ internal class PromisesRepositoryImpl @Inject constructor(
             it.toDomain()
         }
 
-    override suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusList> =
+    override suspend fun getPromisesUsers(promise_id: Int): Result<List<PromisesUsersStatus>> =
         promisesRemoteDataSource.getPromisesUsers(promise_id = promise_id).mapCatching {
-            it.contest.toDomain()
+            it.toDomain()
         }
 
     override suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedList> =

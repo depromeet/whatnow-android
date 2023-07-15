@@ -5,5 +5,7 @@ data class PromisesUsersStatus(
     val promiseId: Int,
     val mainUserId: Int,
     val userLocation: CoordinateVo,
-    val promiseUserType: String
+    val promiseUserType: String,
+    val promiseProgress: String
+
 )

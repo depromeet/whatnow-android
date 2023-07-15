@@ -7,5 +7,6 @@ data class PromisesUsersStatusResponse(
     @SerializedName("promiseId") val promiseId: Int,
     @SerializedName("mainUserId") val mainUserId: Int,
     @SerializedName("userLocation") val userLocation: CoordinateVo,
-    @SerializedName("promiseUserType") val promiseUserType: String
+    @SerializedName("promiseUserType") val promiseUserType: String,
+    @SerializedName("promiseProgress") val promiseProgress: String
 )

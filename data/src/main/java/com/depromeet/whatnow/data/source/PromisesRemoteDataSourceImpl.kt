@@ -15,7 +15,7 @@ import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.PromisesResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.domain.model.CoordinateVo
 import javax.inject.Inject
 
@@ -60,7 +60,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
             apiService.getPromisesUsersSeparated().data
         }
 
-    override suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusListResponse> =
+    override suspend fun getPromisesUsers(promise_id: Int): Result<List<PromisesUsersStatusResponse>> =
         runCatching {
             apiService.getPromisesUsers(promise_id = promise_id).data
         }

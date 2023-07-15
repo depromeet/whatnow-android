@@ -14,7 +14,7 @@ import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.PromisesResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.domain.model.CoordinateVo
 
 interface PromisesRemoteDataSource {
@@ -34,7 +34,7 @@ interface PromisesRemoteDataSource {
 
     suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedListResponse>
 
-    suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusListResponse>
+    suspend fun getPromisesUsers(promise_id: Int): Result<List<PromisesUsersStatusResponse>>
 
     suspend fun patchPromisesProgress(
         progressCode: String,

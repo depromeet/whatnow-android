@@ -38,7 +38,6 @@ import com.depromeet.whatnow.domain.model.PromisesUsersLocation
 import com.depromeet.whatnow.domain.model.PromisesUsersSeparated
 import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
 import com.depromeet.whatnow.domain.model.PromisesUsersStatus
-import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.TimeOverLocations
 import com.depromeet.whatnow.domain.model.UserProgress
 import com.depromeet.whatnow.domain.model.Users
@@ -203,17 +202,16 @@ fun List<InteractionsDetailResponse>.toDomain(): PromisesInteractionsDetail {
 }
 
 @JvmName("PromisesUsersStatusResponse")
-fun List<PromisesUsersStatusResponse>.toDomain(): PromisesUsersStatusList {
-    return PromisesUsersStatusList(
-        map {
-            PromisesUsersStatus(
-                promiseId = it.promiseId,
-                mainUserId = it.mainUserId,
-                userLocation = it.userLocation,
-                promiseUserType = it.promiseUserType
-            )
-        }
-    )
+fun List<PromisesUsersStatusResponse>.toDomain(): List<PromisesUsersStatus> {
+    return map {
+        PromisesUsersStatus(
+            promiseId = it.promiseId,
+            mainUserId = it.mainUserId,
+            userLocation = it.userLocation,
+            promiseUserType = it.promiseUserType,
+            promiseProgress = it.promiseProgress
+        )
+    }
 }
 
 @JvmName("PromisesUsersSeparatedListResponse")

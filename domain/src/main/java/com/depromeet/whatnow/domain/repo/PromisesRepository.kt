@@ -14,7 +14,7 @@ import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
 import com.depromeet.whatnow.domain.model.PromisesUsersLocation
 import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
-import com.depromeet.whatnow.domain.model.PromisesUsersStatusList
+import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 
 interface PromisesRepository {
     suspend fun getLocation(location: String): Result<NcpMapInfo>
@@ -32,7 +32,7 @@ interface PromisesRepository {
 
     suspend fun getPromises(promise_id: Int): Result<GetPromises>
 
-    suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusList>
+    suspend fun getPromisesUsers(promise_id: Int): Result<List<PromisesUsersStatus>>
 
     suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedList>
 
