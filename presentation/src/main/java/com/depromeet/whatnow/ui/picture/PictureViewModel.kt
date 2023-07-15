@@ -6,8 +6,11 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.camera.core.AspectRatio
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCapture.FLASH_MODE_OFF
 import androidx.camera.core.ImageCapture.FLASH_MODE_ON
@@ -29,10 +32,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PictureViewModel @Inject constructor() : BaseViewModel() {
 
-    private val imageCapture = ImageCapture.Builder()
-        .setFlashMode(FLASH_MODE_OFF)
-        .setTargetAspectRatio(AspectRatio.RATIO_16_9)
-        .build()
+
     private val _isRefresh = MutableStateFlow(false)
     val isRefresh = _isRefresh.asStateFlow()
 
@@ -44,6 +44,14 @@ class PictureViewModel @Inject constructor() : BaseViewModel() {
 
     private val _pictureUploadImg = MutableStateFlow(R.drawable.on_the_way_icon)
     val pictureUploadImg: StateFlow<Int> = _pictureUploadImg.asStateFlow()
+
+    val imageAnalysis = ImageAnalysis.Builder()
+        .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
+        .build()
+
+    val imageCapture = ImageCapture.Builder()
+        .setTargetAspectRatio(AspectRatio.RATIO_16_9)
+        .build()
 
     init {
         _pictureUploadText.update {
@@ -143,6 +151,7 @@ class PictureViewModel @Inject constructor() : BaseViewModel() {
                 }
 
                 override fun onError(exception: ImageCaptureException) {
+                    Log.d("ttt", exception.message.toString())
                     Toast.makeText(
                         context,
                         "some error occurred ${exception.message}",
