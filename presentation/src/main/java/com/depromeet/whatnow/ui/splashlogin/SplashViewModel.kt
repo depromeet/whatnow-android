@@ -75,27 +75,29 @@ class SplashViewModel @Inject constructor(
 
     }
 
-// 회원가입 약관동의 팝업
+    // 회원가입 약관동의 팝업
     fun shownRegisterAgree() {
         if (!registerAgreePopup.value) {
             return
         }
         job = launch {
-            registerUseCase(idToken, request = Register(
-                profileImage = profileImage,
-                isDefaultImage = isDefaultImage,
-                nickname = nickname,
-                fcmToken = "",
-                appAlarm = false
-            )).onSuccess {
+            registerUseCase(
+                idToken, request = Register(
+                    profileImage = profileImage,
+                    isDefaultImage = isDefaultImage,
+                    nickname = nickname,
+                    fcmToken = "",
+                    appAlarm = false
+                )
+            ).onSuccess {
                 loginUseCase(idToken)
                     .onSuccess {
                         _registerAgreePopup.value = false
                         _uiState.value = SplashUiState.Signed
                     }
                     .onFailure { throwable -> handleException(throwable) }
-            }.onFailure {
-                 throwable -> handleException(throwable)
+            }.onFailure { throwable ->
+                handleException(throwable)
             }
         }
         job?.invokeOnCompletion { job = null }

@@ -3,6 +3,7 @@ package com.depromeet.whatnow.data.source
 import android.util.Log
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.model.request.PromiseRequest
+import com.depromeet.whatnow.data.model.response.CoordinateVoResponse
 
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
@@ -15,6 +16,7 @@ import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListRespons
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
 
 import com.depromeet.whatnow.data.model.response.PromisesResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersCreateResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
@@ -138,6 +140,19 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     override suspend fun postPromises(request: PromiseRequest): Result<PromisesResponse> =
         runCatching {
             apiService.postPromises(request).data
+        }
+
+    override suspend fun postPromisesUsers(
+        promise_id: String,
+        userId: Int,
+        userLocation: CoordinateVoResponse
+    ): Result<PromisesUsersCreateResponse> =
+        runCatching {
+            apiService.postPromisesUsers(
+                promise_id = promise_id,
+                userId = userId,
+                userLocation = userLocation
+            ).data
         }
 
 

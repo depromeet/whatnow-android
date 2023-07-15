@@ -2,7 +2,6 @@ package com.depromeet.whatnow.ui.promiseAdd
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.widget.DatePicker
@@ -370,9 +369,6 @@ fun Calendar(onDateChanged: (String) -> Unit, onDateData: (String) -> Unit) {
                     datePicker.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
                         val month = monthOfYear + 1
 
-                        Log.d("yw", "year = $year")
-                        Log.d("yw", "month = $month")
-                        Log.d("yw", "dayOfMonth = $dayOfMonth")
                         val formattedMonth =
                             if (month >= 10) (month + 1).toString() else "0$month"
                         val formattedDay =

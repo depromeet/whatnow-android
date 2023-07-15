@@ -24,9 +24,13 @@ fun SplashPageItem(
     Box(modifier = modifier.fillMaxSize()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             if (test) {
-                Spacer(modifier = Modifier.height(35.dp))
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(360 / 35f))
             } else {
-                Spacer(modifier = Modifier.height(74.dp))
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(360 / 74f))
             }
             Image(
                 painter = painterResource(id = pageItem.image),
@@ -34,11 +38,11 @@ fun SplashPageItem(
                 modifier = if (test) {
                     Modifier
                         .fillMaxWidth()
-                        .height(458.dp)
+                        .aspectRatio(360 / 384f)
                 } else {
                     Modifier
                         .fillMaxWidth()
-                        .height(419.dp)
+                        .aspectRatio(360 / 345f)
                 },
                 contentScale = ContentScale.FillBounds
             )
