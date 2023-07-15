@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
-import android.widget.DatePicker
+import android.widget.CalendarView
+import android.widget.TextView
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -42,6 +44,8 @@ import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.dialog.promiseResetDialog
 import com.depromeet.whatnow.ui.theme.MaterialColors
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -73,6 +77,7 @@ fun PromiseScreen(
 
     val buttonText = remember { mutableStateOf("다음") }
 
+    val timeCompare = remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -109,13 +114,22 @@ fun PromiseScreen(
 //                            viewModel.getLocationMap(selectedPlaceLatitude.value, selectedPlaceLongitude.value)
 //                        }
                     } else {
-                        viewModel.getPromiseDetail(
-                            calendarData.value,
-                            timeData.value,
-                            selectedPlace.value,
-                            selectedPlaceLatitude.value,
-                            selectedPlaceLongitude.value
-                        )
+                        if (!isTimeBeforeCurrentTime(calendarData.value + "T" + timeData.value)) {
+                            viewModel.getPromiseDetail(
+                                calendarData.value,
+                                timeData.value,
+                                selectedPlace.value,
+                                selectedPlaceLatitude.value,
+                                selectedPlaceLongitude.value
+                            )
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "날짜와 시간을 다시 입력해주세요",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
                     }
                 },
                 resetOnClick = {
@@ -335,48 +349,69 @@ fun Greeting(resId: Int, textSize: Int, textColor: Color) {
     )
 }
 
+fun isTimeBeforeCurrentTime(isoTime: String): Boolean {
+    val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+    val time = LocalDateTime.parse(isoTime, formatter)
+    val currentTime = LocalDateTime.now()
+    return time.isBefore(currentTime)
+}
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Calendar(onDateChanged: (String) -> Unit, onDateData: (String) -> Unit) {
     WhatNowTheme {
         Box(
-            modifier = Modifier
-                .padding(start = 15.dp)
-                .width(350.dp)
-                .clip(RoundedCornerShape(16.dp))
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            val context = LocalContext.current
-
             AndroidView(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .widthIn(max = 50.dp) // 오른쪽 부분을 자르기 위한 너비 설정
+                    .clip(RoundedCornerShape(16.dp, 16.dp, 16.dp, 16.dp)),
                 factory = { context ->
                     val themedContext = ContextThemeWrapper(context, R.style.CreateProfileTheme)
                     val view = LayoutInflater.from(themedContext)
                         .inflate(R.layout.item_promise_calendar, null)
-                    val datePicker = view.findViewById<DatePicker>(R.id.datePicker1)
+                    val calendarView = view.findViewById<CalendarView>(R.id.datePicker1)
+
+                    val title = view.findViewById<TextView>(R.id.calendar)
+
 
                     // 현재 날짜로 DatePicker 초기화
                     val calendar = Calendar.getInstance()
                     val year = calendar.get(Calendar.YEAR)
                     val month = calendar.get(Calendar.MONTH)
                     val day = calendar.get(Calendar.DAY_OF_MONTH)
-                    datePicker.updateDate(year, month, day)
 
                     // 날짜를 바꾸지 않으면 현재 날짜 입력
-                    val selectedDateString = String.format("%d월 %d일 약속", month, day)
+                    val selectedDateString = String.format("%d월 %d일 약속", month + 1, day)
+
+                    val formattedMonth =
+                        if (month >= 10) month.toString() else "0$month"
+                    val formattedDay =
+                        if (day >= 10) day.toString() else "0$day"
+
+                    val selectedDateData = "$year-$formattedMonth-$formattedDay"
+
+                    title.text = selectedDateString
+                    onDateData(selectedDateData)
                     onDateChanged(selectedDateString)
 
-                    datePicker.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
+
+                    calendarView.setOnDateChangeListener { _, year, monthOfYear, dayOfMonth ->
                         val month = monthOfYear + 1
 
                         val formattedMonth =
-                            if (month >= 10) (month + 1).toString() else "0$month"
+                            if (month >= 10) month.toString() else "0$month"
                         val formattedDay =
                             if (dayOfMonth >= 10) dayOfMonth.toString() else "0$dayOfMonth"
                         val selectedDateData = "$year-$formattedMonth-$formattedDay"
 
                         val selectedDateString =
                             String.format("%d월 %d일 약속", month, dayOfMonth)
+
+                        title.text = selectedDateString
 
                         onDateData(selectedDateData)
                         onDateChanged(selectedDateString)
@@ -388,6 +423,7 @@ fun Calendar(onDateChanged: (String) -> Unit, onDateData: (String) -> Unit) {
         }
     }
 }
+
 
 @Composable
 fun PlaceList(viewModel: PromiseAddViewModel) {

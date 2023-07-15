@@ -154,8 +154,10 @@ interface ApiService {
     // 약속 유저 생성
     @POST(API.PROMISE.postPromisesUsers)
     suspend fun postPromisesUsers(
-        @Path("promise-id") promise_id: String, @Path("user-id") user_id: Int, body: CoordinateVo,
-    ): BaseResponse<PromisesUsersStatusResponse>
+        @Path("promise-id") promise_id: String,
+        @Path("userId ") userId: Int,
+        @Query("userLocation") userLocation: CoordinateVoResponse,
+    ): BaseResponse<PromisesUsersCreateResponse>
 
 
     // 약속 유저 조회
