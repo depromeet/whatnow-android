@@ -12,7 +12,11 @@ fun String.toDate(): String {
     val hour = date.substring(11, 13)
     val minute = date.substring(14, 16)
     return if (hour.toInt() >= 12) {
-        "오후 ${hour}시 ${minute}분"
+        if (hour.toInt() == 12) {
+            "오후 ${hour.toInt()}시 ${minute}분"
+        } else {
+            "오후 ${hour.toInt() - 12}시 ${minute}분"
+        }
     } else {
         "오전 ${hour}시 ${minute}분"
     }

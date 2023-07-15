@@ -44,8 +44,7 @@ fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsers
     var sf =
         SimpleDateFormat("yyyy-MM-dd 00:00:00") //단순히 날짜만 확인하기위해 시간을 00:00:00으로 셋팅함.
 
-//    2023-07-07T14:57:18.474Z
-    Log.d("Ttt", sf.parse(promiseDate)!!.toString())
+//    2023-07-07T14:57:x18.474Z
     val calculationDate =
         (today.time.time - sf.parse(promiseDate)!!.time) / (60 * 60 * 24 * 1000)
 
@@ -61,10 +60,6 @@ fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsers
             }"
         }
     }
-    Log.d("ttt", date)
-
-    Log.d("ttt", promiseMonth)
-    Log.d("ttt", promiseDay)
 
     Card(
         shape = RoundedCornerShape(

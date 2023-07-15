@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -27,15 +28,11 @@ fun WhatNowProfile(
     Box(contentAlignment = Alignment.Center) {
         AsyncImage(
             model = users.profileImg,
+            contentScale = ContentScale.Crop,
             contentDescription = null,
             modifier = Modifier
                 .size(profileImageSize)
-                .clip(RoundedCornerShape(24.dp))
-                .border(
-                    width = 2.dp,
-                    color = WhatNowTheme.colors.gray50,
-                    shape = RoundedCornerShape(24.dp)
-                )
+                .clip(RoundedCornerShape(18.dp))
         )
 
         Image(

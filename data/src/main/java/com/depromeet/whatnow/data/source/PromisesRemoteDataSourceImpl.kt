@@ -1,12 +1,10 @@
 package com.depromeet.whatnow.data.source
 
-import android.util.Log
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.model.request.PromiseRequest
 import com.depromeet.whatnow.data.model.response.CoordinateVoResponse
-
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.LocationResponse
@@ -14,12 +12,11 @@ import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
-
 import com.depromeet.whatnow.data.model.response.PromisesResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersCreateResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.domain.model.CoordinateVo
 import javax.inject.Inject
 
@@ -55,8 +52,6 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     override suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatusResponse>> =
         runCatching {
             apiService.getPromisesUsersStatus(status = status).data
-        }.onFailure {
-            Log.d("ttt", it.toString())
         }
 
     override suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedListResponse> =
@@ -64,7 +59,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
             apiService.getPromisesUsersSeparated().data
         }
 
-    override suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusListResponse> =
+    override suspend fun getPromisesUsers(promise_id: Int): Result<List<PromisesUsersStatusResponse>> =
         runCatching {
             apiService.getPromisesUsers(promise_id = promise_id).data
         }
@@ -85,7 +80,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
         ).data
     }
 
-    override suspend fun getPromisesProgress(): Result<GetPromisesProgressListResponse> =
+    override suspend fun getPromisesProgress(): Result<List<GetPromisesProgressResponse>> =
         runCatching {
             apiService.getPromisesProgress().data
         }

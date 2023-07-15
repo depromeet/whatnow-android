@@ -9,7 +9,10 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
@@ -111,7 +114,7 @@ fun PictureScreen(
         val cameraProvider = context.getCameraProvider()
         cameraProvider.unbindAll()
         cameraProvider.bindToLifecycle(
-            lifecycleOwner, cameraSelector, preview
+            lifecycleOwner, cameraSelector, preview, viewModel.imageAnalysis, viewModel.imageCapture
         )
 
         preview.setSurfaceProvider(previewView.surfaceProvider)
@@ -277,8 +280,6 @@ fun PictureScreen(
                         itemsIndexed(pictureUploadText) { index, item ->
                             WhatNowPictureUploadText(item = item, modifier = Modifier, onClick = {
                                 viewModel.onClickedPictureUploadText(index)
-                                Log.d("ttt", pictureUploadText.toString())
-
                             })
                         }
                     }
@@ -356,7 +357,9 @@ fun PictureScreen(
                 }
             } else {
                 IconButton(
-                    onClick = {},
+                    onClick = {
+
+                    },
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(22.dp))
                         .size(64.dp)

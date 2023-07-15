@@ -2,6 +2,7 @@ package com.depromeet.whatnow.component
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -66,6 +67,7 @@ fun WhatNowActivityMap(
 
     val uiState by viewModel.uiState.collectAsState()
     val timeOver by viewModel.uiState.value.timeOver.collectAsState()
+    val promisesUsersStatus by viewModel.uiState.value.promisesUsersStatus.collectAsState()
 
     var mapProperties by remember {
         mutableStateOf(
@@ -87,9 +89,9 @@ fun WhatNowActivityMap(
     }
 
     val latitude =
-        uiState.promisesUsersStatus.value.first().coordinateVo.latitude
+        promisesUsersStatus.first().coordinateVo.latitude
     val longitude =
-        uiState.promisesUsersStatus.value.first().coordinateVo.longitude
+        promisesUsersStatus.first().coordinateVo.longitude
     val timeOverLocations = LatLng(latitude, longitude)
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.
@@ -217,7 +219,7 @@ fun WhatNowActivityMap(
                     ) {
                         Column() {
                             Text(
-                                text = uiState.promisesUsersStatus.value.first().title,
+                                text = promisesUsersStatus.first().title,
                                 style = WhatNowTheme.typography.body1.copy(
                                     fontSize = 18.sp,
                                     color = WhatNowTheme.colors.whatNowBlack
@@ -248,7 +250,7 @@ fun WhatNowActivityMap(
                             modifier = modifier.clickable {
                                 PromiseActivateActivity.startActivity(
                                     context = context,
-                                    uiState.promisesUsersStatus.value.first().promiseId
+                                    promisesUsersStatus.first().promiseId
                                 )
                             },
                             painter = painterResource(id = R.drawable.arrow_forward_ios_24),

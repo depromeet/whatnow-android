@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +38,7 @@ import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
 import com.depromeet.whatnow.ui.promiseActivate.PromiseEmojiTab
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun WhatNowTabMyContent(
     viewModel: PromiseActivateViewModel, modifier: Modifier, promises: List<Promise>
@@ -44,6 +46,7 @@ fun WhatNowTabMyContent(
 
     val uiState by viewModel.uiState.collectAsState()
     val isClickedMyStatus by viewModel.isClickedMyStatus.collectAsState()
+    val promise by viewModel.uiState.value.promise.collectAsState()
 
 //    viewModel.getPromisesInteractions()
 //    viewModel.getPromisesUsersProgress(uiState.promise!!.users[0].id)
@@ -80,15 +83,6 @@ fun WhatNowTabMyContent(
         )
     )
 
-    val test: List<Users> = listOf(
-        Users(0, "", "string", true),
-        Users(0, "", "string", true),
-        Users(0, "", "string", true),
-        Users(0, "", "string", true),
-        Users(0, "", "string", true),
-        Users(0, "", "string", true)
-    )
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -104,11 +98,11 @@ fun WhatNowTabMyContent(
             ) {
                 WhatNowProfile(
 //                    users = uiState.promise!!.users[0],
-                    users = test[0], profileImageSize = 56.dp, statusImageSize = 88.dp
+                    users = promise!!.users[0], profileImageSize = 56.dp, statusImageSize = 88.dp
                 )
                 Column(modifier = modifier.padding(start = 22.dp)) {
                     Text(
-                        text = promises[0].participants[0].name,
+                        text = promise!!.users[0].nickname,
                         style = WhatNowTheme.typography.body1.copy(
                             fontSize = 18.sp, color = WhatNowTheme.colors.gray50
                         )
@@ -123,7 +117,8 @@ fun WhatNowTabMyContent(
                             tint = WhatNowTheme.colors.gray400
                         )
                         Text(
-                            text = "uiState.promisesProgress!!.currentProgress",
+                            text = "상태",
+//                            text = "uiState.promisesProgress!!.currentProgress",
                             modifier = modifier
                                 .padding(start = 2.dp)
                                 .height(22.dp),
@@ -142,7 +137,6 @@ fun WhatNowTabMyContent(
                 shape = RoundedCornerShape(16.dp),
                 onClick = {
                     viewModel.onClickedMyStatus()
-                    Log.d("ttt", isClickedMyStatus.toString())
                 }) {
                 Box(
                     contentAlignment = Alignment.Center,

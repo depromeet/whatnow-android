@@ -34,6 +34,10 @@ fun WhatNowNaverMapPromiseInfo(
     modifier: Modifier, promises: GetPromises, alignment: Alignment, padding: PaddingValues,
 ) {
 
+    val addressList = promises.address.split(" ")
+    val address = "%s %s".format(addressList[0], addressList[1])
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +75,7 @@ fun WhatNowNaverMapPromiseInfo(
                 )
                 Text(
                     modifier = Modifier.padding(start = 4.dp),
-                    text = promises.title,
+                    text = address,
                     style = WhatNowTheme.typography.body3.copy(
                         fontSize = 14.sp, color = WhatNowTheme.colors.whatNowBlack
                     )

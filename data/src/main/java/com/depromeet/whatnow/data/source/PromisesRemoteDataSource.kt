@@ -4,7 +4,7 @@ package com.depromeet.whatnow.data.source
 import com.depromeet.whatnow.data.model.request.PromiseRequest
 import com.depromeet.whatnow.data.model.response.CoordinateVoResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.LocationResponse
@@ -16,7 +16,7 @@ import com.depromeet.whatnow.data.model.response.PromisesResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersCreateResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersStatusListResponse
+import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.domain.model.CoordinateVo
 
 interface PromisesRemoteDataSource {
@@ -36,7 +36,7 @@ interface PromisesRemoteDataSource {
 
     suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedListResponse>
 
-    suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusListResponse>
+    suspend fun getPromisesUsers(promise_id: Int): Result<List<PromisesUsersStatusResponse>>
 
     suspend fun patchPromisesProgress(
         progressCode: String,
@@ -48,7 +48,7 @@ interface PromisesRemoteDataSource {
         userId: Int
     ): Result<PromisesProgressResponse>
 
-    suspend fun getPromisesProgress(): Result<GetPromisesProgressListResponse>
+    suspend fun getPromisesProgress(): Result<List<GetPromisesProgressResponse>>
 
     suspend fun postPromisesImagesSuccess(
         promiseId: Int,

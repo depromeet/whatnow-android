@@ -4,6 +4,7 @@ package com.depromeet.whatnow.domain.repo
 import com.depromeet.whatnow.domain.model.CoordinateVo
 import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
+import com.depromeet.whatnow.domain.model.GetPromisesProgress
 import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.domain.model.NcpMapInfo
@@ -12,6 +13,9 @@ import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
 import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
 import com.depromeet.whatnow.domain.model.PromisesProgress
+import com.depromeet.whatnow.domain.model.PromisesUsersLocation
+import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
+import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.domain.model.PromisesUsersCreate
 import com.depromeet.whatnow.domain.model.PromisesUsersLocation
 import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
@@ -33,7 +37,7 @@ interface PromisesRepository {
 
     suspend fun getPromises(promise_id: Int): Result<GetPromises>
 
-    suspend fun getPromisesUsers(promise_id: String): Result<PromisesUsersStatusList>
+    suspend fun getPromisesUsers(promise_id: Int): Result<List<PromisesUsersStatus>>
 
     suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedList>
 
@@ -47,7 +51,7 @@ interface PromisesRepository {
         userId: Int
     ): Result<PromisesProgress>
 
-    suspend fun getPromisesProgress(): Result<GetPromisesProgressList>
+    suspend fun getPromisesProgress(): Result<List<GetPromisesProgress>>
 
     suspend fun postPromisesImagesSuccess(
         promiseId: Int,

@@ -60,12 +60,10 @@ class HomeViewModel @Inject constructor(
 //            timerStart("2023-07-07T14:57:18.474Z")
 
             getPromisesUsersStatusUseCase(status = "BEFORE").onSuccess {
-                Log.d("ttt onSuccess", "it.items = ${it}")
                 _uiState.value.promisesUsersStatus.value = it
                 if (it.isEmpty()) {
                     _uiState.value.currentStatus.value = HomeActivateStatus.InActivity
                 } else {
-                    Log.d("ttttt", it.first().promiseUsers.first().promiseUserType)
                     when (it.first().promiseUsers.first().promiseUserType) {
                         "READY" -> {
                             checkedPromise(
@@ -89,7 +87,6 @@ class HomeViewModel @Inject constructor(
     fun checkedPromise(promise_id: Int, date: String) {
         launch {
             getPromisesActiveUseCase(promise_id = promise_id).onSuccess {
-                Log.d("ttasdtㅅㅅㅅㅅ", it.toString())
 
                 if (it) {
                     _uiState.value.currentStatus.value = HomeActivateStatus.Activity
@@ -97,7 +94,7 @@ class HomeViewModel @Inject constructor(
                     timerStart(date)
                 } else _uiState.value.currentStatus.value = HomeActivateStatus.InActivity
             }.onFailure {
-                Log.d("ttasdt", it.toString())
+                Log.d("ttt onFailure", it.toString())
             }
         }
     }
@@ -121,7 +118,6 @@ class HomeViewModel @Inject constructor(
         mTimer = object : CountDownTimer(diffSec, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 launch {
-                    Log.d("tttdeadLine", getTime(deadLine).toString())
 
 
                     _uiState.value.timeOver.value = getTime(deadLine)
@@ -148,7 +144,6 @@ fun getTime(deadLine: Calendar): Pair<String, String> {
     val secTime = Math.floor((diffSec - 3600 * hourTime - 60 * minTime).toDouble()).toInt()
 
     if (hourTime <= 0 && minTime <= 0 && secTime <= 0) return Pair("0", "0")
-    Log.d("ttt", minTime.toString())
     val hour = String.format("%02d", hourTime)
     val min = String.format("%02d", minTime)
     val sec = String.format("%02d", secTime)

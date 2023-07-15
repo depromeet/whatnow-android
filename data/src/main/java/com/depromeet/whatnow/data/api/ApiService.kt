@@ -3,7 +3,6 @@ package com.depromeet.whatnow.data.api
 import com.depromeet.whatnow.data.model.BaseResponse
 import com.depromeet.whatnow.data.model.request.*
 import com.depromeet.whatnow.data.model.response.*
-
 import com.depromeet.whatnow.domain.model.CoordinateVo
 import retrofit2.http.*
 
@@ -163,8 +162,8 @@ interface ApiService {
     // 약속 유저 조회
     @GET(API.PROMISE.getPromisesUsers)
     suspend fun getPromisesUsers(
-        @Path("promise-id") promise_id: String,
-    ): BaseResponse<PromisesUsersStatusListResponse>
+        @Path("promiseId") promise_id: Int,
+    ): BaseResponse<List<PromisesUsersStatusResponse>>
 
     // 해당 약속 유저 진행 상태 변경
     @PATCH(API.PROMISE.patchPromisesProgress)
@@ -181,7 +180,7 @@ interface ApiService {
 
     // 약속 진행 단계
     @GET(API.PROMISE.getPromisesProgress)
-    suspend fun getPromisesProgress(): BaseResponse<GetPromisesProgressListResponse>
+    suspend fun getPromisesProgress(): BaseResponse<List<GetPromisesProgressResponse>>
 
     // 유저 프로필 이미지 업로드
     @POST(API.USER.postUsersMeImageSuccess)

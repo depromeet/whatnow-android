@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,37 +14,33 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.depromeet.whatnow.domain.model.Users
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalPagerApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun WhatNowTabOtherContent(
-//    promises: List<Promise>,
     viewModel: PromiseActivateViewModel,
     onCreate: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val test: List<Users> = listOf(
-        Users(0, "", "string", true),
-        Users(0, "", "string", true),
-        Users(0, "", "string", true),
-        Users(0, "", "string", true),
-        Users(0, "", "string", true),
-        Users(0, "", "string", true)
-    )
+    val promise by viewModel.uiState.value.promise.collectAsState()
+    val promisesUsersStatusList by viewModel.uiState.value.promisesUsersStatusList.collectAsState()
+
+
 //    val pagerState = rememberPagerState(pageCount = { uiState.promise!!.users.size })
-    val pagerState = rememberPagerState(pageCount = { test.size })
+    val pagerState = rememberPagerState(pageCount = { promise!!.users.size - 1 })
 
     Column(
         modifier = Modifier.padding(top = 16.dp),
@@ -60,16 +57,14 @@ fun WhatNowTabOtherContent(
                 contentPadding = PaddingValues(horizontal = 22.dp),
                 pageSpacing = 8.dp
             ) {
-//                WhatNowTabOtherContentCard(modifier = Modifier, users = uiState.promise!!.users[it])
-                WhatNowTabOtherContentCard(modifier = Modifier, users = test[it])
+                WhatNowTabOtherContentCard(modifier = Modifier, users = promise!!.users[it+1])
 
             }
 
             Spacer(modifier = Modifier.height(9.dp))
             HorizontalPagerIndicator(
                 pagerState = pagerState,
-//                pageCount = promises[0].imageUrls.size,
-                pageCount = test.size,
+                pageCount = promise!!.users.size-1,
                 indicatorWidth = 4.dp,
                 indicatorHeight = 4.dp,
                 indicatorShape = CircleShape,
@@ -107,4 +102,14 @@ fun WhatNowTabOtherContent(
             )
         }
     }
+}
+
+@Composable
+fun EmptyWhatNowTabOtherContent() {
+    Column(
+        modifier = Modifier.padding(top = 16.dp),
+    ) {
+        Text(text = "친구가 없습니다...")
+    }
+
 }

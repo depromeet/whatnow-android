@@ -21,7 +21,7 @@ import com.depromeet.whatnow.ui.home.HomeScreen
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(
     ExperimentalMaterial3Api::class,
     ExperimentalMaterialApi::class
@@ -54,7 +54,7 @@ fun MainScreen(
                 startAlarmActivity = startAlarmActivity,
                 startSettingActivity = startSettingActivity,
                 startPromiseAddActivity = startPromiseAddActivity,
-                isPromise = uiState.promisesUsersStatus.isNotEmpty()
+                viewModel = viewModel,
             )
         },
     ) { innerPadding ->

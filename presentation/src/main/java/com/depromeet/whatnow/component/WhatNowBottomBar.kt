@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
@@ -22,6 +23,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,8 +37,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.main.Destination
+import com.depromeet.whatnow.ui.main.MainViewModel
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun WhatNowBottomBar(
     modifier: Modifier = Modifier,
@@ -43,12 +48,15 @@ fun WhatNowBottomBar(
     startAlarmActivity: () -> Unit,
     startSettingActivity: () -> Unit,
     startPromiseAddActivity: () -> Unit,
-    isPromise: Boolean
+    viewModel: MainViewModel
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val itemsHorizontalPadding =
         ((screenWidth - bottomActionButtonSize) / 2 - bottomBarItemIconSize) / 2 - 4.dp
+    val uiState by viewModel.uiState.collectAsState()
+    val promisesUsersStatusc by viewModel.uiState.value.promisesUsersStatus.collectAsState()
+
 
     @Composable
     fun History() = IconButton(
@@ -138,7 +146,7 @@ fun WhatNowBottomBar(
                             contentAlignment = Alignment.Center,
                             modifier = Modifier.background(WhatNowTheme.colors.whatNowPurple)
                         ) {
-                            if (!isPromise) {
+                            if (promisesUsersStatusc.isEmpty()) {
 
                                 Text(
                                     modifier = modifier.padding(start = 20.dp, end = 20.dp),

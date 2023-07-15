@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,12 +21,14 @@ import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateTab
 import com.depromeet.whatnow.ui.promiseActivate.PromiseActivateViewModel
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WhatNowBottomSheetScaffold(
     viewModel: PromiseActivateViewModel,
     modifier: Modifier,
     onBack: () -> Unit,
+    setUpdateLocationListner: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val contextForToast = LocalContext.current.applicationContext
@@ -34,7 +37,7 @@ fun WhatNowBottomSheetScaffold(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
-    viewModel.timerStart(uiState.promise!!.endTime)
+    viewModel.timerStart(uiState.promise.value!!.endTime)
 
     BottomSheetScaffold(modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
@@ -80,7 +83,12 @@ fun WhatNowBottomSheetScaffold(
             }
         }) {
         // app UI
-        WhatNowNaverMap(modifier = Modifier, onBack = onBack, viewModel = viewModel)
+        WhatNowNaverMap(
+            modifier = Modifier,
+            onBack = onBack,
+            viewModel = viewModel,
+            setUpdateLocationListner = setUpdateLocationListner
+        )
 
     }
 
