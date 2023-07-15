@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -49,14 +50,27 @@ fun WhatNowPastEmojiTile(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = user.profileImageUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(20.dp))
-            )
+            if (user.profileImageUrl.isBlank()) {
+                Image(
+                    painter = painterResource(id = R.drawable.img_default_profile),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                )
+            } else {
+                AsyncImage(
+                    model = user.profileImageUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(
+                            RoundedCornerShape(20.dp)
+                        )
+                )
+            }
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = user.name,
@@ -65,7 +79,7 @@ fun WhatNowPastEmojiTile(
             )
             Spacer(modifier = Modifier.weight(1f))
             when (user.arrivalState) {
-                ArrivalState.Ready -> {
+                ArrivalState.READY -> {
                     Text(
                         text = stringResource(id = R.string.arrived),
                         style = WhatNowTheme.typography.body3,
@@ -73,7 +87,7 @@ fun WhatNowPastEmojiTile(
                     )
                 }
 
-                ArrivalState.Late -> {
+                ArrivalState.LATE -> {
                     Text(
                         text = stringResource(id = R.string.late),
                         style = WhatNowTheme.typography.body3,

@@ -101,7 +101,9 @@ fun FuturePromiseTile(
                         Text(
                             text = promise.location,
                             style = WhatNowTheme.typography.caption2,
-                            color = WhatNowTheme.colors.gray700
+                            color = WhatNowTheme.colors.gray700,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
