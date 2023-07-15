@@ -58,6 +58,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation(libs.naver.map)
     implementation(libs.naver.map.compose)
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     kapt(libs.google.hilt.compiler)
 
