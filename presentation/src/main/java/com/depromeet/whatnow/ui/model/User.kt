@@ -15,7 +15,7 @@ data class User(
         val INIT = User(
             name = "",
             profileImageUrl = "",
-            arrivalState = ArrivalState.None,
+            arrivalState = ArrivalState.NONE,
             emojis = emptyMap()
         )
     }
@@ -28,8 +28,11 @@ fun PromiseUsers.toUiModel() = User(
     emojis = interactions.fold(mutableMapOf()) { emojis, interaction ->
         emojis.run {
             put(
-                EmojiInteraction.valueOf(promiseUserType),
-                getOrDefault(EmojiInteraction.valueOf(promiseUserType), 0) + interaction.count
+                EmojiInteraction.valueOf(interaction.interactionType),
+                getOrDefault(
+                    EmojiInteraction.valueOf(interaction.interactionType),
+                    0
+                ) + interaction.count
             )
         }
         emojis
@@ -39,7 +42,7 @@ fun PromiseUsers.toUiModel() = User(
 fun UsersProfile.toUiModel() = User(
     name = nickname,
     profileImageUrl = if (isDefaultImg) "" else profileImg,
-    arrivalState = ArrivalState.None,
+    arrivalState = ArrivalState.NONE,
     emojis = emptyMap()
 )
 
