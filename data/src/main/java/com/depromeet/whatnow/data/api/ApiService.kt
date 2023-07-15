@@ -179,7 +179,7 @@ interface ApiService {
 
     // 약속 진행 단계
     @GET(API.PROMISE.getPromisesProgress)
-    suspend fun getPromisesProgress(): BaseResponse<GetPromisesProgressListResponse>
+    suspend fun getPromisesProgress(): BaseResponse<List<GetPromisesProgressResponse>>
 
     // 유저 프로필 이미지 업로드
     @POST(API.USER.postUsersMeImageSuccess)

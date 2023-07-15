@@ -7,7 +7,7 @@ import com.depromeet.whatnow.data.source.PromisesRemoteDataSource
 import com.depromeet.whatnow.domain.model.CoordinateVo
 import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
-import com.depromeet.whatnow.domain.model.GetPromisesProgressList
+import com.depromeet.whatnow.domain.model.GetPromisesProgress
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.domain.model.NcpMapInfo
 import com.depromeet.whatnow.domain.model.Promise
@@ -88,9 +88,9 @@ internal class PromisesRepositoryImpl @Inject constructor(
         it.toDomain()
     }
 
-    override suspend fun getPromisesProgress(): Result<GetPromisesProgressList> =
+    override suspend fun getPromisesProgress(): Result<List<GetPromisesProgress>> =
         promisesRemoteDataSource.getPromisesProgress().mapCatching {
-            it.contents.toDomain()
+            it.toDomain()
         }
 
 

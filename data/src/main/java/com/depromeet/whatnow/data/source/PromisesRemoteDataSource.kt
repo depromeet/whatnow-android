@@ -3,7 +3,7 @@ package com.depromeet.whatnow.data.source
 
 import com.depromeet.whatnow.data.model.request.PromiseRequest
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.LocationResponse
@@ -46,7 +46,7 @@ interface PromisesRemoteDataSource {
         userId: Int
     ): Result<PromisesProgressResponse>
 
-    suspend fun getPromisesProgress(): Result<GetPromisesProgressListResponse>
+    suspend fun getPromisesProgress(): Result<List<GetPromisesProgressResponse>>
 
     suspend fun postPromisesImagesSuccess(
         promiseId: Int,

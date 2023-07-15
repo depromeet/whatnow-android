@@ -3,9 +3,8 @@ package com.depromeet.whatnow.data.source
 import android.util.Log
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.model.request.PromiseRequest
-
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesProgressListResponse
+import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesResponse
 import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.LocationResponse
@@ -13,7 +12,6 @@ import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
 import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
-
 import com.depromeet.whatnow.data.model.response.PromisesResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
 import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
@@ -83,7 +81,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
         ).data
     }
 
-    override suspend fun getPromisesProgress(): Result<GetPromisesProgressListResponse> =
+    override suspend fun getPromisesProgress(): Result<List<GetPromisesProgressResponse>> =
         runCatching {
             apiService.getPromisesProgress().data
         }

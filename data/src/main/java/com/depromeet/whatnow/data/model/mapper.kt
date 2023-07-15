@@ -7,6 +7,7 @@ import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.InteractionDtoListResponse
 import com.depromeet.whatnow.data.model.response.InteractionsDetailResponse
 import com.depromeet.whatnow.data.model.response.InteractionsResponse
+import com.depromeet.whatnow.data.model.response.ProgressesResponse
 import com.depromeet.whatnow.data.model.response.PromiseUsersResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
 import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersResponse
@@ -21,12 +22,12 @@ import com.depromeet.whatnow.data.model.response.UsersResponse
 import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgress
-import com.depromeet.whatnow.domain.model.GetPromisesProgressList
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
 import com.depromeet.whatnow.domain.model.GetPromisesUsersStatusList
 import com.depromeet.whatnow.domain.model.InteractionDtoList
 import com.depromeet.whatnow.domain.model.Interactions
 import com.depromeet.whatnow.domain.model.InteractionsDetail
+import com.depromeet.whatnow.domain.model.Progresses
 import com.depromeet.whatnow.domain.model.PromiseUsers
 import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
@@ -127,16 +128,26 @@ fun PromisesProgressResponse.toDomain(): PromisesProgress {
 }
 
 @JvmName("GetPromisesProgressListResponse")
-fun List<GetPromisesProgressResponse>.toDomain(): GetPromisesProgressList {
-    return GetPromisesProgressList(
-        map {
-            GetPromisesProgress(
-                group = it.group,
-                progresses = it.progresses
+fun List<GetPromisesProgressResponse>.toDomain(): List<GetPromisesProgress> {
+    return map {
+        GetPromisesProgress(
+            group = it.group,
+            progresses = it.progresses.toDomain()
 
-            )
-        }
-    )
+        )
+    }
+}
+
+@JvmName("ProgressesResponse")
+fun List<ProgressesResponse>.toDomain(): List<Progresses> {
+    return map {
+        Progresses(
+            progressGroup = it.progressGroup,
+            kr = it.kr,
+            code = it.code,
+            image = it.image
+        )
+    }
 }
 
 @JvmName("PromisesImagesResponse")
