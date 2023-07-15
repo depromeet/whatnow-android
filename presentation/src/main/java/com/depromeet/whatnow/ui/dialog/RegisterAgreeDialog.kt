@@ -128,23 +128,26 @@ private fun promiseResetDialogContent(onDismiss: () -> Unit, okClick: () -> Unit
                 contentAlignment = Alignment.Center
             ) {
                 Row(
-                    modifier = Modifier.padding(16.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     WhatNowButton(
-                        buttonColors = KnowllyButtonDefaults.textGrayButtonColors,
+                        buttonColors = KnowllyButtonDefaults.textPurpleButtonColors,
                         text = stringResource(id = R.string.button_cancel),
                         onClick = { onDismiss() },
-                        modifier = Modifier.aspectRatio(140 / 56f)
+                        modifier = Modifier
+                            .width(140.dp),
+                        buttonSize = 56
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
 
                     WhatNowButton(
-                        buttonColors = KnowllyButtonDefaults.textPurpleButtonColors,
+                        buttonColors = KnowllyButtonDefaults.textGrayButtonColors,
                         text = stringResource(id = R.string.button_ok),
                         onClick = { okClick() },
-                        modifier = Modifier.aspectRatio(140 / 56f)
+                        modifier = Modifier
+                            .width(140.dp),
+                        buttonSize = 56
                     )
                 }
             }
@@ -155,7 +158,7 @@ private fun promiseResetDialogContent(onDismiss: () -> Unit, okClick: () -> Unit
 @Preview(widthDp = 312, heightDp = 200)
 @Composable
 private fun RegisterAgreeDialogPreview() {
-//    WhatNowTheme {
-//        RegisterAgreeDialog(onDismiss = { })
-//    }
+    WhatNowTheme {
+        promiseResetDialogContent(onDismiss = { }, okClick = {})
+    }
 }
