@@ -149,7 +149,7 @@ fun Day(
     ) {
         if (day.position == DayPosition.MonthDate) promise?.let {
             AsyncImage(
-                model = it.imageUrls.first(),
+                model = if (it.imageUrls.isEmpty()) "" else it.imageUrls.first(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
