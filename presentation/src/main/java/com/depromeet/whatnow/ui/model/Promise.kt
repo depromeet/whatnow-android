@@ -1,7 +1,10 @@
 package com.depromeet.whatnow.ui.model
 
+import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
+import com.naver.maps.geometry.LatLng
 import java.io.Serializable
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
 data class Promise(
@@ -11,8 +14,23 @@ data class Promise(
     val participants: List<User>,
     val imageUrls: List<String>,
     val highlights: List<Highlight>,
-    val timeOverImageUrl: String
+    val timeOverImageUrl: String,
+    val latLng: LatLng = LatLng(0.0, 0.0)
 ) : Serializable
+
+fun GetPromisesUsersStatus.toUiModel() = Promise(
+    title = title,
+    location = address,
+    datetime = LocalDateTime.parse(
+        endTime,
+        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    ),
+    participants = promiseUsers.map { it.toUiModel() },
+    imageUrls = promiseImageUrls,
+    latLng = LatLng(coordinateVo.latitude, coordinateVo.longitude),
+    timeOverImageUrl = "",
+    highlights = emptyList()
+)
 
 fun DUMMY_PROMISE(
     title: String = "약속 이름",

@@ -10,10 +10,10 @@ enum class EmojiInteraction(
     Heart(iconRes = R.drawable.ic_heart),
     Poop(iconRes = R.drawable.ic_poop),
     Music(iconRes = R.drawable.ic_music),
-    Footprint(iconRes = R.drawable.ic_footprint)
+    Step(iconRes = R.drawable.ic_footprint)
 }
 
 fun DUMMY_EMOJI(): Map<EmojiInteraction, Int> =
     EmojiInteraction.values().associateWith {
-        if (it == EmojiInteraction.Footprint) 0 else Random.nextInt(1000)
+        if (it == EmojiInteraction.Step) 0 else Random.nextInt(1000)
     }

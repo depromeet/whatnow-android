@@ -1,5 +1,5 @@
 package com.depromeet.whatnow.ui.model
 
 enum class ArrivalState {
-    Arrive, Late
+    Ready, Late, Wait, Cancel, None
 }
