@@ -3,6 +3,8 @@ package com.depromeet.whatnow.ui.setting
 import android.graphics.Bitmap
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.usecase.GetUsersMeUseCase
+import com.depromeet.whatnow.domain.usecase.LogoutUseCase
+import com.depromeet.whatnow.domain.usecase.WithdrawUseCase
 import com.depromeet.whatnow.ui.model.User
 import com.depromeet.whatnow.ui.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val getUsersMeUseCase: GetUsersMeUseCase
+    private val getUsersMeUseCase: GetUsersMeUseCase,
+    private val logoutUseCase: LogoutUseCase,
+    private val withdrawUseCase: WithdrawUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -47,4 +51,8 @@ class SettingViewModel @Inject constructor(
     fun onPickImage(bitmap: Bitmap) {
         _uiState.update { it.copy(newProfileImage = bitmap) }
     }
+
+    fun logout() = launch { logoutUseCase() }
+
+    fun withdraw() = launch { withdrawUseCase() }
 }

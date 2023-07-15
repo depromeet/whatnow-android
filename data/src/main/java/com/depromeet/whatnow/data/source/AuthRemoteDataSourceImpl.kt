@@ -45,7 +45,7 @@ internal class AuthRemoteDataSourceImpl @Inject constructor(
         }
 
     override suspend fun deleteAutoMe() {
-        apiService.deleteAutoMe()
+        apiService.deleteAuthMe()
     }
 
 }

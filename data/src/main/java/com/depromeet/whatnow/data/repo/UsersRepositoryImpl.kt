@@ -24,4 +24,8 @@ internal class UsersRepositoryImpl @Inject constructor(
         usersRemoteDataSource.getUsersMe().mapCatching {
             it.toDomain()
         }
+
+    override suspend fun logout(): Result<Unit> = usersRemoteDataSource.logout()
+
+    override suspend fun withdraw(): Result<Unit> = usersRemoteDataSource.withdraw()
 }
