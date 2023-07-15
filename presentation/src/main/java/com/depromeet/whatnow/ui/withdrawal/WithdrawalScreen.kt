@@ -1,5 +1,6 @@
 package com.depromeet.whatnow.ui.withdrawal
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,13 @@ fun WithdrawalScreen(
     gotoTitle: () -> Unit,
     onBack: () -> Unit
 ) {
+
     var step by remember { mutableIntStateOf(1) }
+
+    BackHandler {
+        if (step == 1) onBack()
+        else if (step < 3) step--
+    }
 
     Scaffold(
         topBar = {
