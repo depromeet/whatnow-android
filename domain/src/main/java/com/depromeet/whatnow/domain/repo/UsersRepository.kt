@@ -7,4 +7,8 @@ interface UsersRepository {
     suspend fun postUsersMeImageSuccess(imageKey: String): Unit
     suspend fun getUsersMeImages(fileExtension: String): Result<PromisesImages>
     suspend fun getUsersMe(): Result<UsersProfile>
+
+    suspend fun logout(): Result<Unit>
+
+    suspend fun withdraw(): Result<Unit>
 }

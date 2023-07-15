@@ -7,4 +7,8 @@ interface UsersRemoteDataSource {
     suspend fun postUsersMeImageSuccess(imageKey: String): Unit
     suspend fun getUsersMeImages(fileExtension: String): Result<PromisesImagesResponse>
     suspend fun getUsersMe(): Result<UsersProfileResponse>
+
+    suspend fun logout(): Result<Unit>
+
+    suspend fun withdraw(): Result<Unit>
 }

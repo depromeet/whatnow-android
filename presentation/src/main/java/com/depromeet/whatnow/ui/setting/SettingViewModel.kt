@@ -2,7 +2,11 @@ package com.depromeet.whatnow.ui.setting
 
 import android.graphics.Bitmap
 import com.depromeet.whatnow.base.BaseViewModel
-import com.depromeet.whatnow.ui.model.DUMMY_USER
+import com.depromeet.whatnow.domain.usecase.GetUsersMeUseCase
+import com.depromeet.whatnow.domain.usecase.LogoutUseCase
+import com.depromeet.whatnow.domain.usecase.WithdrawUseCase
+import com.depromeet.whatnow.ui.model.User
+import com.depromeet.whatnow.ui.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,15 +15,26 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingViewModel @Inject constructor() : BaseViewModel() {
+class SettingViewModel @Inject constructor(
+    private val getUsersMeUseCase: GetUsersMeUseCase,
+    private val logoutUseCase: LogoutUseCase,
+    private val withdrawUseCase: WithdrawUseCase
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(
         SettingState(
-            user = DUMMY_USER(),
+            user = User.INIT,
             isNotificationAvailable = true
         )
     )
     val uiState: StateFlow<SettingState> = _uiState.asStateFlow()
+
+    init {
+        launch {
+            val user = getUsersMeUseCase().getOrThrow()
+            _uiState.update { it.copy(user = user.toUiModel()) }
+        }
+    }
 
     fun setNotification(enabled: Boolean) {
         _uiState.update { it.copy(isNotificationAvailable = enabled) }
@@ -36,4 +51,8 @@ class SettingViewModel @Inject constructor() : BaseViewModel() {
     fun onPickImage(bitmap: Bitmap) {
         _uiState.update { it.copy(newProfileImage = bitmap) }
     }
+
+    fun logout() = launch { logoutUseCase() }
+
+    fun withdraw() = launch { withdrawUseCase() }
 }

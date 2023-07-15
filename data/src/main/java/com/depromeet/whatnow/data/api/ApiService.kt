@@ -39,7 +39,7 @@ interface ApiService {
 
     // 회원 탈퇴
     @DELETE(API.AUTH.deleteAutoMe)
-    suspend fun deleteAutoMe(): Unit
+    suspend fun deleteAuthMe(): Unit
 
     // 로그인
     @POST(API.AUTH.postAuthOauthKakaoLogin)

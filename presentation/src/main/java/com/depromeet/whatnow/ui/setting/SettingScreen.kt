@@ -267,7 +267,7 @@ fun SettingScreen(
                     )
                     WhatNowButtonBar(
                         textRes = R.string.sign_out,
-                        onClick = {}
+                        onClick = { viewModel.logout() }
                     )
                     WhatNowButtonBar(
                         textRes = R.string.delete_user,

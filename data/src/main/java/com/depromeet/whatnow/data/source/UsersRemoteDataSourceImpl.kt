@@ -23,4 +23,12 @@ internal class UsersRemoteDataSourceImpl @Inject constructor(
         runCatching {
             apiService.getUsersMe().data
         }
+
+    override suspend fun logout(): Result<Unit> = runCatching {
+        apiService.postAuthLogout()
+    }
+
+    override suspend fun withdraw(): Result<Unit> = runCatching {
+        apiService.deleteAuthMe()
+    }
 }

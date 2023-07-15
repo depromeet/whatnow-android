@@ -1,5 +1,7 @@
 package com.depromeet.whatnow.ui.model
 
+import com.depromeet.whatnow.domain.model.PromiseUsers
+import com.depromeet.whatnow.domain.model.UsersProfile
 import java.io.Serializable
 
 data class User(
@@ -7,7 +9,39 @@ data class User(
     val profileImageUrl: String,
     val arrivalState: ArrivalState,
     val emojis: Map<EmojiInteraction, Int>
-) : Serializable
+) : Serializable {
+
+    companion object {
+        val INIT = User(
+            name = "",
+            profileImageUrl = "",
+            arrivalState = ArrivalState.None,
+            emojis = emptyMap()
+        )
+    }
+}
+
+fun PromiseUsers.toUiModel() = User(
+    name = nickname,
+    profileImageUrl = if (isDefaultImg) "" else profileImg,
+    arrivalState = ArrivalState.valueOf(promiseUserType),
+    emojis = interactions.fold(mutableMapOf()) { emojis, interaction ->
+        emojis.run {
+            put(
+                EmojiInteraction.valueOf(promiseUserType),
+                getOrDefault(EmojiInteraction.valueOf(promiseUserType), 0) + interaction.count
+            )
+        }
+        emojis
+    },
+)
+
+fun UsersProfile.toUiModel() = User(
+    name = nickname,
+    profileImageUrl = if (isDefaultImg) "" else profileImg,
+    arrivalState = ArrivalState.None,
+    emojis = emptyMap()
+)
 
 fun DUMMY_USER(
     name: String = "사용자",

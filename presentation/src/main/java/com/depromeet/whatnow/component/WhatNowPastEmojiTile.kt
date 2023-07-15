@@ -65,13 +65,14 @@ fun WhatNowPastEmojiTile(
             )
             Spacer(modifier = Modifier.weight(1f))
             when (user.arrivalState) {
-                ArrivalState.Arrive -> {
+                ArrivalState.Ready -> {
                     Text(
                         text = stringResource(id = R.string.arrived),
                         style = WhatNowTheme.typography.body3,
                         color = WhatNowTheme.colors.whatNowPurple
                     )
                 }
+
                 ArrivalState.Late -> {
                     Text(
                         text = stringResource(id = R.string.late),
