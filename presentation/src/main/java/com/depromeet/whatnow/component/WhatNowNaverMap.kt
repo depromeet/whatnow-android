@@ -42,6 +42,8 @@ fun WhatNowNaverMap(
     modifier: Modifier, onBack: () -> Unit, viewModel: PromiseActivateViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val promise by viewModel.uiState.value.promise.collectAsState()
+
     val timeOver by viewModel.uiState.value.timeOver.collectAsState()
 
     var isPromiseInfo by rememberSaveable { mutableStateOf(true) }
@@ -66,10 +68,10 @@ fun WhatNowNaverMap(
     }
 
     val seoul =
-        LatLng(uiState.promise!!.coordinateVo.latitude, uiState.promise!!.coordinateVo.longitude)
+        LatLng(promise!!.coordinateVo.latitude, promise!!.coordinateVo.longitude)
     // 카메라 위치에 경우 좌표에 위도에서 - 0.01한 값
     val seoulCamera =
-        LatLng(uiState.promise!!.coordinateVo.latitude, uiState.promise!!.coordinateVo.longitude)
+        LatLng(promise!!.coordinateVo.latitude, promise!!.coordinateVo.longitude)
 
     val cameraPositionState: CameraPositionState = rememberCameraPositionState {
         // 카메라 초기 위치를 설정합니다.
@@ -107,7 +109,7 @@ fun WhatNowNaverMap(
             WhatNowMarkerIcon(
                 "https://media.licdn.com/dms/image/C5603AQHcoKPU9alW9w/profile-displayphoto-shrink_800_800/0/1644498344282?e=1692230400&v=beta&t=aK3Qau7_xpiie2xqI5hulE4H8iEbAcVZPnUXBe7-t6E",
                 LatLng(37.516152086, 127.019497385),
-                uiState.promise!!,
+                promise!!,
             )
 
         }
@@ -137,7 +139,7 @@ fun WhatNowNaverMap(
 
             WhatNowNaverMapPromiseInfo(
                 modifier = modifier,
-                promises = uiState.promise!!,
+                promises = promise!!,
                 padding = PaddingValues(top = 24.dp),
                 alignment = Alignment.TopCenter
             )

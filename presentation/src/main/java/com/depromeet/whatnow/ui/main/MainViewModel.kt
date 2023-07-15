@@ -48,7 +48,7 @@ class MainViewModel @Inject constructor(
         launch {
             getPromisesUsersStatusUseCase(status = "BEFORE").onSuccess {
                 Log.d("ttt onSuccess", "it.items = ${it}")
-                _uiState.value.promisesUsersStatus = it
+                _uiState.value.promisesUsersStatus.value = it
             }.onFailure { Log.d("ttt onFailure", it.toString()) }
         }
 

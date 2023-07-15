@@ -4,8 +4,6 @@ import android.os.CountDownTimer
 import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.model.CoordinateVo
-import com.depromeet.whatnow.domain.model.GetPromises
-import com.depromeet.whatnow.domain.model.Users
 import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsDetailUseCase
 import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsUseCase
 import com.depromeet.whatnow.domain.usecase.GetPromisesUseCase
@@ -49,7 +47,7 @@ class PromiseActivateViewModel @Inject constructor(
     var promiseId = MutableStateFlow<Int>(-1)
 
     init {
-        getPromises()
+
         _uiState.update {
             it.copy(
                 allProfile = listOf(
@@ -88,28 +86,31 @@ class PromiseActivateViewModel @Inject constructor(
     }
 
     fun getPromises() {
-        val userListTest: List<Users> = listOf(
-            Users(0, "", "string", true),
-            Users(0, "", "string", true),
-            Users(0, "", "string", true),
-            Users(0, "", "string", true),
-            Users(0, "", "string", true),
-            Users(0, "", "string", true)
-        )
-
-        _uiState.value.promise = GetPromises(
-            promiseId = 0,
-            address = "string",
-            coordinateVo = CoordinateVo(37.566535, 126.9779692),
-            title = "string",
-            endTime = "2023-07-09T12:30:49.945Z",
-            users = userListTest
-        )
+        Log.d("ttt promiseId:", promiseId.value.toString())
+//        val userListTest: List<Users> = listOf(
+//            Users(0, "", "string", true),
+//            Users(0, "", "string", true),
+//            Users(0, "", "string", true),
+//            Users(0, "", "string", true),
+//            Users(0, "", "string", true),
+//            Users(0, "", "string", true)
+//        )
+//
+//        _uiState.value.promise = GetPromises(
+//            promiseId = 0,
+//            address = "string",
+//            coordinateVo = CoordinateVo(37.566535, 126.9779692),
+//            title = "string",
+//            endTime = "2023-07-09T12:30:49.945Z",
+//            users = userListTest
+//        )
 
         launch {
             getPromisesUseCase(promise_id = promiseId.value)
                 .onSuccess {
-                    _uiState.value.promise = it
+                    Log.d("ttt getPromisesUseCase onSuccess", it.toString())
+                    _uiState.value.promise.value = it
+                    Log.d("ttt", _uiState.value.promise?.value.toString())
 
 
                 }

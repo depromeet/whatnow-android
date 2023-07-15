@@ -34,7 +34,7 @@ fun WhatNowBottomSheetScaffold(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
-    viewModel.timerStart(uiState.promise!!.endTime)
+//    viewModel.timerStart(uiState.promise!!.endTime)
 
     BottomSheetScaffold(modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,

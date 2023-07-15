@@ -121,7 +121,6 @@ class HomeViewModel @Inject constructor(
         mTimer = object : CountDownTimer(diffSec, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 launch {
-                    Log.d("tttdeadLine", getTime(deadLine).toString())
 
 
                     _uiState.value.timeOver.value = getTime(deadLine)

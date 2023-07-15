@@ -21,7 +21,7 @@ data class PromiseActivateState(
     val heartEmoji: List<Promise> = emptyList(),
     val footPrintEmoji: List<Promise> = emptyList(),
 
-    var promise: GetPromises? = null,
+    var promise: MutableStateFlow<GetPromises?> = MutableStateFlow(null),
     var promisesProgress: PromisesProgress? = null,
     var interactionsDetail: List<InteractionsDetail>? = null,
     var promisesInteractions: GetPromisesInteractions? = null,
