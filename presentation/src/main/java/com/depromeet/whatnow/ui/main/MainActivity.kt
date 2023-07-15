@@ -59,4 +59,9 @@ class MainActivity : ComponentActivity() {
             context.startActivity(intent)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getPromisesUsersStatus()
+    }
 }
