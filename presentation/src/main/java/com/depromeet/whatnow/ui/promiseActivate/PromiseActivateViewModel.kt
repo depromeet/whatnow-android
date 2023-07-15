@@ -89,15 +89,9 @@ class PromiseActivateViewModel @Inject constructor(
     }
 
     fun getPromises() {
-        Log.d("ttt promiseId:", promiseId.value.toString())
-
         launch {
             getPromisesUseCase(promise_id = promiseId.value).onSuccess {
-                Log.d("ttt getPromisesUseCase onSuccess", it.toString())
                 _uiState.value.promise.value = it
-                Log.d("ttt", _uiState.value.promise.value.toString())
-
-
             }.onFailure {
                 Log.d("ttt getPromisesUseCase onFailure", it.toString())
             }
@@ -117,7 +111,6 @@ class PromiseActivateViewModel @Inject constructor(
 
         launch {
             getPromisesUsersUseCase(promise_id = promiseId.value).onSuccess {
-                Log.d("ttt onSuccess", it.toString())
                 _uiState.value.promisesUsersStatusList.value = it
             }.onFailure {
                 Log.d("ttt onFailure", it.toString())
@@ -155,7 +148,6 @@ class PromiseActivateViewModel @Inject constructor(
             getPromisesInteractionsDetailUseCase(
                 promiseId = promiseId.value, interactionType = interactionType
             ).onSuccess {
-                Log.d("ttt getPromisesInteractionsDetail onSuccess", it.toString())
                 _uiState.value.interactionsDetail = it.interactions
             }.onFailure {
                 Log.d("ttt getPromisesInteractionsDetail onFailure", it.toString())

@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
@@ -89,7 +88,6 @@ class PromiseActivateActivity : BaseActivity() {
             locationCallback = object : LocationCallback() {
                 override fun onLocationResult(p0: LocationResult) {
                     for ((i, location) in p0.locations.withIndex()) {
-                        Log.d("location: ", "${location.latitude}, ${location.longitude}")
                         setLastLocation(location)
                         viewModel.putPromisesUsersLocation(
                             CoordinateVo(
@@ -123,7 +121,6 @@ class PromiseActivateActivity : BaseActivity() {
     companion object {
         fun startActivity(context: Context, promiseId: Int?) {
             val intent = Intent(context, PromiseActivateActivity::class.java)
-            Log.d("ttt a", promiseId.toString())
             intent.putExtra("promiseId", promiseId)
             context.startActivity(intent)
         }

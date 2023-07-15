@@ -3,7 +3,6 @@ package com.depromeet.whatnow.ui.home
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.RequiresApi
@@ -105,8 +104,6 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp)
         ) {
-
-            Log.d("ttttteset", promisesUsersStatus.isEmpty().toString())
 
             if (promisesUsersStatus.isEmpty()) {
                 when (currentStatus) {

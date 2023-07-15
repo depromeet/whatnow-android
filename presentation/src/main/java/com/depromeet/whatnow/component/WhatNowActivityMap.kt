@@ -248,7 +248,6 @@ fun WhatNowActivityMap(
 
                         Icon(
                             modifier = modifier.clickable {
-                                Log.d("ttt", promisesUsersStatus.first().promiseId.toString())
                                 PromiseActivateActivity.startActivity(
                                     context = context,
                                     promisesUsersStatus.first().promiseId

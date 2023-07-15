@@ -1,6 +1,5 @@
 package com.depromeet.whatnow.data.source
 
-import android.util.Log
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.model.request.PromiseRequest
 import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
@@ -51,8 +50,6 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     override suspend fun getPromisesUsersStatus(status: String): Result<List<GetPromisesUsersStatusResponse>> =
         runCatching {
             apiService.getPromisesUsersStatus(status = status).data
-        }.onFailure {
-            Log.d("ttt", it.toString())
         }
 
     override suspend fun getPromisesUsersSeparated(): Result<PromisesUsersSeparatedListResponse> =

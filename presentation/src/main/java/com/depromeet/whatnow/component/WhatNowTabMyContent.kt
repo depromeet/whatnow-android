@@ -137,7 +137,6 @@ fun WhatNowTabMyContent(
                 shape = RoundedCornerShape(16.dp),
                 onClick = {
                     viewModel.onClickedMyStatus()
-                    Log.d("ttt", isClickedMyStatus.toString())
                 }) {
                 Box(
                     contentAlignment = Alignment.Center,

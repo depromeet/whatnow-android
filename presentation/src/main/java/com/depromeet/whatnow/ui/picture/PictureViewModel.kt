@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.ImageAnalysis
@@ -151,7 +150,6 @@ class PictureViewModel @Inject constructor() : BaseViewModel() {
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    Log.d("ttt", exception.message.toString())
                     Toast.makeText(
                         context,
                         "some error occurred ${exception.message}",

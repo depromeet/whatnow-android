@@ -280,8 +280,6 @@ fun PictureScreen(
                         itemsIndexed(pictureUploadText) { index, item ->
                             WhatNowPictureUploadText(item = item, modifier = Modifier, onClick = {
                                 viewModel.onClickedPictureUploadText(index)
-                                Log.d("ttt", pictureUploadText.toString())
-
                             })
                         }
                     }
