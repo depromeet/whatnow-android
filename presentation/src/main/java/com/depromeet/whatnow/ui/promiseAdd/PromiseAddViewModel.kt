@@ -99,6 +99,8 @@ class PromiseAddViewModel @Inject constructor(
     }
 
     fun getPromiseDetail(
+        screenCalendar: String,
+        screenTime: String,
         calendar: String,
         time: String,
         place: String,
@@ -122,8 +124,8 @@ class PromiseAddViewModel @Inject constructor(
                 .onFailure { Log.d("yw", "약속 만들기 실패 $it") }
         }
         _uiState.value = PromiseAddState.DetailPromise
-        _selectedCalendar.update { calendar }
-        _selectedTime.update { time }
+        _selectedCalendar.update { screenCalendar }
+        _selectedTime.update { screenTime }
         _selectedPlace.update { place }
     }
 

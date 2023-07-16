@@ -8,6 +8,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,7 +58,7 @@ fun SplashPage(
                     state = pagerState,
                     modifier = Modifier
                         .weight(1f)
-                        .fillMaxWidth()
+
                 ) { page ->
                     if (page == 1) {
                         SplashPageItem(items[page], modifier = Modifier, test = true)
@@ -64,19 +66,19 @@ fun SplashPage(
                         SplashPageItem(items[page], modifier = Modifier, test = false)
                     }
                 }
+
+
                 HorizontalPagerIndicator(
                     pagerState = pagerState,
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally),
+                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 10.dp, bottom = 17.dp),
                     activeColor = WhatNowTheme.colors.gray900,
                     inactiveColor = WhatNowTheme.colors.gray200,
                 )
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(360 / 20f)
-                )
+
                 KakaoLoginButton(login)
+
             }
         }
     )
@@ -98,11 +100,13 @@ fun SplashPage(
 @Composable
 fun KakaoLoginButton(onClick: () -> Unit) {
     Image(
-        painter = painterResource(id = R.drawable.kakaologin),
+        painter = painterResource(id = R.drawable.kakaologinlogo),
         contentDescription = null,
         modifier = Modifier
-            .size(width = 326.dp, height = 52.dp)
+            .fillMaxWidth()
+            .padding(16.dp,0.dp,16.dp,32.dp)
+            .aspectRatio(328/52f)
+
             .clickable { onClick() }
     )
-    Spacer(modifier = Modifier.height(32.dp))
 }
