@@ -2,6 +2,7 @@ package com.depromeet.whatnow.ui.promiseAdd
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.widget.CalendarView
@@ -379,13 +380,13 @@ fun Calendar(onDateChanged: (String) -> Unit, onDateData: (String) -> Unit) {
 
 
                     // 현재 날짜로 DatePicker 초기화
-                    val calendar = Calendar.getInstance()
+                    val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"))
                     val year = calendar.get(Calendar.YEAR)
-                    val month = calendar.get(Calendar.MONTH)
+                    val month = calendar.get(Calendar.MONTH) + 1
                     val day = calendar.get(Calendar.DAY_OF_MONTH)
 
                     // 날짜를 바꾸지 않으면 현재 날짜 입력
-                    val selectedDateString = String.format("%d월 %d일 약속", month + 1, day)
+                    val selectedDateString = String.format("%d월 %d일 약속", month, day)
 
                     val formattedMonth =
                         if (month >= 10) month.toString() else "0$month"
@@ -577,15 +578,32 @@ fun setClock(onTimeChanged: (String) -> Unit, onTimeData: (String) -> Unit) {
                     LayoutInflater.from(themedContext).inflate(R.layout.item_promise_clock, null)
 
                 val timePicker = view.findViewById<TimePicker>(R.id.timePicker)
+                val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"))
+                val hour = calendar[Calendar.HOUR_OF_DAY]
+                val minute = calendar[Calendar.MINUTE]
+
+                Log.d("yw", "hour = $hour")
+                Log.d("yw", "minute = $minute")
+
+                timePicker.hour = hour
+                timePicker.minute = minute
 
                 // 바꾸지 않고 바로 하면 현재 시각 입력
+
+                val hourString =
+                    if (timePicker.hour >= 10) timePicker.hour.toString() else "0${timePicker.hour}"
+                val minuteString =
+                    if (timePicker.minute >= 10) timePicker.minute.toString() else "0${timePicker.minute}"
+                val onTimeData = "$hourString:$minuteString:00"
+
+                onTimeData(onTimeData)
                 onTimeChanged(clockFormatting(timePicker.hour, timePicker.minute))
 
                 timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
 
                     val hourString = if (hourOfDay >= 10) hourOfDay.toString() else "0$hourOfDay"
                     val minuteString = if (minute >= 10) minute.toString() else "0$minute"
-                    val onTimeData = "$hourString:$minuteString"
+                    val onTimeData = "$hourString:$minuteString:00"
 
 
                     onTimeData(onTimeData)
@@ -599,6 +617,7 @@ fun setClock(onTimeChanged: (String) -> Unit, onTimeData: (String) -> Unit) {
 
 // 시각 포매팅
 fun clockFormatting(hourOfDay: Int, minute: Int): String {
+
     val formattedHour = if (hourOfDay >= 12) {
         val hour = if (hourOfDay > 12) hourOfDay - 12 else hourOfDay
         String.format("%02d", hour)

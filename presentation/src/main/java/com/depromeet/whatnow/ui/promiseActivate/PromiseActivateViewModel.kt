@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.Calendar
+import java.util.TimeZone
 import javax.inject.Inject
 
 @HiltViewModel
@@ -198,11 +199,12 @@ class PromiseActivateViewModel @Inject constructor(
 
     fun timerStart(date: String) {
 
-        val deadLine = Calendar.getInstance()
+        val deadLine = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"))
         deadLine.add(Calendar.HOUR, date.substring(11, 13).toInt())
         deadLine.add(Calendar.MINUTE, date.substring(14, 16).toInt())
 
-        val diffSec: Long = (deadLine.timeInMillis - Calendar.getInstance().timeInMillis)
+        val diffSec: Long =
+            (deadLine.timeInMillis - Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul")).timeInMillis)
         lateinit var mTimer: CountDownTimer
 
         mTimer = object : CountDownTimer(diffSec, 1000) {
