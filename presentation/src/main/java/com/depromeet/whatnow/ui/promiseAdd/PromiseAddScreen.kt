@@ -69,16 +69,14 @@ fun PromiseScreen(
     val selectedCalendar = remember { mutableStateOf("") }
     val selectedTime = remember { mutableStateOf("") }
     val selectedPlace = remember { mutableStateOf("") }
-    val selectedPlaceLatitude = remember { mutableStateOf(0.0) }
-    val selectedPlaceLongitude = remember { mutableStateOf(0.0) }
+    val selectedPlaceLatitude = remember { mutableDoubleStateOf(0.0) }
+    val selectedPlaceLongitude = remember { mutableDoubleStateOf(0.0) }
 
     // 서버용 포맷 데이터
     val calendarData = remember { mutableStateOf("") }
     val timeData = remember { mutableStateOf("") }
 
     val buttonText = remember { mutableStateOf("다음") }
-
-    val timeCompare = remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -106,17 +104,17 @@ fun PromiseScreen(
                             isPlaceDataSet = true,
                         )
                     } else if (screenState.isSetDateValue && screenState.isClockDataSet && screenState.isPlaceDataSet && selectedPlace.value == "") {
-//                        if (selectedPlace.value != "") {
-//                            screenState = screenState.copy(
-//                                isClockVisible = false,
-//                                isPlaceVisible = false
-//                            )
-//                            buttonText.value = "만들기"
-//                            viewModel.getLocationMap(selectedPlaceLatitude.value, selectedPlaceLongitude.value)
-//                        }
+                        Toast.makeText(
+                            context,
+                            "장소를 입력해 주세요",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        // 장소를 검색했을때는 그냥 다음 버튼을 클릭하면 안돼고 장소를 선택해야 넘어가도록
                     } else {
                         if (!isTimeBeforeCurrentTime(calendarData.value + "T" + timeData.value)) {
                             viewModel.getPromiseDetail(
+                                selectedCalendar.value,
+                                selectedTime.value,
                                 calendarData.value,
                                 timeData.value,
                                 selectedPlace.value,
@@ -144,12 +142,13 @@ fun PromiseScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Column(
                 modifier = Modifier
-                    .verticalScroll(rememberScrollState())
+
             ) {
                 if (screenState.isSetDateValue) {
                     setMakeBox(
@@ -173,6 +172,7 @@ fun PromiseScreen(
                 } else {
                     viewModel.getTurnOffLocationMap()
                     viewModel.turnOffLocationListUi()
+                    selectedPlace.value = ""
                     Calendar(
                         onDateChanged = {
                             selectedCalendar.value = it
@@ -207,6 +207,7 @@ fun PromiseScreen(
                         onClick = {
                             viewModel.getTurnOffLocationMap()
                             viewModel.turnOffLocationListUi()
+                            selectedPlace.value = ""
                             screenState = screenState.copy(
                                 isSetDateValue = true,
                                 isClockVisible = true,
@@ -237,6 +238,9 @@ fun PromiseScreen(
                 if (!screenState.isPlaceDataSet && !screenState.isPlaceVisible) {
                     setMakeBox(
                         onClick = {
+                            viewModel.getTurnOffLocationMap()
+                            viewModel.turnOffLocationListUi()
+                            selectedPlace.value = ""
                             screenState = screenState.copy(
                                 isSetDateValue = true,
                                 isClockVisible = false,
@@ -254,6 +258,9 @@ fun PromiseScreen(
                 } else if (screenState.isPlaceDataSet && !screenState.isPlaceVisible) {
                     setMakeBox(
                         onClick = {
+                            viewModel.getTurnOffLocationMap()
+                            viewModel.turnOffLocationListUi()
+                            selectedPlace.value = ""
                             screenState = screenState.copy(
                                 isSetDateValue = true,
                                 isClockVisible = false,
@@ -293,7 +300,9 @@ fun PromiseScreen(
                 viewModel.getLocationMap(selectedPlaceLatitude.value, selectedPlaceLongitude.value)
             })
         }
+        Spacer(modifier = Modifier.height(16.dp))
     }
+
     if (showDialog) {
         promiseResetDialog(onDismiss = {
             viewModel.promiseReset(false)
@@ -368,8 +377,7 @@ fun Calendar(onDateChanged: (String) -> Unit, onDateData: (String) -> Unit) {
             AndroidView(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .widthIn(max = 50.dp) // 오른쪽 부분을 자르기 위한 너비 설정
-                    .clip(RoundedCornerShape(16.dp, 16.dp, 16.dp, 16.dp)),
+                    .clip(RoundedCornerShape(16.dp)),
                 factory = { context ->
                     val themedContext = ContextThemeWrapper(context, R.style.CreateProfileTheme)
                     val view = LayoutInflater.from(themedContext)
@@ -445,7 +453,7 @@ fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: I
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .height(74.dp)
+            .aspectRatio(328 / 74f)
             .background(
                 color = WhatNowTheme.colors.whatNowBlack,
                 shape = RoundedCornerShape(8.dp)
@@ -456,13 +464,17 @@ fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: I
                 .fillMaxSize()
         ) {
             Text(
-                modifier = Modifier.padding(top = 8.dp, start = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp),
                 text = LocalContext.current.getString(titleResId),
                 style = WhatNowTheme.typography.body4,
                 color = Color.White
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(312 / 10f))
 
             Box(
                 modifier = Modifier
@@ -529,7 +541,8 @@ fun SearchPlaceList(place: PromiseAddPlace, onClick: () -> Unit) {
     ) {
         Card(
             modifier = Modifier
-                .height(72.dp)
+                .fillMaxWidth()
+                .aspectRatio(360 / 72f)
                 .clickable { onClick() },
             colors = CardDefaults.cardColors(containerColor = WhatNowTheme.colors.gray50)
         ) {
@@ -651,7 +664,7 @@ fun setMakeBox(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(55.dp)
+            .aspectRatio(328 / 56f)
             .border(
                 width = if (isSelected) 0.dp else 0.5.dp,
                 color = borderColor,

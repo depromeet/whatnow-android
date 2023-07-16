@@ -3,6 +3,7 @@ package com.depromeet.whatnow.ui.splashlogin
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
@@ -58,7 +59,7 @@ class SplashActivity : BaseActivity() {
 
         // 키 해쉬값
         val keyHash = Utility.getKeyHash(this@SplashActivity)
-
+        Log.d("yw","해쉬값 : $keyHash")
         kakaoLogin.login(this@SplashActivity)
             .onSuccess {
                 viewModel.login(it.accessToken, it.id_token)
