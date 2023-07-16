@@ -4,6 +4,7 @@ import com.depromeet.whatnow.data.model.BaseResponse
 import com.depromeet.whatnow.data.model.request.*
 import com.depromeet.whatnow.data.model.response.*
 import com.depromeet.whatnow.domain.model.CoordinateVo
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -231,4 +232,20 @@ interface ApiService {
         @Path("interactionType") interactionType: String,
     ): BaseResponse<PromisesInteractionsDetailResponse>
 
+    @GET(API.IMAGE.getImagesUsersMePresignedUrl)
+    suspend fun getImagesUsersMePresignedUrl(
+        @Query("fileExtension") extension: String
+    ): GetImagePresignedUrlResponse
+
+    @POST(API.IMAGE.postImagesUsersMe)
+    suspend fun postImagesUsersMe(
+        @Query("imageKey") imageKey: String,
+        @Query("fileExtension") extension: String
+    ): PostImagesUsersMeResponse
+
+    @POST
+    suspend fun uploadImage(
+        @Url url: String,
+        @Body body: RequestBody
+    )
 }

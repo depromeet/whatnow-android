@@ -3,9 +3,12 @@ package com.depromeet.whatnow.data.repo
 import com.depromeet.whatnow.data.model.response.toDomain
 import com.depromeet.whatnow.data.model.toDomain
 import com.depromeet.whatnow.data.source.UsersRemoteDataSource
+import com.depromeet.whatnow.domain.model.GetImagePresignedUrl
+import com.depromeet.whatnow.domain.model.PostImagesUsersMe
 import com.depromeet.whatnow.domain.model.PromisesImages
 import com.depromeet.whatnow.domain.model.UsersProfile
 import com.depromeet.whatnow.domain.repo.UsersRepository
+import java.io.File
 import javax.inject.Inject
 
 internal class UsersRepositoryImpl @Inject constructor(
@@ -28,4 +31,19 @@ internal class UsersRepositoryImpl @Inject constructor(
     override suspend fun logout(): Result<Unit> = usersRemoteDataSource.logout()
 
     override suspend fun withdraw(): Result<Unit> = usersRemoteDataSource.withdraw()
+
+    override suspend fun getImagePresignedUrl(extension: String): Result<GetImagePresignedUrl> {
+        return usersRemoteDataSource.getImagePresignedUrl(extension).mapCatching { it.toDomain() }
+    }
+
+    override suspend fun postImagePresignedUrl(url: String, file: File): Result<Unit> {
+        return usersRemoteDataSource.postImagePresignedUrl(url, file)
+    }
+
+    override suspend fun postImageUsersMe(
+        imageKey: String,
+        extension: String
+    ): Result<PostImagesUsersMe> {
+        return usersRemoteDataSource.
+    }
 }
