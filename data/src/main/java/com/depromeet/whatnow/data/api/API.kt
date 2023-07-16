@@ -22,7 +22,6 @@ class API {
         const val getUsersMe = BASE + "me"
         const val postUsersMeImageSuccess = BASE + "me/images/success/{imageKey}"
         const val getUsersMeImages = BASE + "me/images"
-
     }
 
     object PROMISE {
@@ -56,5 +55,11 @@ class API {
     object LOCATION {
         private const val BASE = "/v1/"
         const val getLocation = BASE + "location"
+    }
+
+    object IMAGE {
+        private const val BASE = "/v1/images/"
+        const val postImagesUsersMe = BASE + "{imageKey}/users/me"
+        const val getImagesUsersMePresignedUrl = BASE + "users/me/presigned-url"
     }
 }

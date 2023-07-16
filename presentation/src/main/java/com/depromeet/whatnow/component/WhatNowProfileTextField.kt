@@ -49,16 +49,17 @@ fun WhatNowProfileTextField(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Spacer(modifier = Modifier.width(24.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
                     Box(
                         modifier = Modifier.weight(1f),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Alignment.CenterStart
                     ) {
                         if (value.isEmpty()) {
                             Text(
                                 text = stringResource(id = R.string.profile_textfield_placeholder),
                                 style = WhatNowTheme.typography.body1,
-                                color = WhatNowTheme.colors.gray400
+                                color = WhatNowTheme.colors.gray400,
+                                modifier = Modifier.align(Alignment.Center)
                             )
                         }
                         innerTextField()
