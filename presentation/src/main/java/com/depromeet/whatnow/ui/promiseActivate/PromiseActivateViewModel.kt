@@ -4,7 +4,6 @@ import android.os.CountDownTimer
 import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.model.CoordinateVo
-import com.depromeet.whatnow.domain.model.PromisesUsersStatus
 import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsDetailUseCase
 import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsUseCase
 import com.depromeet.whatnow.domain.usecase.GetPromisesUseCase
@@ -100,15 +99,15 @@ class PromiseActivateViewModel @Inject constructor(
     }
 
     fun getPromisesUsers() {
-        _uiState.value.promisesUsersStatusList.value = listOf(
-            PromisesUsersStatus(
-                promiseId = 1,
-                mainUserId = 2,
-                userLocation = CoordinateVo(37.516152086, 127.019497385),
-                promiseUserType = "READY",
-                promiseProgress = "SHOWER"
-            )
-        )
+//        _uiState.value.promisesUsersStatusList.value = listOf(
+//            PromisesUsersStatus(
+//                promiseId = 1,
+//                mainUserId = 2,
+//                userLocation = CoordinateVo(37.516152086, 127.019497385),
+//                promiseUserType = "READY",
+//                promiseProgress = "SHOWER"
+//            )
+//        )
 
         launch {
             getPromisesUsersUseCase(promise_id = promiseId.value).onSuccess {

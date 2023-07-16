@@ -67,10 +67,14 @@ class HomeViewModel @Inject constructor(
                 } else {
                     when (it.first().promiseUsers.first().promiseUserType) {
                         "READY" -> {
-                            checkedPromise(
-                                it.first().promiseId,
-                                it.first().endTime
-                            )
+                            if (it.first().promiseUsers.size == 1) HomeActivateStatus.InActivity
+                            else {
+                                checkedPromise(
+                                    it.first().promiseId,
+                                    it.first().endTime
+                                )
+                            }
+
                         }
 
                         "WAIT" -> _uiState.value.currentStatus.value = HomeActivateStatus.Wait

@@ -58,6 +58,9 @@ fun MainScreen(
             )
         },
     ) { innerPadding ->
-        HomeScreen(modifier = Modifier.padding(innerPadding))
+        HomeScreen(
+            modifier = Modifier.padding(innerPadding),
+            startHistoryActivity = startHistoryActivity
+        )
     }
 }

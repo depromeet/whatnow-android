@@ -47,6 +47,7 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
+    startHistoryActivity: () -> Unit,
 ) {
     val context = LocalContext.current
     val isRefresh by viewModel.isRefresh.collectAsState()
@@ -135,8 +136,7 @@ fun HomeScreen(
                             )
                             Icon(
                                 modifier = Modifier
-                                    .align(Alignment.CenterEnd)
-                                    .clickable { },
+                                    .align(Alignment.CenterEnd),
                                 painter = painterResource(id = R.drawable.arrow_forward_ios_24),
                                 contentDescription = null,
                                 tint = if (promisesUsersStatus.isEmpty()) WhatNowTheme.colors.gray400
@@ -171,7 +171,7 @@ fun HomeScreen(
                     Icon(
                         modifier = Modifier
                             .align(Alignment.CenterEnd)
-                            .clickable { },
+                            .clickable { startHistoryActivity() },
                         painter = painterResource(id = R.drawable.arrow_forward_ios_24),
                         contentDescription = null,
                         tint = if (promisesUsersStatus.isEmpty()) WhatNowTheme.colors.gray400
