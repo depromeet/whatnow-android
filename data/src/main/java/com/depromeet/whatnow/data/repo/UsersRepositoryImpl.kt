@@ -44,6 +44,21 @@ internal class UsersRepositoryImpl @Inject constructor(
         imageKey: String,
         extension: String
     ): Result<PostImagesUsersMe> {
-        return usersRemoteDataSource.
+        return usersRemoteDataSource.postImageUsersMe(imageKey, extension)
+            .mapCatching { it.toDomain() }
+    }
+
+    override suspend fun patchUsersProfile(
+        username: String,
+        profileImageUrl: String,
+        imageKey: String,
+        isDefaultImage: Boolean
+    ): Result<UsersProfile> {
+        return usersRemoteDataSource.patchUsersProfile(
+            username,
+            profileImageUrl,
+            imageKey,
+            isDefaultImage
+        ).mapCatching { it.toDomain() }
     }
 }

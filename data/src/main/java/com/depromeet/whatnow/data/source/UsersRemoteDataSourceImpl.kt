@@ -1,6 +1,7 @@
 package com.depromeet.whatnow.data.source
 
 import com.depromeet.whatnow.data.api.ApiService
+import com.depromeet.whatnow.data.model.request.PatchUsersProfileRequest
 import com.depromeet.whatnow.data.model.response.GetImagePresignedUrlResponse
 import com.depromeet.whatnow.data.model.response.PostImagesUsersMeResponse
 import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
@@ -55,5 +56,21 @@ internal class UsersRemoteDataSourceImpl @Inject constructor(
         extension: String
     ): Result<PostImagesUsersMeResponse> = runCatching {
         apiService.postImagesUsersMe(imageKey, extension)
+    }
+
+    override suspend fun patchUsersProfile(
+        username: String,
+        profileImageUrl: String,
+        imageKey: String,
+        isDefaultImage: Boolean
+    ): Result<UsersProfileResponse> = runCatching {
+        apiService.patchUsersProfile(
+            PatchUsersProfileRequest(
+                username,
+                profileImageUrl,
+                isDefaultImage,
+                imageKey
+            )
+        ).data
     }
 }

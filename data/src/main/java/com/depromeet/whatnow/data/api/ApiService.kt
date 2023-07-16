@@ -52,7 +52,7 @@ interface ApiService {
     // 사용자 프로필 수정
     @PATCH(API.USER.patchUsersProfile)
     suspend fun patchUsersProfile(
-        @Body body: UsersProfileRequest,
+        @Body body: PatchUsersProfileRequest,
     ): BaseResponse<UsersProfileResponse>
 
     // fcm 토큰 수정

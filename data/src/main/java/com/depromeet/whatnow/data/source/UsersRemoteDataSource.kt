@@ -23,4 +23,11 @@ interface UsersRemoteDataSource {
     ): Result<PostImagesUsersMeResponse>
 
     suspend fun postImagePresignedUrl(url: String, file: File): Result<Unit>
+
+    suspend fun patchUsersProfile(
+        nickname: String,
+        profileImageUrl: String,
+        imageKey: String,
+        isDefaultImage: Boolean
+    ): Result<UsersProfileResponse>
 }

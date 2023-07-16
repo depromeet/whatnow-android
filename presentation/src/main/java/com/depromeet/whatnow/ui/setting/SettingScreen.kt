@@ -105,7 +105,11 @@ fun SettingScreen(
                     onBack = { viewModel.setEditMode(false) },
                     titleRes = R.string.edit_profile,
                     buttonTextRes = R.string.done,
-                    onClickButton = { viewModel.setEditMode(false) }
+                    onClickButton = {
+                        viewModel.updateProfile(context)
+                        viewModel.refresh()
+                        viewModel.setEditMode(false)
+                    }
                 )
             } else {
                 WhatNowSimpleTopBar(

@@ -23,4 +23,11 @@ interface UsersRepository {
     ): Result<PostImagesUsersMe>
 
     suspend fun postImagePresignedUrl(url: String, file: File): Result<Unit>
+
+    suspend fun patchUsersProfile(
+        username: String,
+        profileImageUrl: String,
+        imageKey: String,
+        isDefaultImage: Boolean
+    ): Result<UsersProfile>
 }
