@@ -30,13 +30,14 @@ import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.TimeZone
 
 @Composable
 fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsersStatus) {
 
     var date = ""
 
-    var today = Calendar.getInstance()
+    var today = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"))
 
     val promiseMonth = promisesUsersStatusItem.endTime.substring(5, 7)
     val promiseDay = promisesUsersStatusItem.endTime.substring(8, 10)
@@ -53,9 +54,9 @@ fun WhatNowPromise(modifier: Modifier, promisesUsersStatusItem: GetPromisesUsers
         "${promiseMonth.toInt()}/$promiseDay"
 
     } else {
-        if(calculationDate == 0L){
+        if (calculationDate == 0L) {
             "오늘"
-        }else{
+        } else {
             "D-${
                 calculationDate
             }"

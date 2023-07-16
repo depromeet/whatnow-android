@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.Calendar
+import java.util.TimeZone
 import javax.inject.Inject
 
 @HiltViewModel
@@ -112,11 +113,12 @@ class HomeViewModel @Inject constructor(
 
     fun timerStart(date: String) {
 
-        val deadLine = Calendar.getInstance()
+        val deadLine = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"))
         deadLine.add(Calendar.HOUR, date.substring(11, 13).toInt())
         deadLine.add(Calendar.MINUTE, date.substring(14, 16).toInt())
 
-        val diffSec: Long = (deadLine.timeInMillis - Calendar.getInstance().timeInMillis)
+        val diffSec: Long =
+            (deadLine.timeInMillis - Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul")).timeInMillis)
         lateinit var mTimer: CountDownTimer
         mTimer = object : CountDownTimer(diffSec, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -141,7 +143,8 @@ class HomeViewModel @Inject constructor(
 
 fun getTime(deadLine: Calendar): Pair<String, String> {
 
-    val diffSec: Long = (deadLine.timeInMillis - Calendar.getInstance().timeInMillis) / 1000
+    val diffSec: Long =
+        (deadLine.timeInMillis - Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul")).timeInMillis) / 1000
 
     val hourTime = Math.floor((diffSec / 3600).toDouble()).toInt()
     val minTime = Math.floor(((diffSec - 3600 * hourTime) / 60).toDouble()).toInt()
