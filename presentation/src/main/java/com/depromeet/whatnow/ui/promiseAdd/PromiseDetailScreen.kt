@@ -132,7 +132,7 @@ fun PromiseDetailScreen(
                             onClick = { goHomeClick() },
                             modifier = Modifier
                                 .fillMaxWidth(0.5f)
-                                .height(56.dp)
+                                .aspectRatio(160 / 56f)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         WhatNowButton(
@@ -141,7 +141,7 @@ fun PromiseDetailScreen(
                             onClick = { inviteClick() },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(56.dp)
+                                .aspectRatio(160 / 56f)
                         )
                     }
                 }

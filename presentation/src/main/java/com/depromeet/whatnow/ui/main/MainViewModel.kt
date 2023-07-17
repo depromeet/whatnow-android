@@ -5,6 +5,7 @@ import android.webkit.CookieManager
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.usecase.GetJwtTokenUseCase
 import com.depromeet.whatnow.domain.usecase.GetPromisesUsersStatusUseCase
+import com.depromeet.whatnow.domain.usecase.PostUsersJoinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +17,7 @@ class MainViewModel @Inject constructor(
     private val getJwtTokenUseCase: GetJwtTokenUseCase,
     private val getPromisesUsersStatusUseCase: GetPromisesUsersStatusUseCase,
 //    private val getPromisesActiveUseCase: GetPromisesActiveUseCase,
-//    private val postUsersJoinUseCase: PostUsersJoinUseCase,
+    private val postUsersJoinUseCase: PostUsersJoinUseCase,
 ) : BaseViewModel() {
 
     private val _isRefresh = MutableStateFlow(false)
@@ -26,7 +27,6 @@ class MainViewModel @Inject constructor(
     val uiState: StateFlow<MainState> = _uiState.asStateFlow()
 
     init {
-
         manageCookie()
         getPromisesUsersStatus()
     }
@@ -44,7 +44,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-
     fun getPromisesUsersStatus() {
         launch {
             getPromisesUsersStatusUseCase(status = "BEFORE").onSuccess {
@@ -52,6 +51,17 @@ class MainViewModel @Inject constructor(
             }.onFailure { Log.d("ttt onFailure", it.toString()) }
         }
 
+    }
+
+    fun postUserJoin(inviteCode: String) {
+        launch {
+            postUsersJoinUseCase(inviteCode)
+                .onSuccess {
+                    getPromisesUsersStatus()
+                    Log.d("yw", "성공 $it")
+                }
+                .onFailure { Log.d("yw", "실패 $it") }
+        }
     }
 
     fun refresh() {
