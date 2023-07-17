@@ -1,18 +1,7 @@
 package com.depromeet.whatnow.ui.promiseAdd
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
@@ -39,7 +28,7 @@ import com.depromeet.whatnow.ui.theme.WhatNowTheme
 fun PromiseDetailScreen(
     viewModel: PromiseAddViewModel,
     goHomeClick: () -> Unit,
-    inviteClick: () -> Unit
+    inviteClick: () -> Unit,
 ) {
     val selectedCalendar = viewModel.selectedCalendar.collectAsState()
     val selectedTime = viewModel.selectedTime.collectAsState()
@@ -51,20 +40,22 @@ fun PromiseDetailScreen(
             .fillMaxHeight()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Bottom
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Spacer(modifier = Modifier.fillMaxWidth().aspectRatio(360/40f))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(360 / 40f))
 
             Image(
                 painter = painterResource(id = R.drawable.promise_detail),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
-                    .aspectRatio(167/180f)
+                    .aspectRatio(167 / 180f)
 
             )
             Column(
@@ -86,7 +77,9 @@ fun PromiseDetailScreen(
                     textAlign = TextAlign.Center
                 )
             }
-            Spacer(modifier = Modifier.fillMaxWidth().aspectRatio(360/44f))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(360 / 44f))
         }
         Column(
             modifier = Modifier
@@ -99,17 +92,26 @@ fun PromiseDetailScreen(
                 color = WhatNowTheme.colors.gray900,
                 textAlign = TextAlign.Start
             )
-            Spacer(modifier = Modifier.fillMaxWidth().aspectRatio(360/16f))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(360 / 16f))
             makeBox(R.drawable.ic_calendar, R.string.promise_calendar, selectedCalendar.value)
-            Spacer(modifier = Modifier.fillMaxWidth().aspectRatio(360/24f))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(360 / 24f))
             makeBox(R.drawable.clock2, R.string.promise_time, selectedTime.value)
-            Spacer(modifier = Modifier.fillMaxWidth().aspectRatio(360/24f))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(360 / 24f))
             makeBox(R.drawable.location, R.string.promise_place, selectedPlace.value)
-            Spacer(modifier = Modifier.fillMaxWidth().aspectRatio(360/37f))
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(360 / 37f))
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             ) {
                 Column(horizontalAlignment = Alignment.End) {
                     Image(
@@ -118,9 +120,11 @@ fun PromiseDetailScreen(
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
                             .fillMaxWidth(0.66f)
-                            .aspectRatio(250/48f)
+                            .aspectRatio(250 / 48f)
                     )
-                    Spacer(modifier = Modifier.fillMaxWidth().aspectRatio(360/4f))
+                    Spacer(modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(360 / 4f))
                     Row {
                         WhatNowButton(
                             buttonColors = KnowllyButtonDefaults.textPurpleButtonColors,
@@ -143,7 +147,6 @@ fun PromiseDetailScreen(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -151,7 +154,9 @@ fun PromiseDetailScreen(
 fun makeBox(paintResource: Int, titleResource: Int, data: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().aspectRatio(360/24f)
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(360 / 24f)
     ) {
         Icon(
             painter = painterResource(id = paintResource),
