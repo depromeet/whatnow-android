@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WhatNowTheme {
+                dynamicLinksLogin()
                 MainScreen(
                     viewModel = viewModel,
                     startHistoryActivity = ::startHistoryActivity,
@@ -37,7 +38,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun asd() {
+    private fun dynamicLinksLogin() {
         Firebase.dynamicLinks
             .getDynamicLink(intent)
             .addOnSuccessListener(this) {
@@ -47,8 +48,11 @@ class MainActivity : ComponentActivity() {
                 }
 
                 if (deepLink != null && deepLink.getBooleanQueryParameter("inviteCode", false)) {
-                    val asd = deepLink.getQueryParameter("inviteCode")
-                    Toast.makeText(this, "$asd", Toast.LENGTH_SHORT).show()
+                    val inviteCode = deepLink.getQueryParameter("inviteCode")
+                    if (inviteCode != null) {
+                        viewModel.postUserJoin(inviteCode)
+                    }
+                    Toast.makeText(this, "$inviteCode", Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -56,7 +60,6 @@ class MainActivity : ComponentActivity() {
     private fun startHistoryActivity() {
         val intent = Intent(this, ArchiveActivity::class.java)
         startActivity(intent)
-        asd()
     }
 
     private fun startAlarmActivity() {

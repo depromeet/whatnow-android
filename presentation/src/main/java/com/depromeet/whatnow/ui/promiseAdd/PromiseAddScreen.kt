@@ -451,6 +451,7 @@ fun PlaceList(viewModel: PromiseAddViewModel) {
 fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: Int, iconRes: Int) {
     var text by remember { mutableStateOf("") }
     Box(
+        contentAlignment = Alignment.CenterStart,
         modifier = Modifier
             .fillMaxSize()
             .aspectRatio(328 / 74f)
@@ -472,10 +473,6 @@ fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: I
                 color = Color.White
             )
 
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(312 / 10f))
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -483,6 +480,7 @@ fun PlaceEdit(onPlaceChanged: (String) -> Unit, titleResId: Int, messageResId: I
                 contentAlignment = Alignment.Center
             ) {
                 Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start,
                     modifier = Modifier
                         .fillMaxSize()

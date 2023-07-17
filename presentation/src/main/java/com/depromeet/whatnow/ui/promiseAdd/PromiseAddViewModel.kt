@@ -6,7 +6,11 @@ import com.depromeet.whatnow.domain.model.CoordinateVo
 import com.depromeet.whatnow.domain.model.NcpMapInfoItem
 import com.depromeet.whatnow.domain.model.PlaceVo
 import com.depromeet.whatnow.domain.model.Promise
-import com.depromeet.whatnow.domain.usecase.*
+import com.depromeet.whatnow.domain.usecase.GetJwtTokenUseCase
+import com.depromeet.whatnow.domain.usecase.GetLocationUseCase
+import com.depromeet.whatnow.domain.usecase.GetUsersMeUseCase
+import com.depromeet.whatnow.domain.usecase.PostPromisesUseCase
+import com.depromeet.whatnow.domain.usecase.PostPromisesUsersCreate
 import com.naver.maps.geometry.Tm128
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,10 +58,17 @@ class PromiseAddViewModel @Inject constructor(
     private val _promiseResetPopup = MutableStateFlow(false)
     val promiseResetPopup: StateFlow<Boolean> = _promiseResetPopup.asStateFlow()
 
+    private val _inviteCode = MutableStateFlow("")
+    val inviteCode: StateFlow<String> = _inviteCode.asStateFlow()
+
+    private val _name = MutableStateFlow("")
+    val name: StateFlow<String> = _name.asStateFlow()
+
     init {
         launch {
             getUsersMeUseCase().onSuccess {
                 userId = it.id
+                _name.value = it.nickname
             }
             Log.d("yw", "엑세스 토큰 저장되어있는것 : ${getJwtTokenUseCase().getOrThrow().accessToken}")
         }
@@ -106,7 +117,10 @@ class PromiseAddViewModel @Inject constructor(
                         address = place
                     ), endTime = endTime
                 )
-            ).onSuccess { Log.d("yw", "약속 만들기 성공 ${it.inviteCode}") }
+            ).onSuccess {
+                Log.d("yw", "약속 만들기 성공 ${it.inviteCode}")
+                _inviteCode.value = it.inviteCode
+            }
                 .onFailure { Log.d("yw", "약속 만들기 실패 $it") }
         }
         _uiState.value = PromiseAddState.DetailPromise
