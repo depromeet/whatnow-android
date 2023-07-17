@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1013913042097",
+    "project_id": "dpm-whatnow",
+    "storage_bucket": "dpm-whatnow.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013913042097:android:619f40ddc12134d85c3690",
+        "android_client_info": {
+          "package_name": "com.depromeet.whatnow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013913042097-au9mpiutb7radgs7ai2h9av6c2dgj0op.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.depromeet.whatnow",
+            "certificate_hash": "e36e82c435a4c3be36d8eeb7d64f9783df560010"
+          }
+        },
+        {
+          "client_id": "1013913042097-m4eflqhfai2e2h6omeq3om0mrpj8dq0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVXZnHReV4mumStaLUCjfpK7U2LgXSndk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013913042097-m4eflqhfai2e2h6omeq3om0mrpj8dq0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
     alias(libs.plugins.secrets.gradle.plugin)
     kotlin("android")
     kotlin("kapt")
@@ -55,4 +56,10 @@ dependencies {
     kapt(libs.google.hilt.compiler)
     implementation(libs.squareup.okhttp)
     implementation(libs.squareup.okhttp.logging)
+
+    implementation("com.google.gms:google-services:4.3.15")
+    implementation("com.google.firebase:firebase-bom:32.2.0")
+    implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
+    implementation("com.google.firebase:firebase-installations:17.1.3")
+    implementation("com.google.firebase:firebase-dynamic-links-ktx:21.1.0")
 }

@@ -2,7 +2,9 @@ package com.depromeet.whatnow.ui.main
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -11,6 +13,8 @@ import com.depromeet.whatnow.ui.archive.ArchiveActivity
 import com.depromeet.whatnow.ui.promiseAdd.PromiseAddActivity
 import com.depromeet.whatnow.ui.setting.SettingActivity
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,9 +37,26 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    fun asd() {
+        Firebase.dynamicLinks
+            .getDynamicLink(intent)
+            .addOnSuccessListener(this) {
+                var deepLink: Uri? = null
+                if (it != null) {
+                    deepLink = it.link
+                }
+
+                if (deepLink != null && deepLink.getBooleanQueryParameter("inviteCode", false)) {
+                    val asd = deepLink.getQueryParameter("inviteCode")
+                    Toast.makeText(this, "$asd", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
     private fun startHistoryActivity() {
         val intent = Intent(this, ArchiveActivity::class.java)
         startActivity(intent)
+        asd()
     }
 
     private fun startAlarmActivity() {

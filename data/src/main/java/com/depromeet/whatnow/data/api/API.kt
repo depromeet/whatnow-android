@@ -49,6 +49,7 @@ class API {
         const val getPromisesInteractions = BASE + "{promiseId}/interactions"
         const val getPromisesInteractionsDetail =
             BASE + "{promiseId}/interactions/{interactionType}"
+        const val postPromisesUsersJoin = BASE + "users/join"
 
     }
 

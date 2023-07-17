@@ -1,25 +1,20 @@
 package com.depromeet.whatnow.data.model.response
 
-import com.depromeet.whatnow.domain.model.Promise
+import com.depromeet.whatnow.domain.model.PromiseDomainResponse
 import com.google.gson.annotations.SerializedName
 
 data class PromisesResponse(
     @SerializedName("title") val title: String,
     @SerializedName("mainUserId") val mainUserId: Int,
     @SerializedName("meetPlace") val meetPlace: MeetPlaceResponse,
-    @SerializedName("endTime") val endTime: String
+    @SerializedName("endTime") val endTime: String,
+    @SerializedName("inviteCode") val inviteCode: String,
 )
 
-internal fun PromisesResponse.toDomain() = Promise(
+internal fun PromisesResponse.toDomain() = PromiseDomainResponse(
     title = title,
     mainUserId = mainUserId,
     meetPlace = meetPlace.toDomain(),
-    endTime = endTime
+    endTime = endTime,
+    inviteCode = inviteCode
 )
-
-//internal fun Promise.toData() = PromisesResponse(
-//    title = title,
-//    mainUserId = mainUserId,
-//    meetPlace = meetPlace.toData(),
-//    endTime = endTime
-//)

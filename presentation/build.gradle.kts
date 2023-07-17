@@ -52,7 +52,7 @@ dependencies {
 
     implementation(libs.coil.compose)
     implementation(libs.image.cropper)
-    
+
     implementation(libs.google.hilt.android)
 
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -86,4 +86,7 @@ dependencies {
 
     //permission handling in compose
     implementation("com.google.accompanist:accompanist-permissions:0.30.0")
+
+    implementation("com.google.firebase:firebase-bom:32.2.0")
+    implementation("com.google.firebase:firebase-dynamic-links-ktx:21.1.0")
 }

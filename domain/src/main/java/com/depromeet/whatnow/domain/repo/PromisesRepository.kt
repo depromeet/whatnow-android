@@ -1,21 +1,7 @@
 package com.depromeet.whatnow.domain.repo
 
 
-import com.depromeet.whatnow.domain.model.CoordinateVo
-import com.depromeet.whatnow.domain.model.GetPromises
-import com.depromeet.whatnow.domain.model.GetPromisesInteractions
-import com.depromeet.whatnow.domain.model.GetPromisesProgress
-import com.depromeet.whatnow.domain.model.GetPromisesUsersStatus
-import com.depromeet.whatnow.domain.model.NcpMapInfo
-import com.depromeet.whatnow.domain.model.Promise
-import com.depromeet.whatnow.domain.model.PromisesImages
-import com.depromeet.whatnow.domain.model.PromisesInteractionsDetail
-import com.depromeet.whatnow.domain.model.PromisesMonthlyUserList
-import com.depromeet.whatnow.domain.model.PromisesProgress
-import com.depromeet.whatnow.domain.model.PromisesUsersCreate
-import com.depromeet.whatnow.domain.model.PromisesUsersLocation
-import com.depromeet.whatnow.domain.model.PromisesUsersSeparatedList
-import com.depromeet.whatnow.domain.model.PromisesUsersStatus
+import com.depromeet.whatnow.domain.model.*
 
 interface PromisesRepository {
     suspend fun getLocation(location: String): Result<NcpMapInfo>
@@ -24,7 +10,7 @@ interface PromisesRepository {
 
     suspend fun putPromisesUsersLocation(
         promise_id: Int,
-        userLocation: CoordinateVo
+        userLocation: CoordinateVo,
     ): Result<List<PromisesUsersLocation>>
 
     suspend fun getPromisesMonthlyUsers(year_month: String): Result<PromisesMonthlyUserList>
@@ -39,12 +25,12 @@ interface PromisesRepository {
 
     suspend fun patchPromisesProgress(
         progressCode: String,
-        promiseId: Int
+        promiseId: Int,
     ): Result<PromisesProgress>
 
     suspend fun getPromisesUsersProgress(
         promiseId: Int,
-        userId: Int
+        userId: Int,
     ): Result<PromisesProgress>
 
     suspend fun getPromisesProgress(): Result<List<GetPromisesProgress>>
@@ -52,7 +38,7 @@ interface PromisesRepository {
     suspend fun postPromisesImagesSuccess(
         promiseId: Int,
         imageKey: String,
-        imageCommentType: String
+        imageCommentType: String,
     ): Unit
 
     suspend fun getPromisesImages(
@@ -70,15 +56,17 @@ interface PromisesRepository {
 
     suspend fun getPromisesInteractionsDetail(
         promiseId: Int,
-        interactionType: String
+        interactionType: String,
     ): Result<PromisesInteractionsDetail>
 
-    suspend fun postPromises(request: Promise): Result<Promise>
+    suspend fun postPromises(request: Promise): Result<PromiseDomainResponse>
 
     suspend fun postPromisesUsers(
         promise_id: String,
         userId: Int,
-        userLocation: CoordinateVo
+        userLocation: CoordinateVo,
     ): Result<PromisesUsersCreate>
+
+    suspend fun postUsersJoin(invite_codes: String): Result<PromisesUsersCreate>
 
 }
