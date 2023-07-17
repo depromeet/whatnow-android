@@ -39,7 +39,26 @@
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="true">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="whatnow.page.link"
+                    android:path="/invite"
+                    android:scheme="https" />
+                <data
+                    android:host="whatnow.page.link"
+                    android:path="/invite"
+                    android:scheme="http" />
+
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.history.HistoryActivity"
             android:screenOrientation="portrait" />
