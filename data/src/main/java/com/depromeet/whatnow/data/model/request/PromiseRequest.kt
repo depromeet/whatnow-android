@@ -18,4 +18,3 @@ internal fun Promise.toData() = PromiseRequest(
     meetPlace = meetPlace.toData(),
     endTime = endTime
 )
-

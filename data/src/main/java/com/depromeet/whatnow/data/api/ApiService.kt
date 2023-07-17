@@ -97,13 +97,20 @@ interface ApiService {
     // 약속 조회
     @GET(API.PROMISE.getPromises)
     suspend fun getPromises(
-        @Path("promise-id") promise_id: Int
+        @Path("promise-id") promise_id: Int,
     ): BaseResponse<GetPromisesResponse>
+
+    // 약속 코드로 약속 유저 생성
+    @POST(API.PROMISE.postPromisesUsersJoin)
+    suspend fun postUsersJoin(
+        @Query("invite-codes") invite_codes: String,
+    ): BaseResponse<PromisesUsersCreateResponse>
+
 
     // 현재 약속 활성화 여부 조회
     @GET(API.PROMISE.getPromisesActive)
     suspend fun getPromisesActive(
-        @Path("promise-id") promise_id: Int
+        @Path("promise-id") promise_id: Int,
     ): BaseResponse<Boolean>
 
 
@@ -234,18 +241,18 @@ interface ApiService {
 
     @GET(API.IMAGE.getImagesUsersMePresignedUrl)
     suspend fun getImagesUsersMePresignedUrl(
-        @Query("fileExtension") extension: String
+        @Query("fileExtension") extension: String,
     ): GetImagePresignedUrlResponse
 
     @POST(API.IMAGE.postImagesUsersMe)
     suspend fun postImagesUsersMe(
         @Query("imageKey") imageKey: String,
-        @Query("fileExtension") extension: String
+        @Query("fileExtension") extension: String,
     ): PostImagesUsersMeResponse
 
     @POST
     suspend fun uploadImage(
         @Url url: String,
-        @Body body: RequestBody
+        @Body body: RequestBody,
     )
 }

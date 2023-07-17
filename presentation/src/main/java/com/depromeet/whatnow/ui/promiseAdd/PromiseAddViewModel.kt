@@ -6,11 +6,7 @@ import com.depromeet.whatnow.domain.model.CoordinateVo
 import com.depromeet.whatnow.domain.model.NcpMapInfoItem
 import com.depromeet.whatnow.domain.model.PlaceVo
 import com.depromeet.whatnow.domain.model.Promise
-import com.depromeet.whatnow.domain.usecase.GetJwtTokenUseCase
-import com.depromeet.whatnow.domain.usecase.GetLocationUseCase
-import com.depromeet.whatnow.domain.usecase.GetUsersMeUseCase
-import com.depromeet.whatnow.domain.usecase.PostPromisesUseCase
-import com.depromeet.whatnow.domain.usecase.PostPromisesUsersCreate
+import com.depromeet.whatnow.domain.usecase.*
 import com.naver.maps.geometry.Tm128
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +21,7 @@ class PromiseAddViewModel @Inject constructor(
     private val postPromisesUseCase: PostPromisesUseCase,
     private val getLocationUseCase: GetLocationUseCase,
     private val getJwtTokenUseCase: GetJwtTokenUseCase,
-    private val postPromisesUsersCreate: PostPromisesUsersCreate
+    private val postPromisesUsersCreate: PostPromisesUsersCreate,
 ) : BaseViewModel() {
 
     private var locationList: ArrayList<PromiseAddPlace> = ArrayList()
@@ -69,16 +65,6 @@ class PromiseAddViewModel @Inject constructor(
 
     }
 
-    fun testASD(a: String, b: Int, c: CoordinateVo = CoordinateVo(0.0, 0.0)) {
-        launch {
-            postPromisesUsersCreate(a, b, c).onSuccess {
-                Log.d("yw", "성공 $it")
-            }
-                .onFailure {
-                    Log.d("yw", "실패 $it")
-                }
-        }
-    }
 
     fun getTurnOffLocationMap() {
         _locationMap.value = false
@@ -120,7 +106,7 @@ class PromiseAddViewModel @Inject constructor(
                         address = place
                     ), endTime = endTime
                 )
-            ).onSuccess { Log.d("yw", "약속 만들기 성공 $it") }
+            ).onSuccess { Log.d("yw", "약속 만들기 성공 ${it.inviteCode}") }
                 .onFailure { Log.d("yw", "약속 만들기 실패 $it") }
         }
         _uiState.value = PromiseAddState.DetailPromise

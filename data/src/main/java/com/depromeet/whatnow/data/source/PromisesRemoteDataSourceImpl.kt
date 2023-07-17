@@ -2,21 +2,7 @@ package com.depromeet.whatnow.data.source
 
 import com.depromeet.whatnow.data.api.ApiService
 import com.depromeet.whatnow.data.model.request.PromiseRequest
-import com.depromeet.whatnow.data.model.response.CoordinateVoResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
-import com.depromeet.whatnow.data.model.response.LocationResponse
-import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
-import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
-import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
-import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
-import com.depromeet.whatnow.data.model.response.PromisesResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersCreateResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
+import com.depromeet.whatnow.data.model.response.*
 import com.depromeet.whatnow.domain.model.CoordinateVo
 import javax.inject.Inject
 
@@ -28,7 +14,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun putPromisesUsersLocation(
-        promise_id: Int, userLocation: CoordinateVo
+        promise_id: Int, userLocation: CoordinateVo,
     ): Result<List<PromisesUsersLocationResponse>> = runCatching {
         apiService.putPromisesUsersLocation(
             promise_id = promise_id, userLocation = userLocation
@@ -65,7 +51,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
         }
 
     override suspend fun patchPromisesProgress(
-        progressCode: String, promiseId: Int
+        progressCode: String, promiseId: Int,
     ): Result<PromisesProgressResponse> = runCatching {
         apiService.patchPromisesProgress(
             progressCode = progressCode, promiseId = promiseId
@@ -73,7 +59,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getPromisesUsersProgress(
-        promiseId: Int, userId: Int
+        promiseId: Int, userId: Int,
     ): Result<PromisesProgressResponse> = runCatching {
         apiService.getPromisesUsersProgress(
             promiseId = promiseId, userId = userId
@@ -87,7 +73,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
 
 
     override suspend fun postPromisesImagesSuccess(
-        promiseId: Int, imageKey: String, imageCommentType: String
+        promiseId: Int, imageKey: String, imageCommentType: String,
     ) {
         runCatching {
             apiService.postPromisesImagesSuccess(
@@ -97,7 +83,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getPromisesImages(
-        promiseId: Int, fileExtension: String
+        promiseId: Int, fileExtension: String,
     ): Result<PromisesImagesResponse> = runCatching {
         apiService.getPromisesImages(
             promiseId = promiseId,
@@ -106,7 +92,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun postPromisesInteractionsTarget(
-        promiseId: Int, interactionType: String, targetUserId: Int
+        promiseId: Int, interactionType: String, targetUserId: Int,
     ) {
         runCatching {
             apiService.postPromisesInteractionsTarget(
@@ -125,7 +111,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
         }
 
     override suspend fun getPromisesInteractionsDetail(
-        promiseId: Int, interactionType: String
+        promiseId: Int, interactionType: String,
     ): Result<PromisesInteractionsDetailResponse> = runCatching {
         apiService.getPromisesInteractionsDetail(
             promiseId = promiseId, interactionType = interactionType
@@ -140,7 +126,7 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
     override suspend fun postPromisesUsers(
         promise_id: String,
         userId: Int,
-        userLocation: CoordinateVoResponse
+        userLocation: CoordinateVoResponse,
     ): Result<PromisesUsersCreateResponse> =
         runCatching {
             apiService.postPromisesUsers(
@@ -148,6 +134,11 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
                 userId = userId,
                 userLocation = userLocation
             ).data
+        }
+
+    override suspend fun postUsersJoin(invite_codes: String): Result<PromisesUsersCreateResponse> =
+        runCatching {
+            apiService.postUsersJoin(invite_codes = invite_codes).data
         }
 
 

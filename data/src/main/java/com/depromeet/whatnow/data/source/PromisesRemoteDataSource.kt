@@ -2,21 +2,7 @@ package com.depromeet.whatnow.data.source
 
 
 import com.depromeet.whatnow.data.model.request.PromiseRequest
-import com.depromeet.whatnow.data.model.response.CoordinateVoResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesInteractionsResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesProgressResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesResponse
-import com.depromeet.whatnow.data.model.response.GetPromisesUsersStatusResponse
-import com.depromeet.whatnow.data.model.response.LocationResponse
-import com.depromeet.whatnow.data.model.response.PromisesImagesResponse
-import com.depromeet.whatnow.data.model.response.PromisesInteractionsDetailResponse
-import com.depromeet.whatnow.data.model.response.PromisesMonthlyUsersListResponse
-import com.depromeet.whatnow.data.model.response.PromisesProgressResponse
-import com.depromeet.whatnow.data.model.response.PromisesResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersCreateResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersLocationResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersSeparatedListResponse
-import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
+import com.depromeet.whatnow.data.model.response.*
 import com.depromeet.whatnow.domain.model.CoordinateVo
 
 interface PromisesRemoteDataSource {
@@ -25,7 +11,7 @@ interface PromisesRemoteDataSource {
 
     suspend fun putPromisesUsersLocation(
         promise_id: Int,
-        userLocation: CoordinateVo
+        userLocation: CoordinateVo,
     ): Result<List<PromisesUsersLocationResponse>>
 
 
@@ -40,12 +26,12 @@ interface PromisesRemoteDataSource {
 
     suspend fun patchPromisesProgress(
         progressCode: String,
-        promiseId: Int
+        promiseId: Int,
     ): Result<PromisesProgressResponse>
 
     suspend fun getPromisesUsersProgress(
         promiseId: Int,
-        userId: Int
+        userId: Int,
     ): Result<PromisesProgressResponse>
 
     suspend fun getPromisesProgress(): Result<List<GetPromisesProgressResponse>>
@@ -53,7 +39,7 @@ interface PromisesRemoteDataSource {
     suspend fun postPromisesImagesSuccess(
         promiseId: Int,
         imageKey: String,
-        imageCommentType: String
+        imageCommentType: String,
     ): Unit
 
     suspend fun getPromisesImages(
@@ -71,7 +57,7 @@ interface PromisesRemoteDataSource {
 
     suspend fun getPromisesInteractionsDetail(
         promiseId: Int,
-        interactionType: String
+        interactionType: String,
     ): Result<PromisesInteractionsDetailResponse>
 
     suspend fun postPromises(request: PromiseRequest): Result<PromisesResponse>
@@ -79,6 +65,8 @@ interface PromisesRemoteDataSource {
     suspend fun postPromisesUsers(
         promise_id: String,
         userId: Int,
-        userLocation: CoordinateVoResponse
+        userLocation: CoordinateVoResponse,
     ): Result<PromisesUsersCreateResponse>
+
+    suspend fun postUsersJoin(invite_codes: String): Result<PromisesUsersCreateResponse>
 }
