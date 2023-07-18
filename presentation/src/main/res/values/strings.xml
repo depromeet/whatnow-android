@@ -133,4 +133,8 @@
     <string name="back_to_title">첫 화면으로 돌아가기</string>
 
     <string name="empty_image">등록된 사진이 없다!</string>
+
+    <string name="notification">알림</string>
+    <string name="today_promise">오늘 약속</string>
+    <string name="previous_promise">지난 약속</string>
 </resources>
