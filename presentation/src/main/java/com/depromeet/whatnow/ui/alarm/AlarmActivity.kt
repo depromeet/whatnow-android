@@ -21,6 +21,7 @@ class AlarmActivity : BaseActivity() {
             WhatNowTheme {
                 AlarmScreen(
                     viewModel = viewModel,
+                    onBack = ::navigateUp
                 )
             }
         }
