@@ -35,6 +35,13 @@ internal class AuthLocalDataSourceImpl @Inject constructor(
         idToken
     }
 
+    override suspend fun reset(): Result<Unit> = runCatching {
+        sharedPreferences.edit {
+            clear()
+            commit()
+        }
+    }
+
 
     companion object {
         private const val KEY_ACCESS_TOKEN = "KEY_ACCESS_TOKEN"

@@ -10,4 +10,6 @@ interface AuthLocalDataSource {
     suspend fun saveIdToken(id_token: String): Result<Unit>
 
     suspend fun getIdToken(): Result<String?>
+
+    suspend fun reset(): Result<Unit>
 }

@@ -22,6 +22,10 @@ internal class AuthRepositoryImpl @Inject constructor(
     override suspend fun getIdToken(): Result<String?> = authLocalDataSource
         .getIdToken()
 
+    override suspend fun dataReset(): Result<Unit> = authLocalDataSource
+        .reset()
+
+
     override suspend fun postAuthOauthKakaoLogin(
         id_token: String,
         usersFcmToken: UsersFcmToken,
