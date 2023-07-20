@@ -1,11 +1,9 @@
 package com.depromeet.whatnow.ui.splashlogin
 
+import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.model.Register
-import com.depromeet.whatnow.domain.usecase.GetAuthOauthKakaoRegisterValidUseCase
-import com.depromeet.whatnow.domain.usecase.GetOauthUserInfoUseCase
-import com.depromeet.whatnow.domain.usecase.LoginUseCase
-import com.depromeet.whatnow.domain.usecase.RegisterUseCase
+import com.depromeet.whatnow.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -21,6 +19,7 @@ class SplashViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
     private val getOauthUserInfoUseCase: GetOauthUserInfoUseCase,
     private val getAuthOauthKakaoRegisterValidUseCase: GetAuthOauthKakaoRegisterValidUseCase,
+    private val getIdTokenUseCase: GetIdTokenUseCase,
 ) : BaseViewModel() {
     private val _uiState = MutableStateFlow<SplashUiState>(SplashUiState.AppLoading)
     val uiState: StateFlow<SplashUiState> = _uiState.asStateFlow()
@@ -39,6 +38,17 @@ class SplashViewModel @Inject constructor(
             val job = launch { delay(MIN_SPLASH_TIME) }
             job.join()
             _uiState.value = SplashUiState.Onboarded
+
+            getIdTokenUseCase().onSuccess {
+                Log.d("yw", "Local 에 저장되어있는 아이디 토큰 = $it")
+                if (it != null) {
+                    loginUseCase(it).onSuccess {
+                        _uiState.value = SplashUiState.Signed
+                        Log.d("yw", "자동 로그인 성공")
+                    }
+                        .onFailure { Log.d("yw", "자동 로그인 실패 $it") }
+                }
+            }.onFailure { Log.d("yw", "id Token 가져오기 실패 $it") }
         }
     }
 

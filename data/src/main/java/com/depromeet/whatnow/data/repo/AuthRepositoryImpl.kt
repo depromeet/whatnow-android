@@ -17,7 +17,10 @@ internal class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
     override suspend fun getJwtToken(): Result<JwtToken> = authLocalDataSource
         .getJwtToken()
-        .map { it?.toDomain() ?: JwtToken("","")}
+        .map { it?.toDomain() ?: JwtToken("", "") }
+
+    override suspend fun getIdToken(): Result<String?> = authLocalDataSource
+        .getIdToken()
 
     override suspend fun postAuthOauthKakaoLogin(
         id_token: String,
@@ -26,7 +29,10 @@ internal class AuthRepositoryImpl @Inject constructor(
         authRemoteDataSource.postAuthOauthKakaoLogin(id_token = id_token,
             usersFcmTokenRequest = usersFcmToken.toData())
             .onSuccess {
-                Log.d("yw","로그인 엑세스토큰 it.toJwt() = ${it.toJwt()}")
+                Log.d("yw", "로그인 엑세스토큰 it.toJwt() = ${it.toJwt()}")
+                Log.d("yw", "로그인 하기위한 id_token = $id_token")
+
+                authLocalDataSource.saveIdToken(id_token = id_token)
                 authLocalDataSource.saveJwtToken(it.toJwt())
             }
             .map { it.toDomain() }
