@@ -9,8 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.Calendar
-import java.util.TimeZone
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -82,7 +81,6 @@ class HomeViewModel @Inject constructor(
                         "CANCEL" -> {}
                     }
                 }
-
             }.onFailure { Log.d("ttt onFailure", it.toString()) }
         }
 
@@ -92,7 +90,7 @@ class HomeViewModel @Inject constructor(
     fun checkedPromise(promise_id: Int, date: String) {
         launch {
             getPromisesActiveUseCase(promise_id = promise_id).onSuccess {
-
+                Log.d("yw", "약속 활성화? $it")
                 if (it) {
                     _uiState.value.currentStatus.value = HomeActivateStatus.Activity
 
