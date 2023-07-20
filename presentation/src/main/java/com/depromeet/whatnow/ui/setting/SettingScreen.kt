@@ -1,7 +1,9 @@
 package com.depromeet.whatnow.ui.setting
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.ImageDecoder
+import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -9,18 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
@@ -42,12 +33,7 @@ import coil.compose.AsyncImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
-import com.depromeet.whatnow.component.WhatNowButtonBar
-import com.depromeet.whatnow.component.WhatNowButtonTopBar
-import com.depromeet.whatnow.component.WhatNowProfileTextField
-import com.depromeet.whatnow.component.WhatNowSimpleTopBar
-import com.depromeet.whatnow.component.WhatNowSwitchBar
-import com.depromeet.whatnow.component.WhatNowTextBar
+import com.depromeet.whatnow.component.*
 import com.depromeet.whatnow.ui.R
 import com.depromeet.whatnow.ui.theme.WhatNowTheme
 import com.depromeet.whatnow.ui.theme.White
@@ -58,7 +44,7 @@ fun SettingScreen(
     viewModel: SettingViewModel,
     navigateToWithdrawal: () -> Unit,
     navigateToSplash: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -78,6 +64,12 @@ fun SettingScreen(
             }
         }
     }
+
+    // 왔나 피드백 URL
+    val intent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse("https://www.naver.com/")
+    )
 
     val imageCropperOptions = CropImageOptions(
         fixAspectRatio = true,
@@ -281,6 +273,10 @@ fun SettingScreen(
                     WhatNowButtonBar(
                         textRes = R.string.withdraw_whatnow,
                         onClick = { navigateToWithdrawal() }
+                    )
+                    WhatNowButtonBar(
+                        textRes = R.string.feedback,
+                        onClick = { context.startActivity(intent) }
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
