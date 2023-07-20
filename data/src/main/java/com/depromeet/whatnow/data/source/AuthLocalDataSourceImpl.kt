@@ -24,8 +24,28 @@ internal class AuthLocalDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun saveIdToken(id_token: String): Result<Unit> = runCatching {
+        sharedPreferences.edit {
+            putString(KEY_ID_TOKEN, id_token)
+        }
+    }
+
+    override suspend fun getIdToken(): Result<String?> = runCatching {
+        val idToken = sharedPreferences.getString(KEY_ID_TOKEN, null) ?: return@runCatching null
+        idToken
+    }
+
+    override suspend fun reset(): Result<Unit> = runCatching {
+        sharedPreferences.edit {
+            clear()
+            commit()
+        }
+    }
+
+
     companion object {
         private const val KEY_ACCESS_TOKEN = "KEY_ACCESS_TOKEN"
         private const val KEY_REFRESH_TOKEN = "KEY_REFRESH_TOKEN"
+        private const val KEY_ID_TOKEN = "KEY_ID_TOKEN"
     }
 }

@@ -4,6 +4,11 @@ import com.depromeet.whatnow.domain.model.*
 
 interface AuthRepository {
     suspend fun getJwtToken(): Result<JwtToken>
+
+    suspend fun getIdToken(): Result<String?>
+
+    suspend fun dataReset(): Result<Unit>
+
     suspend fun postAuthOauthKakaoLogin(
         id_token: String,
         usersFcmToken: UsersFcmToken,
