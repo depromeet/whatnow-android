@@ -50,7 +50,7 @@ interface PromisesRepository {
         promiseId: Int,
         interactionType: String,
         targetUserId: Int,
-    ): Unit
+    ): Result<Unit>
 
     suspend fun getPromisesInteractions(promiseId: Int): Result<GetPromisesInteractions>
 

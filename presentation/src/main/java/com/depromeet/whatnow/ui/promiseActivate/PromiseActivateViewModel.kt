@@ -4,12 +4,7 @@ import android.os.CountDownTimer
 import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.model.CoordinateVo
-import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsDetailUseCase
-import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsUseCase
-import com.depromeet.whatnow.domain.usecase.GetPromisesUseCase
-import com.depromeet.whatnow.domain.usecase.GetPromisesUsersProgressUseCase
-import com.depromeet.whatnow.domain.usecase.GetPromisesUsersUseCase
-import com.depromeet.whatnow.domain.usecase.PutPromisesUsersLocationUseCase
+import com.depromeet.whatnow.domain.usecase.*
 import com.depromeet.whatnow.ui.home.getTime
 import com.depromeet.whatnow.ui.model.DUMMY_PROMISE
 import com.depromeet.whatnow.ui.model.DUMMY_USER
@@ -18,8 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.util.Calendar
-import java.util.TimeZone
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +24,7 @@ class PromiseActivateViewModel @Inject constructor(
     private val getPromisesInteractionsDetailUseCase: GetPromisesInteractionsDetailUseCase,
     private val getPromisesInteractionsUseCase: GetPromisesInteractionsUseCase,
     private val getPromisesUsersUseCase: GetPromisesUsersUseCase,
+    private val postPromisesInteractionsTargetUseCase: PostPromisesInteractionsTargetUseCase,
 
     ) : BaseViewModel() {
 
@@ -118,6 +113,16 @@ class PromiseActivateViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun sendEmoji(interactionType: String, targetUserId: Int) {
+        launch {
+            postPromisesInteractionsTargetUseCase(promiseId = promiseId.value,
+                interactionType = interactionType,
+                targetUserId = targetUserId)
+                .onSuccess { Log.d("yw", "성공") }
+                .onFailure { Log.d("yw", "실패") }
+        }
     }
 
     fun putPromisesUsersLocation(userLocation: CoordinateVo) {

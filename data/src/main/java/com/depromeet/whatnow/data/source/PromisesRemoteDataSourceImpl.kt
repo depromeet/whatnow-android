@@ -93,14 +93,12 @@ internal class PromisesRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun postPromisesInteractionsTarget(
         promiseId: Int, interactionType: String, targetUserId: Int,
-    ) {
-        runCatching {
-            apiService.postPromisesInteractionsTarget(
-                promiseId = promiseId,
-                interactionType = interactionType,
-                targetUserId = targetUserId
-            )
-        }
+    ): Result<Unit> = runCatching {
+        apiService.postPromisesInteractionsTarget(
+            promiseId = promiseId,
+            interactionType = interactionType,
+            targetUserId = targetUserId
+        )
     }
 
     override suspend fun getPromisesInteractions(promiseId: Int): Result<GetPromisesInteractionsResponse> =
