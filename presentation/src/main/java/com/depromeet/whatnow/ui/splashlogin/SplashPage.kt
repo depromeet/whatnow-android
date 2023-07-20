@@ -8,8 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +38,7 @@ fun SplashPage(
     // 약관 팝업 노션 URL
     val intent = Intent(
         Intent.ACTION_VIEW,
-        Uri.parse("https://kdomo.notion.site/cdb0189ba5f14cf5837e7667e1529e2e")
+        Uri.parse("https://info.whatnow.kr/cdb0189b-a5f1-4cf5-837e-7667e1529e2e")
     )
 
     AnimatedVisibility(
@@ -104,8 +102,8 @@ fun KakaoLoginButton(onClick: () -> Unit) {
         contentDescription = null,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp,0.dp,16.dp,32.dp)
-            .aspectRatio(328/52f)
+            .padding(16.dp, 0.dp, 16.dp, 32.dp)
+            .aspectRatio(328 / 52f)
 
             .clickable { onClick() }
     )

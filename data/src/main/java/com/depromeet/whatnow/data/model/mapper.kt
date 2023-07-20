@@ -19,6 +19,7 @@ import com.depromeet.whatnow.data.model.response.PromisesUsersStatusResponse
 import com.depromeet.whatnow.data.model.response.TimeOverLocationsResponse
 import com.depromeet.whatnow.data.model.response.UserProgressResponse
 import com.depromeet.whatnow.data.model.response.UsersResponse
+import com.depromeet.whatnow.data.model.response.toDomain
 import com.depromeet.whatnow.domain.model.GetPromises
 import com.depromeet.whatnow.domain.model.GetPromisesInteractions
 import com.depromeet.whatnow.domain.model.GetPromisesProgress
@@ -171,7 +172,7 @@ fun GetPromisesInteractionsResponse.toDomain(): GetPromisesInteractions {
 fun UserProgressResponse.toDomain(): UserProgress {
     return UserProgress(
         user = this.user.toDomain(),
-        currentProgress = this.currentProgress,
+        currentProgress = this.currentProgress.toDomain(),
         beforeProgress = this.beforeProgress
     )
 }

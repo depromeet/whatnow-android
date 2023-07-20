@@ -73,32 +73,32 @@ fun WhatNowTabOtherContent(
                 modifier = Modifier,
                 emojiIconRes = R.drawable.emoji_music_button,
                 onClick = {
-                    viewModel.sendEmoji("MUSIC",
-                        promisesUsersStatusList!![pagerState.currentPage].mainUserId)
+//                    viewModel.sendEmoji("MUSIC",
+//                        promisesUsersStatusList!![pagerState.currentPage].mainUserId)
                 }
             )
             WhatNowEmojiButton(
                 modifier = Modifier,
                 emojiIconRes = R.drawable.emoji_poop_button,
                 onClick = {
-                    viewModel.sendEmoji("POOP",
-                        promisesUsersStatusList!![pagerState.currentPage].mainUserId)
+//                    viewModel.sendEmoji("POOP",
+//                        promisesUsersStatusList!![pagerState.currentPage].mainUserId)
                 }
             )
             WhatNowEmojiButton(
                 modifier = Modifier,
                 emojiIconRes = R.drawable.emoji_heart_button,
                 onClick = {
-                    viewModel.sendEmoji("HEART",
-                        promisesUsersStatusList!![pagerState.currentPage].mainUserId)
+//                    viewModel.sendEmoji("HEART",
+//                        promisesUsersStatusList!![pagerState.currentPage].mainUserId)
                 }
             )
             WhatNowEmojiButton(
                 modifier = Modifier,
                 emojiIconRes = R.drawable.emoji_footprint_button,
                 onClick = {
-                    viewModel.sendEmoji("STEP",
-                        promisesUsersStatusList!![pagerState.currentPage].mainUserId)
+//                    viewModel.sendEmoji("STEP",
+//                        promisesUsersStatusList!![pagerState.currentPage].mainUserId)
                 }
             )
         }

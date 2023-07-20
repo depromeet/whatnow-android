@@ -55,9 +55,18 @@ fun WhatNowBottomSheetScaffold(
 
                 WhatNowTab(
                     selected = uiState.selectedTab,
-                    onTotalClicked = { viewModel.selectTab(PromiseActivateTab.All) },
-                    onMeClicked = { viewModel.selectTab(PromiseActivateTab.My) },
-                    onFriendClicked = { viewModel.selectTab(PromiseActivateTab.Other) },
+                    onTotalClicked = {
+//                        Log.d("yw","onTotalClicked")
+                        viewModel.selectTab(PromiseActivateTab.All)
+                    },
+                    onMeClicked = {
+//                        Log.d("yw","onMeClicked")
+                        viewModel.selectTab(PromiseActivateTab.My)
+                    },
+                    onFriendClicked = {
+//                        Log.d("yw","onFriendClicked")
+                        viewModel.selectTab(PromiseActivateTab.Other)
+                    },
 
                     )
 

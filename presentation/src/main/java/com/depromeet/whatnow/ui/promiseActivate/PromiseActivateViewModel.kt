@@ -4,7 +4,13 @@ import android.os.CountDownTimer
 import android.util.Log
 import com.depromeet.whatnow.base.BaseViewModel
 import com.depromeet.whatnow.domain.model.CoordinateVo
-import com.depromeet.whatnow.domain.usecase.*
+import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsDetailUseCase
+import com.depromeet.whatnow.domain.usecase.GetPromisesInteractionsUseCase
+import com.depromeet.whatnow.domain.usecase.GetPromisesUseCase
+import com.depromeet.whatnow.domain.usecase.GetPromisesUsersProgressUseCase
+import com.depromeet.whatnow.domain.usecase.GetPromisesUsersUseCase
+import com.depromeet.whatnow.domain.usecase.PostPromisesInteractionsTargetUseCase
+import com.depromeet.whatnow.domain.usecase.PutPromisesUsersLocationUseCase
 import com.depromeet.whatnow.ui.home.getTime
 import com.depromeet.whatnow.ui.model.DUMMY_PROMISE
 import com.depromeet.whatnow.ui.model.DUMMY_USER
@@ -13,7 +19,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.util.*
+import java.util.Calendar
+import java.util.TimeZone
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,10 +49,10 @@ class PromiseActivateViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(PromiseActivateState())
     val uiState: StateFlow<PromiseActivateState> = _uiState.asStateFlow()
-    var promiseId = MutableStateFlow<Int>(-1)
+
+    var promiseId = MutableStateFlow(-1)
 
     init {
-
         _uiState.update {
             it.copy(
                 allProfile = listOf(
@@ -117,9 +124,12 @@ class PromiseActivateViewModel @Inject constructor(
 
     fun sendEmoji(interactionType: String, targetUserId: Int) {
         launch {
-            postPromisesInteractionsTargetUseCase(promiseId = promiseId.value,
+            Log.d("yw", "promiseId.value = ${promiseId.value}")
+            postPromisesInteractionsTargetUseCase(
+                promiseId = promiseId.value,
                 interactionType = interactionType,
-                targetUserId = targetUserId)
+                targetUserId = targetUserId
+            )
                 .onSuccess { Log.d("yw", "성공") }
                 .onFailure { Log.d("yw", "실패") }
         }
@@ -163,16 +173,20 @@ class PromiseActivateViewModel @Inject constructor(
 
     fun getPromisesInteractions() {
         launch {
+            Log.d("yw", "promiseId.value = ${promiseId.value}")
             getPromisesInteractionsUseCase(promiseId = promiseId.value).onSuccess {
+                Log.d("yw", "이모지 내 정보 $it")
                 _uiState.value.promisesInteractions = it
             }.onFailure {
-                Log.d("ttt getPromisesInteractions onFailure", it.toString())
+                Log.d("yw", "이모지 내 정보 실패 $it")
 
+                Log.d("ttt getPromisesInteractions onFailure", it.toString())
             }
         }
     }
 
     fun selectTab(tab: PromiseActivateTab) {
+        Log.d("yw", "탭 클릭")
         _uiState.update { it.copy(selectedTab = tab) }
     }
 
